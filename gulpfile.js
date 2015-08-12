@@ -29,7 +29,8 @@ gulp.task('test', function(callback) {
 gulp.task('mocha', function () {
   return gulp.src(paths.test)
     .pipe(mocha())
-    .once('error', function () {
+    .once('error', function (e) {
+      console.error(e);
       process.exit(1);
     })
     .once('end', function () {

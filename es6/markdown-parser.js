@@ -1,9 +1,18 @@
 import marked from "marked";
+import trackingReplacer from "./tracking-replacement";
 
 export default function(src) {
   const textTokens = [];
   let currentIndex = 0;
-  let currentLength = 0;
+
+  var tracker = trackingReplacer(src);
+
+  // remove things we won't process so we can use simple next matching word logic
+  // to calculate the index
+  tracker.removeAll(/```[\w\W](?!```)*```/);
+  tracker.removeAll(/`[^`]*`/);
+  tracker.replaceAll(/&[#a-z0-9]{1,5};/, " ");
+  src = tracker.replaceAll(/<\/?[a-z0-9]+ ?([a-z]+="[^"]*" ?)*\/?>/i, " ");
 
   const options = {
     gfm: true,
@@ -23,16 +32,25 @@ export default function(src) {
       image: function () {
       },
       text: function (text) {
-        const newIndex = src.indexOf(text, currentIndex);
-        if (newIndex === -1 || (newIndex > currentLength + currentIndex)) {
-          throw new Error("Could not find index of text");
+        var roughSplit = text.split(/[\s\xa0\r\n]|&[a-z#0-9]+;|[&<>]/);
+        for(let i = 0; i < roughSplit.length; i++) {
+          var split = roughSplit[i];
+          if (split) {
+            addToken(split);
+          }
         }
-        currentLength -= (currentIndex - newIndex);
-        currentIndex = newIndex;
-        textTokens.push({text: text, index: newIndex});
       }
     }
   };
+
+  function addToken(text) {
+    const newIndex = src.indexOf(text, currentIndex);
+    if (newIndex === -1) {
+      throw new Error("Markdown Parser : Inline Lexer : Could not find index of text - \n" + text + "\n\n**In**\n\n" + src.substring(currentIndex, 30) + "\n");
+    }
+    currentIndex = newIndex + text.length;
+    textTokens.push({text: text, index: tracker.getOriginalIndex(newIndex)});
+  }
 
   const tokens = marked.lexer(src, options);
   const inlineLexer = new marked.InlineLexer(tokens.links, options);
@@ -40,8 +58,6 @@ export default function(src) {
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i];
     if (token.text && token.type !== "code") {
-      currentIndex = src.indexOf(token.text, currentIndex);
-      currentLength = token.text.length;
       inlineLexer.output(token.text);
     }
   }

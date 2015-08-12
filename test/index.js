@@ -6,6 +6,6 @@ describe("package", () => {
   it("test1", () => {
     const badWords = markdownSpellcheck.spellFile(path.join(__dirname, 'fixture/test.md'));
 
-    expect(badWords).to.deep.equal([ { word: 'Infact', index: 59 }]);
+    expect(badWords).to.deep.equal([ { word: 'Infact', index: 55 }]);
   });
 });

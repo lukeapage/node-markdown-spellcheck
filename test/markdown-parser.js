@@ -7,7 +7,9 @@ describe("basic markdown parsing", () => {
 hey
 Paragraph`);
 
-    expect(tokens).to.deep.equal([ { text: 'hey\nParagraph', index: 1 }]);
+    expect(tokens).to.deep.equal([
+      {text: 'hey', index: 1},
+      {text: 'Paragraph', index: 5}]);
   });
 
   it("should be able to parse headings", () => {
@@ -18,8 +20,9 @@ Heading
 -------
 `);
 
-    expect(tokens).to.deep.equal([ { text: 'hey', index: 1 },
-      { text: 'Heading', index: 9 }]);
+    expect(tokens).to.deep.equal([
+      {text: 'hey', index: 1},
+      {text: 'Heading', index: 9}]);
   });
 
   it("should be able to parse lists", () => {
@@ -31,10 +34,11 @@ text
 `);
 
     expect(tokens).to.deep.equal([
-      { text: 'List item', index: 4 },
-      { text: 'text', index: 14 },
-      { text: 'list1', index: 22 },
-      { text: 'list2', index: 33 }]);
+      {text: 'List', index: 4},
+      {text: 'item', index: 9},
+      {text: 'text', index: 14},
+      {text: 'list1', index: 22},
+      {text: 'list2', index: 33}]);
   });
 
   it("should be able to parse underlined text", () => {
@@ -42,7 +46,9 @@ text
 _underlined text_
 `);
 
-    expect(tokens).to.deep.equal([ { text: 'underlined text', index: 2 }]);
+    expect(tokens).to.deep.equal([
+      {text: 'underlined', index: 2},
+      {text: 'text', index: 13}]);
   });
 
   it("should be able to parse links", () => {
@@ -51,8 +57,9 @@ _underlined text_
 `);
 
     expect(tokens).to.deep.equal([
-      { text: 'De Link', index: 2 },
-      { text: '!', index: 9 }]);
+      {text: 'De', index: 2},
+      {text: 'Link', index: 5},
+      {text: '!', index: 9}]);
   });
 
   it("should be able to ignore code blocks", () => {
@@ -71,8 +78,10 @@ This is a \`var\` inline.
 `);
 
     expect(tokens).to.deep.equal([
-      { text: 'This is a ', index: 1 },
-      { text: ' inline.', index: 16 }]);
+      {text: 'This', index: 1},
+      {text: 'is', index: 6},
+      {text: 'a', index: 9},
+      {text: 'inline.', index: 17}]);
   });
 
   it("should be able to ignore html tags", () => {
@@ -82,10 +91,71 @@ This is a \`var\` inline.
 `);
 
     expect(tokens).to.deep.equal([
-      { text: 'H1.', index: 5 },
-      { text: 'p', index: 15 },
-      { text: 'inner', index: 22 },
-      { text: '\n', index: 36 }]);
+      {text: 'H1.', index: 5},
+      {text: 'p', index: 17},
+      {text: 'inner', index: 22}]);
   });
 
+  it("doesn't confuse repeating words", () => {
+    const tokens = markdownParser("code code");
+
+    expect(tokens).to.deep.equal([
+      {text: 'code', index: 0},
+      {text: 'code', index: 5}]);
+  });
+
+  it("copes with html entities", () => {
+    const tokens = markdownParser("&quot;code&quot;");
+
+    expect(tokens).to.deep.equal([
+      {text: 'code', index: 6}]);
+  });
+
+  it("copes with html entities with the same code as later text", () => {
+    const tokens = markdownParser("&quot;quot");
+
+    expect(tokens).to.deep.equal([
+      {text: 'quot', index: 6}]);
+  });
+
+  it("copes with quotes followed by text matching the entity name", () => {
+    const tokens = markdownParser("\"quot");
+
+    expect(tokens).to.deep.equal([
+      {text: 'quot', index: 1}]);
+  });
+
+  it("copes with quote marks", () => {
+    const tokens = markdownParser('"code"');
+
+    expect(tokens).to.deep.equal([
+      {text: 'code', index: 1}]);
+  });
+
+  it("doesn't confuse tags", () => {
+    const tokens = markdownParser("<code>code</code>code");
+
+    expect(tokens).to.deep.equal([
+      {text: 'code', index: 6},
+      {text: 'code', index: 17}]);
+  });
+
+  it("doesn't confuse codeblocks", () => {
+    const tokens = markdownParser(`
+\`\`\`
+code
+\`\`\`
+code
+    `);
+
+    expect(tokens).to.deep.equal([
+      {text: 'code', index: 14}]);
+  });
+
+  it("doesn't confuse inline code", () => {
+    const tokens = markdownParser("`code` code");
+
+    expect(tokens).to.deep.equal([
+      {text: 'code', index: 7}]);
+  });
 });
