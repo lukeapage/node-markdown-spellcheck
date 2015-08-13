@@ -3,14 +3,19 @@ require('babel/register');
 var babel = require('gulp-babel');
 var mocha = require('gulp-mocha');
 var runSequence = require("run-sequence");
+var del = require('del');
 
 var path = require('path');
 
 var paths = {
   es6: ['es6/**/*.js'],
   es5: 'es5',
+  es5Files: 'es5/*.js',
   test: 'test/**/*.js'
 };
+gulp.task('clean', function() {
+  del([paths.es5Files]);
+});
 gulp.task('babel', function () {
   return gulp.src(paths.es6)
     .pipe(babel({
@@ -24,7 +29,7 @@ gulp.task('watch', function() {
 gulp.task('default', ['watch']);
 
 gulp.task('test', function(callback) {
-  runSequence('babel', 'mocha', callback);
+  runSequence('clean', 'babel', 'mocha', callback);
 });
 gulp.task('mocha', function () {
   return gulp.src(paths.test)
