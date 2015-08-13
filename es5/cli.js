@@ -26,6 +26,8 @@ var _index = require("./index");
 
 var _index2 = _interopRequireDefault(_index);
 
+require('colors');
+
 var packageConfig = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../package.json'));
 var buildVersion = JSON.parse(packageConfig).version;
 
@@ -42,7 +44,9 @@ if (!_commander2['default'].args.length) {
     _glob2['default'](inputPatterns[i], function (err, files) {
       for (var j = 0; j < files.length; j++) {
         try {
-          var spellingInfo = _index2['default'].spellFile(files[j]);
+          var file = files[j];
+          console.log(file.bold);
+          var spellingInfo = _index2['default'].spellFile(file);
           for (var k = 0; k < spellingInfo.errors.length; k++) {
             var error = spellingInfo.errors[k];
 

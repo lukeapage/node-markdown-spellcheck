@@ -4,6 +4,7 @@ import path from 'path';
 import glob from 'glob';
 import context from './context';
 import markdownSpellcheck from "./index";
+import 'colors';
 
 const packageConfig = fs.readFileSync(path.join(__dirname, '../package.json'));
 const buildVersion = JSON.parse(packageConfig).version;
@@ -23,7 +24,9 @@ if (!program.args.length) {
     glob(inputPatterns[i], (err, files) => {
       for(let j = 0; j < files.length; j++) {
         try {
-          var spellingInfo = markdownSpellcheck.spellFile(files[j]);
+          const file = files[j];
+          console.log(file.bold);
+          var spellingInfo = markdownSpellcheck.spellFile(file);
           for(let k = 0; k < spellingInfo.errors.length; k++) {
             const error = spellingInfo.errors[k];
 

@@ -53,7 +53,15 @@ function getLines(src, index, noBefore, noAfter) {
 exports['default'] = {
   getBlock: function getBlock(src, index, length) {
     var lineInfo = getLines(src, index, 2, 2);
-    var info = lineInfo.line.substr(0, lineInfo.column) + lineInfo.line.substr(lineInfo.column, length).red + lineInfo.line.slice(lineInfo.column + length);
+    var lineStart = 0,
+        lineEnd = lineInfo.line.length;
+    if (lineInfo.column > 30) {
+      lineStart = lineInfo.column - 30;
+    }
+    if (lineEnd - (lineInfo.column + length) > 30) {
+      lineEnd = lineInfo.column + length + 30;
+    }
+    var info = lineInfo.line.substring(lineStart, lineInfo.column) + lineInfo.line.substr(lineInfo.column, length).red + lineInfo.line.substring(lineInfo.column + length, lineEnd);
     return {
       info: info
     };
