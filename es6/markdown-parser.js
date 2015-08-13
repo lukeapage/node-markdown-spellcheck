@@ -9,8 +9,12 @@ export default function(src) {
 
   // remove things we won't process so we can use simple next matching word logic
   // to calculate the index
-  tracker.removeAll(/```[\w\W](?!```)*```/);
+  tracker.replaceAll(/\---\n[\w\W]*?\r?\n---/, " "); // remove header
+  tracker.removeAll(/```[\w\W]*?```/);
   tracker.removeAll(/`[^`]*`/);
+  tracker.replaceAll(/<style[\w\W]*?<\/style>/, " "); // remove contents of style
+  tracker.replaceAll(/<script[\w\W]*?<\/script>/, " "); // remove contents of scripts
+  tracker.replaceAll(/\{% highlight[\w\W]*?\{% endhighlight %\}/, " "); // remove contents code blocks
   tracker.replaceAll(/&[#a-z0-9]{1,5};/, " ");
   src = tracker.replaceAll(/<\/?[a-z0-9]+ ?([a-z]+="[^"]*" ?)*\/?>/i, " ");
 
@@ -32,6 +36,7 @@ export default function(src) {
       image: function () {
       },
       text: function (text) {
+        text = text.replace(/&#39;/g, "'");
         var roughSplit = text.split(/[\s\xa0\r\n]|&[a-z#0-9]+;|[&<>]/);
         for(let i = 0; i < roughSplit.length; i++) {
           var split = roughSplit[i];
