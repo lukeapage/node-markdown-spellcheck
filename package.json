@@ -14,7 +14,6 @@
   "dependencies": {
     "colors": "^1.1.2",
     "commander": "^2.8.1",
-    "del": "^1.2.1",
     "glob": "^5.0.14",
     "hunspell-spellchecker": "^1.0.1",
     "marked": "^0.3.5"
@@ -22,6 +21,7 @@
   "devDependencies": {
     "babel": "^5.8.19",
     "chai": "^3.2.0",
+    "del": "^1.2.1",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
     "gulp-mocha": "^2.1.3",
