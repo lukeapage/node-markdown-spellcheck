@@ -22,10 +22,14 @@ var _index = require("./index");
 
 var _index2 = _interopRequireDefault(_index);
 
+var _summaryGenerator = require('./summary-generator');
+
+var _summaryGenerator2 = _interopRequireDefault(_summaryGenerator);
+
 var packageConfig = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../package.json'));
 var buildVersion = JSON.parse(packageConfig).version;
 
-_commander2['default'].version(buildVersion).usage("[options] source-file source-file");
+_commander2['default'].version(buildVersion).option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.').usage("[options] source-file source-file");
 
 _commander2['default'].parse(process.argv);
 
@@ -40,7 +44,12 @@ if (!_commander2['default'].args.length) {
         try {
           var spellingErrors = _index2['default'].spellFile(files[j]);
           console.log("Spelling - " + files[j]);
-          console.log(spellingErrors);
+          if (_commander2['default'].summary) {
+            var summary = _summaryGenerator2['default'](spellingErrors);
+            console.log(summary);
+          } else {
+            console.log(spellingErrors);
+          }
         } catch (e) {
           console.log("Error in " + files[j]);
           console.error(e);
