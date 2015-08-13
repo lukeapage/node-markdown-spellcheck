@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "",
   "main": "es5/index.js",
-  "bin": { "mdspell": "./bin/mdspell"},
+  "bin": {
+    "mdspell": "./bin/mdspell"
+  },
   "scripts": {
     "test": "gulp test"
   },
@@ -11,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^2.8.1",
+    "del": "^1.2.1",
     "glob": "^5.0.14",
     "hunspell-spellchecker": "^1.0.1",
     "marked": "^0.3.5"
