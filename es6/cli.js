@@ -23,6 +23,8 @@ if (!program.args.length) {
       for(let j = 0; j < files.length; j++) {
         try {
           var spellingErrors = markdownSpellcheck.spellFile(files[j]);
+          console.log("Spelling - " + files[j]);
+          console.log(spellingErrors);
         }
         catch(e) {
           console.log("Error in " + files[j])

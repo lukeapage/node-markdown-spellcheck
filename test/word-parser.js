@@ -20,10 +20,10 @@ describe("word parser", () => {
     expect(words).to.deep.equal([ { word: 'yeah', index: 2 }, { word: 'but', index: 8 }, { word: 'far', index: 12 }]);
   });
 
-  it("should include `s", () => {
-    const words = wordParser([{ text: "Luke's Luke`s James' James`", index: 0 }]);
+  it("should include 's", () => {
+    const words = wordParser([{ text: "Luke's James'", index: 0 }]);
 
-    expect(words).to.deep.equal([ { word: "Luke's", index: 0 }, { word: 'Luke`s', index: 7 }, { word: 'James', index: 14 }, { word: 'James', index: 21 }]);
+    expect(words).to.deep.equal([ { word: "Luke's", index: 0 }, { word: 'James', index: 7 }]);
   });
 
 });

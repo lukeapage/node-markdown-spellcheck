@@ -9,10 +9,22 @@ export default function (tokens) {
       if (!nextWord) {
         break;
       }
-      const word = nextWord[0].replace(/[`']$/, "");
-      index += nextWord.index;
-      wordList.push({ word: word, index: index });
-      index += nextWord[0].length;
+
+      if (!nextWord[0].match(/^[0-9,\.]+$/)) {
+        let word = nextWord[0];
+        const isQuoted = word.match(/^'.*'$/);
+        let thisWordIndex = index + nextWord.index;
+
+        if (isQuoted) {
+          thisWordIndex += 1;
+          word = word.substr(1, word.length - 2);
+        }
+        if (word.match(/'$/)) {
+          word = word.substr(0, word.length - 1);
+        }
+        wordList.push({word: word, index: thisWordIndex});
+      }
+      index += nextWord.index + nextWord[0].length;
       text = text.slice(nextWord.index + nextWord[0].length);
     }
   }

@@ -18,8 +18,14 @@ exports["default"] = function (src) {
 
   var tracker = _trackingReplacement2["default"](src);
 
-  tracker.removeAll(/```[\w\W](?!```)*```/);
+  // remove things we won't process so we can use simple next matching word logic
+  // to calculate the index
+  tracker.replaceAll(/\---\n[\w\W]*?\r?\n---/, " "); // remove header
+  tracker.removeAll(/```[\w\W]*?```/);
   tracker.removeAll(/`[^`]*`/);
+  tracker.replaceAll(/<style[\w\W]*?<\/style>/, " "); // remove contents of style
+  tracker.replaceAll(/<script[\w\W]*?<\/script>/, " "); // remove contents of scripts
+  tracker.replaceAll(/\{% highlight[\w\W]*?\{% endhighlight %\}/, " "); // remove contents code blocks
   tracker.replaceAll(/&[#a-z0-9]{1,5};/, " ");
   src = tracker.replaceAll(/<\/?[a-z0-9]+ ?([a-z]+="[^"]*" ?)*\/?>/i, " ");
 
@@ -34,6 +40,7 @@ exports["default"] = function (src) {
       link: function link() {},
       image: function image() {},
       text: function text(_text) {
+        _text = _text.replace(/&#39;/g, "'");
         var roughSplit = _text.split(/[\s\xa0\r\n]|&[a-z#0-9]+;|[&<>]/);
         for (var i = 0; i < roughSplit.length; i++) {
           var split = roughSplit[i];

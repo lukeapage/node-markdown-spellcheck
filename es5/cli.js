@@ -39,6 +39,8 @@ if (!_commander2['default'].args.length) {
       for (var j = 0; j < files.length; j++) {
         try {
           var spellingErrors = _index2['default'].spellFile(files[j]);
+          console.log("Spelling - " + files[j]);
+          console.log(spellingErrors);
         } catch (e) {
           console.log("Error in " + files[j]);
           console.error(e);
