@@ -26,10 +26,14 @@ var _summaryGenerator = require('./summary-generator');
 
 var _summaryGenerator2 = _interopRequireDefault(_summaryGenerator);
 
+var _acronymFilter = require('./acronym-filter');
+
+var _acronymFilter2 = _interopRequireDefault(_acronymFilter);
+
 var packageConfig = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../package.json'));
 var buildVersion = JSON.parse(packageConfig).version;
 
-_commander2['default'].version(buildVersion).option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.').usage("[options] source-file source-file");
+_commander2['default'].version(buildVersion).option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.').option('-f, --filter_acronyms', 'Ignores acronyms.').usage("[options] source-file source-file");
 
 _commander2['default'].parse(process.argv);
 
@@ -44,6 +48,11 @@ if (!_commander2['default'].args.length) {
         try {
           var spellingErrors = _index2['default'].spellFile(files[j]);
           console.log("Spelling - " + files[j]);
+
+          if (_commander2['default'].filter_acronyms) {
+            spellingErrors = _acronymFilter2['default'](spellingErrors);
+          }
+
           if (_commander2['default'].summary) {
             var summary = _summaryGenerator2['default'](spellingErrors);
             console.log(summary);

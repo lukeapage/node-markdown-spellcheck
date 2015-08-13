@@ -4,6 +4,7 @@ import path from 'path';
 import glob from 'glob';
 import markdownSpellcheck from "./index";
 import generateSummary from './summary-generator';
+import filterAcronyms from './acronym-filter';
 
 const packageConfig = fs.readFileSync(path.join(__dirname, '../package.json'));
 const buildVersion = JSON.parse(packageConfig).version;
@@ -11,6 +12,7 @@ const buildVersion = JSON.parse(packageConfig).version;
 program
   .version(buildVersion)
   .option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.')
+  .option('-f, --filter_acronyms', 'Ignores acronyms.')
   .usage("[options] source-file source-file");
 
 program.parse(process.argv);
@@ -24,8 +26,13 @@ if (!program.args.length) {
     glob(inputPatterns[i], (err, files) => {
       for(let j = 0; j < files.length; j++) {
         try {
-          const spellingErrors = markdownSpellcheck.spellFile(files[j]);
+          let spellingErrors = markdownSpellcheck.spellFile(files[j]);
           console.log("Spelling - " + files[j]);
+
+          if (program.filter_acronyms) {
+            spellingErrors = filterAcronyms(spellingErrors);
+          }
+
           if (program.summary) {
             const summary = generateSummary(spellingErrors);
             console.log(summary);
