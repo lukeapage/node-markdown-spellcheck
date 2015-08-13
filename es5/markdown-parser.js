@@ -18,6 +18,8 @@ exports["default"] = function (src) {
 
   var tracker = _trackingReplacement2["default"](src);
 
+  // remove things we won't process so we can use simple next matching word logic
+  // to calculate the index
   tracker.removeAll(/```[\w\W](?!```)*```/);
   tracker.removeAll(/`[^`]*`/);
   tracker.replaceAll(/&[#a-z0-9]{1,5};/, " ");

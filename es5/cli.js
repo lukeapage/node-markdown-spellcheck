@@ -18,6 +18,10 @@ var _glob = require('glob');
 
 var _glob2 = _interopRequireDefault(_glob);
 
+var _context = require('./context');
+
+var _context2 = _interopRequireDefault(_context);
+
 var _index = require("./index");
 
 var _index2 = _interopRequireDefault(_index);
@@ -38,10 +42,17 @@ if (!_commander2['default'].args.length) {
     _glob2['default'](inputPatterns[i], function (err, files) {
       for (var j = 0; j < files.length; j++) {
         try {
-          var spellingErrors = _index2['default'].spellFile(files[j]);
+          var spellingInfo = _index2['default'].spellFile(files[j]);
+          for (var k = 0; k < spellingInfo.errors.length; k++) {
+            var error = spellingInfo.errors[k];
+
+            var displayBlock = _context2['default'].getBlock(spellingInfo.src, error.index, error.word.length);
+            console.log(displayBlock.info);
+          }
         } catch (e) {
           console.log("Error in " + files[j]);
           console.error(e);
+          console.error(e.stack);
         }
       }
     });

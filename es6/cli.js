@@ -2,6 +2,7 @@ import program from 'commander';
 import fs from 'fs';
 import path from 'path';
 import glob from 'glob';
+import context from './context';
 import markdownSpellcheck from "./index";
 
 const packageConfig = fs.readFileSync(path.join(__dirname, '../package.json'));
@@ -22,11 +23,18 @@ if (!program.args.length) {
     glob(inputPatterns[i], (err, files) => {
       for(let j = 0; j < files.length; j++) {
         try {
-          var spellingErrors = markdownSpellcheck.spellFile(files[j]);
+          var spellingInfo = markdownSpellcheck.spellFile(files[j]);
+          for(let k = 0; k < spellingInfo.errors.length; k++) {
+            const error = spellingInfo.errors[k];
+
+            var displayBlock = context.getBlock(spellingInfo.src, error.index, error.word.length);
+            console.log(displayBlock.info);
+          }
         }
         catch(e) {
           console.log("Error in " + files[j])
           console.error(e);
+          console.error(e.stack);
         }
       }
     });

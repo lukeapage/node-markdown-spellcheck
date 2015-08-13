@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.1.2",
     "commander": "^2.8.1",
     "glob": "^5.0.14",
     "hunspell-spellchecker": "^1.0.1",

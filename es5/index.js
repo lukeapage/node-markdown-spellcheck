@@ -28,8 +28,11 @@ function spell(src) {
 }
 
 function spellFile(filename) {
-  var contents = _fs2['default'].readFileSync(filename, 'utf-8');
-  return spell(contents);
+  var src = _fs2['default'].readFileSync(filename, 'utf-8');
+  return {
+    errors: spell(src),
+    src: src
+  };
 }
 
 exports['default'] = { spell: spell, spellFile: spellFile };
