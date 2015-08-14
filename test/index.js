@@ -4,8 +4,8 @@ import path from 'path';
 
 describe("package", () => {
   it("test1", () => {
-    const badWords = markdownSpellcheck.spellFile(path.join(__dirname, 'fixture/test.md'));
+    const spellingInfo = markdownSpellcheck.spellFile(path.join(__dirname, 'fixture/test.md'));
 
-    expect(badWords).to.deep.equal([ { word: 'Infact', index: 59 }]);
+    expect(spellingInfo.errors).to.deep.equal([ { word: 'Infact', index: 59 }]);
   });
 });
