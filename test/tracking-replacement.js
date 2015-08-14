@@ -48,4 +48,15 @@ describe("tracking replacement", () => {
     expect(replacer.getOriginalIndex(1)).to.equal(5);
   });
 
+  it("tracks a multi- replace all which removes already removed entirely", () => {
+    const replacer = trackingReplacement("_b_a_c_");
+    replacer.removeAll(/a/);
+    var replaced = replacer.removeAll(/__/);
+    expect(replaced).to.equal("_bc_");
+    expect(replacer.getOriginalIndex(0)).to.equal(0);
+    expect(replacer.getOriginalIndex(1)).to.equal(1);
+    expect(replacer.getOriginalIndex(2)).to.equal(5);
+    expect(replacer.getOriginalIndex(3)).to.equal(6);
+  });
+
 });

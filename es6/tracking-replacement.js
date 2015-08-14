@@ -24,8 +24,13 @@ export default function(src) {
         break;
       }
       var cutTo = match.index + match[0].length;
-      var originalIndex = getOriginalIndex(match.index);
+      var originalIndex = getOriginalIndex(cutTo);
       var changeInLength = match[0].length - replacement.length;
+
+      if (replacer.log) {
+        console.log("before..");
+        console.dir(maps);
+      }
 
       for(var i = maps.length-1; i >= 0 ; i--) {
         var map = maps[i];
@@ -38,19 +43,33 @@ export default function(src) {
         }
       }
 
-      maps.push({ newIndex: match.index + replacement.length, index: originalIndex + match[0].length });
+      if (replacer.log) {
+        console.log("after adjusting");
+        console.dir(maps);
+        console.log("original index of", match.index, "is", originalIndex);
+        console.log("match length is", match[0].length);
+      }
+
+      maps.push({ newIndex: match.index + replacement.length, index: originalIndex });
       if (replacement.length) {
         maps.push({newIndex: match.index, index: NaN});
       }
+
+      if (replacer.log) {
+        console.log("after..");
+        console.dir(maps);
+      }
+
       src = src.substring(0, match.index) + replacement + src.slice(match.index + match[0].length);
     }
     return src;
   }
-  return {
+  let replacer = {
     removeAll(regex) {
       return replaceAll(regex, "");
     },
     replaceAll,
     getOriginalIndex
   };
+  return replacer;
 };
