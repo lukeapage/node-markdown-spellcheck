@@ -13,7 +13,12 @@ const buildVersion = JSON.parse(packageConfig).version;
 
 program
   .version(buildVersion)
+  // default cli behaviour will be an interactive walkthrough each error, with suggestions,
+  // options to replace etc.
   .option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.')
+//  .option('-r, --report', 'Outputs a full report which details the unique spelling errors found.')
+//  .option('-n, --ignore-numbers', 'Ignores numbers.')
+//  .option('-d, --dictionary', 'Ignores numbers.')
   .option('-a, --ignore-acronyms', 'Ignores acronyms.')
   .usage("[options] source-file source-file");
 
@@ -37,20 +42,21 @@ if (!program.args.length) {
           }
 
           if (program.summary) {
-              const summary = generateSummary(spellingInfo.errors);
-              console.log(summary);
+            const summary = generateSummary(spellingInfo.errors);
+            console.log(summary);
           } else {
-              for(let k = 0; k < spellingInfo.errors.length; k++) {
-                const error = spellingInfo.errors[k];
+            for (let k = 0; k < spellingInfo.errors.length; k++) {
+              const error = spellingInfo.errors[k];
 
-                var displayBlock = context.getBlock(spellingInfo.src, error.index, error.word.length);
-                console.log(displayBlock.info);
-              }
+              var displayBlock = context.getBlock(spellingInfo.src, error.index, error.word.length);
+              console.log(displayBlock.info);
+            }
+            console.log();
           }
 
         }
         catch(e) {
-          console.log("Error in " + files[j])
+          console.log("Error in " + files[j]);
           console.error(e);
           console.error(e.stack);
         }
