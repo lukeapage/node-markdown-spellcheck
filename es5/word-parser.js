@@ -9,7 +9,7 @@ exports["default"] = function (tokens) {
     var text = token.text;
     var index = token.index;
     while (true) {
-      var nextWord = text.match(/[\w'\u2018-\u2019]+/);
+      var nextWord = text.match(/(\w(\.\w)+\.?)|[\w'\u2018-\u2019]+/);
       if (!nextWord) {
         break;
       }

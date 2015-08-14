@@ -5,7 +5,7 @@ export default function (tokens) {
     let text = token.text;
     let index = token.index;
     while(true) {
-      const nextWord = text.match(/[\w'\u2018-\u2019]+/);
+      const nextWord = text.match(/(\w(\.\w)+\.?)|[\w'\u2018-\u2019]+/);
       if (!nextWord) {
         break;
       }
