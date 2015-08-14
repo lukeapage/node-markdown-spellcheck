@@ -32,9 +32,10 @@ try {
 exports['default'] = function (words) {
   var mistakes = [];
   for (var i = 0; i < words.length; i++) {
-    var word = words[i];
-    if (!spellchecker.check(word.word)) {
-      mistakes.push(word);
+    var wordInfo = words[i];
+    var word = wordInfo.word.replace(/\u2019/, "'");
+    if (!spellchecker.check(word)) {
+      mistakes.push(wordInfo);
     }
   }
   return mistakes;

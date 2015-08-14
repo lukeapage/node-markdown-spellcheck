@@ -5,21 +5,20 @@ export default function (tokens) {
     let text = token.text;
     let index = token.index;
     while(true) {
-      let nextWord = text.match(/[\w`']+/);
+      const nextWord = text.match(/[\w'\u2018-\u2019]+/);
       if (!nextWord) {
         break;
       }
 
       if (!nextWord[0].match(/^[0-9,\.]+$/)) {
         let word = nextWord[0];
-        const isQuoted = word.match(/^'.*'$/);
         let thisWordIndex = index + nextWord.index;
 
-        if (isQuoted) {
+        if (word.match(/^['\u2018]/)) {
           thisWordIndex += 1;
-          word = word.substr(1, word.length - 2);
+          word = word.substr(1, word.length - 1);
         }
-        if (word.match(/'$/)) {
+        if (word.match(/['\u2019]$/)) {
           word = word.substr(0, word.length - 1);
         }
         wordList.push({word: word, index: thisWordIndex});

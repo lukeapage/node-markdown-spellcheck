@@ -4,6 +4,7 @@ import path from 'path';
 
 var spellchecker = new SpellChecker();
 
+
 try {
   var dict = spellchecker.parse({
     aff: fs.readFileSync(path.join(__dirname, '../data/en_GB.aff')),
@@ -19,9 +20,10 @@ catch(e) {
 export default function(words) {
   const mistakes = [];
   for(let i = 0; i < words.length; i++) {
-    var word = words[i];
-    if (!spellchecker.check(word.word)) {
-      mistakes.push(word);
+    const wordInfo = words[i];
+    const word = wordInfo.word.replace(/\u2019/, "'");
+    if (!spellchecker.check(word)) {
+      mistakes.push(wordInfo);
     }
   }
   return mistakes;
