@@ -20,17 +20,27 @@ var _spellcheck = require('./spellcheck');
 
 var _spellcheck2 = _interopRequireDefault(_spellcheck);
 
-function spell(src) {
+var _acronymFilter = require('./acronym-filter');
+
+var _acronymFilter2 = _interopRequireDefault(_acronymFilter);
+
+function spell(src, options) {
   if (typeof src !== "string") {
     throw new Error("spell takes a string");
   }
-  return _spellcheck2['default'](_wordParser2['default'](_markdownParser2['default'](src)));
+  var ignoreAcronyms = options && options.ignoreAcronyms;
+  var errors = _spellcheck2['default'](_wordParser2['default'](_markdownParser2['default'](src)));
+
+  if (ignoreAcronyms) {
+    errors = _acronymFilter2['default'](errors);
+  }
+  return errors;
 }
 
-function spellFile(filename) {
+function spellFile(filename, options) {
   var src = _fs2['default'].readFileSync(filename, 'utf-8');
   return {
-    errors: spell(src),
+    errors: spell(src, options),
     src: src
   };
 }

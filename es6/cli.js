@@ -6,7 +6,6 @@ import context from './context';
 import markdownSpellcheck from "./index";
 import 'colors';
 import generateSummary from './summary-generator';
-import filterAcronyms from './acronym-filter';
 
 const packageConfig = fs.readFileSync(path.join(__dirname, '../package.json'));
 const buildVersion = JSON.parse(packageConfig).version;
@@ -28,6 +27,11 @@ if (!program.args.length) {
   program.outputHelp();
   process.exit();
 } else {
+
+  const options = {
+    ignoreAcronyms: program.ignoreAcronyms
+  };
+
   const inputPatterns = program.args;
   for(let i = 0; i < inputPatterns.length; i++) {
     glob(inputPatterns[i], (err, files) => {
@@ -35,11 +39,7 @@ if (!program.args.length) {
         try {
           const file = files[j];
           console.log("Spelling - " + file.bold);
-          var spellingInfo = markdownSpellcheck.spellFile(file);
-
-          if (program.ignoreAcronyms) {
-            spellingInfo.errors = filterAcronyms(spellingInfo.errors);
-          }
+          var spellingInfo = markdownSpellcheck.spellFile(file, options);
 
           if (program.summary) {
             const summary = generateSummary(spellingInfo.errors);

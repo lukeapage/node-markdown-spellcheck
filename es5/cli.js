@@ -32,10 +32,6 @@ var _summaryGenerator = require('./summary-generator');
 
 var _summaryGenerator2 = _interopRequireDefault(_summaryGenerator);
 
-var _acronymFilter = require('./acronym-filter');
-
-var _acronymFilter2 = _interopRequireDefault(_acronymFilter);
-
 var packageConfig = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../package.json'));
 var buildVersion = JSON.parse(packageConfig).version;
 
@@ -54,37 +50,40 @@ if (!_commander2['default'].args.length) {
   _commander2['default'].outputHelp();
   process.exit();
 } else {
-  var inputPatterns = _commander2['default'].args;
-  for (var i = 0; i < inputPatterns.length; i++) {
-    _glob2['default'](inputPatterns[i], function (err, files) {
-      for (var j = 0; j < files.length; j++) {
-        try {
-          var file = files[j];
-          console.log("Spelling - " + file.bold);
-          var spellingInfo = _index2['default'].spellFile(file);
+  (function () {
 
-          if (_commander2['default'].ignoreAcronyms) {
-            spellingInfo.errors = _acronymFilter2['default'](spellingInfo.errors);
-          }
+    var options = {
+      ignoreAcronyms: _commander2['default'].ignoreAcronyms
+    };
 
-          if (_commander2['default'].summary) {
-            var summary = _summaryGenerator2['default'](spellingInfo.errors);
-            console.log(summary);
-          } else {
-            for (var k = 0; k < spellingInfo.errors.length; k++) {
-              var error = spellingInfo.errors[k];
+    var inputPatterns = _commander2['default'].args;
+    for (var i = 0; i < inputPatterns.length; i++) {
+      _glob2['default'](inputPatterns[i], function (err, files) {
+        for (var j = 0; j < files.length; j++) {
+          try {
+            var file = files[j];
+            console.log("Spelling - " + file.bold);
+            var spellingInfo = _index2['default'].spellFile(file, options);
 
-              var displayBlock = _context2['default'].getBlock(spellingInfo.src, error.index, error.word.length);
-              console.log(displayBlock.info);
+            if (_commander2['default'].summary) {
+              var summary = _summaryGenerator2['default'](spellingInfo.errors);
+              console.log(summary);
+            } else {
+              for (var k = 0; k < spellingInfo.errors.length; k++) {
+                var error = spellingInfo.errors[k];
+
+                var displayBlock = _context2['default'].getBlock(spellingInfo.src, error.index, error.word.length);
+                console.log(displayBlock.info);
+              }
+              console.log();
             }
-            console.log();
+          } catch (e) {
+            console.log("Error in " + files[j]);
+            console.error(e);
+            console.error(e.stack);
           }
-        } catch (e) {
-          console.log("Error in " + files[j]);
-          console.error(e);
-          console.error(e.stack);
         }
-      }
-    });
-  }
+      });
+    }
+  })();
 }
