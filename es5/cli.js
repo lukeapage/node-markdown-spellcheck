@@ -28,10 +28,18 @@ var _index2 = _interopRequireDefault(_index);
 
 require('colors');
 
+var _summaryGenerator = require('./summary-generator');
+
+var _summaryGenerator2 = _interopRequireDefault(_summaryGenerator);
+
+var _acronymFilter = require('./acronym-filter');
+
+var _acronymFilter2 = _interopRequireDefault(_acronymFilter);
+
 var packageConfig = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../package.json'));
 var buildVersion = JSON.parse(packageConfig).version;
 
-_commander2['default'].version(buildVersion).usage("[options] source-file source-file");
+_commander2['default'].version(buildVersion).option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.').option('-a, --ignore-acronyms', 'Ignores acronyms.').usage("[options] source-file source-file");
 
 _commander2['default'].parse(process.argv);
 
@@ -45,13 +53,23 @@ if (!_commander2['default'].args.length) {
       for (var j = 0; j < files.length; j++) {
         try {
           var file = files[j];
-          console.log(file.bold);
+          console.log("Spelling - " + file.bold);
           var spellingInfo = _index2['default'].spellFile(file);
-          for (var k = 0; k < spellingInfo.errors.length; k++) {
-            var error = spellingInfo.errors[k];
 
-            var displayBlock = _context2['default'].getBlock(spellingInfo.src, error.index, error.word.length);
-            console.log(displayBlock.info);
+          if (_commander2['default'].ignoreAcronyms) {
+            spellingInfo.errors = _acronymFilter2['default'](spellingInfo.errors);
+          }
+
+          if (_commander2['default'].summary) {
+            var summary = _summaryGenerator2['default'](spellingInfo.errors);
+            console.log(summary);
+          } else {
+            for (var k = 0; k < spellingInfo.errors.length; k++) {
+              var error = spellingInfo.errors[k];
+
+              var displayBlock = _context2['default'].getBlock(spellingInfo.src, error.index, error.word.length);
+              console.log(displayBlock.info);
+            }
           }
         } catch (e) {
           console.log("Error in " + files[j]);
