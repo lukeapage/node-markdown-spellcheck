@@ -3,19 +3,25 @@ import markdownParser from './markdown-parser';
 import wordParser from './word-parser';
 import spellcheck from './spellcheck';
 import filters from './filters';
+import async from 'async';
+
+function getWords(src, options) {
+  const ignoreAcronyms = options && options.ignoreAcronyms;
+  let words = wordParser(markdownParser(src));
+
+  if (ignoreAcronyms) {
+    words = filters.acronyms(words);
+  }
+  words = filters.numbers(words);
+  return words;
+}
 
 function spell(src, options) {
   if (typeof src !== "string") {
     throw new Error("spell takes a string");
   }
-  const ignoreAcronyms = options && options.ignoreAcronyms;
-  let errors = spellcheck.checkWords(wordParser(markdownParser(src)));
-
-  if (ignoreAcronyms) {
-    errors = filters.acronyms(errors);
-  }
-  errors = filters.numbers(errors);
-  return errors;
+  const words = getWords(src, options);
+  return spellcheck.checkWords(words);
 }
 
 function spellFile(filename, options) {
@@ -26,4 +32,20 @@ function spellFile(filename, options) {
   };
 }
 
-export default { spell, spellFile };
+function spellCallback(src, options, callback, done) {
+  const words = getWords(src, options);
+
+  async.eachSeries(words, function(wordInfo, onWordProcessed) {
+    if (!spellcheck.checkWord(wordInfo.word)) {
+      callback(wordInfo, onWordProcessed);
+    } else {
+      onWordProcessed();
+    }
+  }, done);
+}
+
+function suggest(wordInfo) {
+  return spellcheck.suggest(wordInfo.word);
+}
+
+export default { spell, spellFile, spellCallback, suggest };

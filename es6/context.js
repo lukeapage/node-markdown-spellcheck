@@ -1,4 +1,4 @@
-import 'colors';
+import chalk from 'chalk';
 
 function getLines(src, index, noBefore, noAfter) {
   const beforeLines = [],
@@ -24,6 +24,7 @@ function getLines(src, index, noBefore, noAfter) {
   }
   if (thisLineStart === undefined) {
     thisLineStart = 0;
+    column = index;
   }
   for(let i = index; i < src.length; i++) {
     if (src[i] === '\n') {
@@ -37,6 +38,9 @@ function getLines(src, index, noBefore, noAfter) {
         break;
       }
     }
+  }
+  if (line === undefined) {
+    line = src.slice(thisLineStart);
   }
   return {
     line,
@@ -57,7 +61,7 @@ export default {
       lineEnd = lineInfo.column + length + 30;
     }
     let info = lineInfo.line.substring(lineStart, lineInfo.column) +
-      lineInfo.line.substr(lineInfo.column, length).red +
+      chalk.red(lineInfo.line.substr(lineInfo.column, length)) +
       lineInfo.line.substring(lineInfo.column + length, lineEnd);
     return {
       info

@@ -13,32 +13,42 @@ function initialise() {
   spellchecker.use(dict);
 }
 
-function checkWords(words) {
+function checkWord(word) {
   if (!spellchecker) {
     initialise();
   }
+  word = word.replace(/\u2019/, "'");
+  return spellchecker.check(word);
+}
+
+function checkWords(words) {
   const mistakes = [];
   for (let i = 0; i < words.length; i++) {
     const wordInfo = words[i];
-    const word = wordInfo.word.replace(/\u2019/, "'");
-    if (!spellchecker.check(word)) {
+    if (!checkWord(wordInfo.word)) {
       mistakes.push(wordInfo);
     }
   }
   return mistakes;
 }
 
-function addWord() {
-  // TODO to add to dictionary
-  //dict.dictionaryTable["UIs"] = [[]];
+function addWord(word) {
+  dict.dictionaryTable[word] = [[]];
 }
 
-function suggest() {
+function suggest(word) {
+  try {
+    return spellchecker.suggest(word);
+  } catch(e) {
+    // https://github.com/GitbookIO/hunspell-spellchecker/pull/4
+    return [];
+  }
 }
 
 export default {
   initialise,
   checkWords,
+  checkWord,
   addWord,
   suggest
 };

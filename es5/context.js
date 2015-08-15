@@ -2,7 +2,11 @@
 
 exports.__esModule = true;
 
-require('colors');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _chalk = require('chalk');
+
+var _chalk2 = _interopRequireDefault(_chalk);
 
 function getLines(src, index, noBefore, noAfter) {
   var beforeLines = [],
@@ -28,6 +32,7 @@ function getLines(src, index, noBefore, noAfter) {
   }
   if (thisLineStart === undefined) {
     thisLineStart = 0;
+    column = index;
   }
   for (var i = index; i < src.length; i++) {
     if (src[i] === '\n') {
@@ -41,6 +46,9 @@ function getLines(src, index, noBefore, noAfter) {
         break;
       }
     }
+  }
+  if (line === undefined) {
+    line = src.slice(thisLineStart);
   }
   return {
     line: line,
@@ -61,7 +69,7 @@ exports['default'] = {
     if (lineEnd - (lineInfo.column + length) > 30) {
       lineEnd = lineInfo.column + length + 30;
     }
-    var info = lineInfo.line.substring(lineStart, lineInfo.column) + lineInfo.line.substr(lineInfo.column, length).red + lineInfo.line.substring(lineInfo.column + length, lineEnd);
+    var info = lineInfo.line.substring(lineStart, lineInfo.column) + _chalk2['default'].red(lineInfo.line.substr(lineInfo.column, length)) + lineInfo.line.substring(lineInfo.column + length, lineEnd);
     return {
       info: info
     };

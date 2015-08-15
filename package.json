@@ -12,10 +12,12 @@
   "author": "Luke Page",
   "license": "ISC",
   "dependencies": {
-    "colors": "^1.1.2",
+    "async": "^1.4.2",
+    "chalk": "^1.1.0",
     "commander": "^2.8.1",
     "glob": "^5.0.14",
     "hunspell-spellchecker": "^1.0.1",
+    "inquirer": "^0.9.0",
     "marked": "^0.3.5"
   },
   "devDependencies": {
