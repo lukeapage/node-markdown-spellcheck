@@ -9,12 +9,12 @@ exports["default"] = function (tokens) {
     var text = token.text;
     var index = token.index;
     while (true) {
-      var nextWord = text.match(/(\w(\.\w)+\.?)|[\w'\u2018-\u2019]+/);
+      var nextWord = text.match(/(\w+(\.\w+)+\.?)|[\u00c0-\u00ff\w'\u2018-\u2019][\-#\u00c0-\u00ff\w'\u2018-\u2019]*/);
       if (!nextWord) {
         break;
       }
 
-      if (!nextWord[0].match(/^[0-9,\.]+$/)) {
+      if (!nextWord[0].match(/^[0-9,\.\-#]+$/)) {
         var word = nextWord[0];
         var thisWordIndex = index + nextWord.index;
 

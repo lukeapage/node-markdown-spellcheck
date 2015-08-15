@@ -5,12 +5,12 @@ export default function (tokens) {
     let text = token.text;
     let index = token.index;
     while(true) {
-      const nextWord = text.match(/(\w(\.\w)+\.?)|[\w'\u2018-\u2019]+/);
+      const nextWord = text.match(/(\w+(\.\w+)+\.?)|[\u00c0-\u00ff\w'\u2018-\u2019][\-#\u00c0-\u00ff\w'\u2018-\u2019]*/);
       if (!nextWord) {
         break;
       }
 
-      if (!nextWord[0].match(/^[0-9,\.]+$/)) {
+      if (!nextWord[0].match(/^[0-9,\.\-#]+$/)) {
         let word = nextWord[0];
         let thisWordIndex = index + nextWord.index;
 
