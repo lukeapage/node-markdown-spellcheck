@@ -26,4 +26,28 @@ describe("word parser", () => {
     expect(words).to.deep.equal([ { word: "Luke's", index: 0 }, { word: 'James', index: 7 }]);
   });
 
+  it("should include #", () => {
+    const words = wordParser([{ text: "##3 C#5s", index: 0 }]);
+
+    expect(words).to.deep.equal([ { word: "C#5s", index: 4 }]);
+  });
+
+  it("should include accented characters", () => {
+    const words = wordParser([{ text: "\u00c2lph\u00c2 gr\u00ffb", index: 0 }]);
+
+    expect(words).to.deep.equal([ { word: "\u00c2lph\u00c2", index: 0 }, { word: "gr\u00ffb", index: 6 }]);
+  });
+
+  it("should include full stops sometimes", () => {
+    const words = wordParser([{ text: "e.t.c. end. Node.JS", index: 0 }]);
+
+    expect(words).to.deep.equal([ { word: "e.t.c.", index: 0 }, { word: "end", index: 7 }, { word: "Node.JS", index: 12 }]);
+  });
+
+  it("should include dashed in the middle", () => {
+    const words = wordParser([{ text: "full-stop -end", index: 0 }]);
+
+    expect(words).to.deep.equal([ { word: "full-stop", index: 0 }, { word: "end", index: 11 }]);
+  });
+
 });
