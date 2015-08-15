@@ -9,7 +9,7 @@ function spell(src, options) {
     throw new Error("spell takes a string");
   }
   const ignoreAcronyms = options && options.ignoreAcronyms;
-  let errors = spellcheck(wordParser(markdownParser(src)));
+  let errors = spellcheck.checkWords(wordParser(markdownParser(src)));
 
   if (ignoreAcronyms) {
     errors = filters.acronyms(errors);

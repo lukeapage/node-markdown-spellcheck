@@ -16,20 +16,22 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var spellchecker = new _hunspellSpellchecker2['default']();
+var spellchecker = undefined,
+    dict = undefined;
 
-try {
-  var dict = spellchecker.parse({
+function initialise() {
+  spellchecker = new _hunspellSpellchecker2['default']();
+  dict = spellchecker.parse({
     aff: _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../data/en_GB.aff')),
     dic: _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../data/en_GB.dic'))
   });
   spellchecker.use(dict);
-} catch (e) {
-  console.log("Error");
-  console.log(e);
 }
 
-exports['default'] = function (words) {
+function checkWords(words) {
+  if (!spellchecker) {
+    initialise();
+  }
   var mistakes = [];
   for (var i = 0; i < words.length; i++) {
     var wordInfo = words[i];
@@ -39,6 +41,19 @@ exports['default'] = function (words) {
     }
   }
   return mistakes;
-};
+}
 
+function addWord() {
+  // TODO to add to dictionary
+  //dict.dictionaryTable["UIs"] = [[]];
+}
+
+function suggest() {}
+
+exports['default'] = {
+  initialise: initialise,
+  checkWords: checkWords,
+  addWord: addWord,
+  suggest: suggest
+};
 module.exports = exports['default'];

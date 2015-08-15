@@ -29,7 +29,7 @@ function spell(src, options) {
     throw new Error("spell takes a string");
   }
   var ignoreAcronyms = options && options.ignoreAcronyms;
-  var errors = _spellcheck2['default'](_wordParser2['default'](_markdownParser2['default'](src)));
+  var errors = _spellcheck2['default'].checkWords(_wordParser2['default'](_markdownParser2['default'](src)));
 
   if (ignoreAcronyms) {
     errors = _filters2['default'].acronyms(errors);
