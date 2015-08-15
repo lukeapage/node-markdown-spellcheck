@@ -29,7 +29,7 @@ describe("word parser", () => {
   it("should include #", () => {
     const words = wordParser([{ text: "##3 C#5s", index: 0 }]);
 
-    expect(words).to.deep.equal([ { word: "C#5s", index: 4 }]);
+    expect(words).to.deep.equal([ { word: "3", index: 2 }, { word: "C#5s", index: 4 }]);
   });
 
   it("should include accented characters", () => {

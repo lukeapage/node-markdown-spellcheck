@@ -20,9 +20,9 @@ var _spellcheck = require('./spellcheck');
 
 var _spellcheck2 = _interopRequireDefault(_spellcheck);
 
-var _acronymFilter = require('./acronym-filter');
+var _filters = require('./filters');
 
-var _acronymFilter2 = _interopRequireDefault(_acronymFilter);
+var _filters2 = _interopRequireDefault(_filters);
 
 function spell(src, options) {
   if (typeof src !== "string") {
@@ -32,8 +32,9 @@ function spell(src, options) {
   var errors = _spellcheck2['default'](_wordParser2['default'](_markdownParser2['default'](src)));
 
   if (ignoreAcronyms) {
-    errors = _acronymFilter2['default'](errors);
+    errors = _filters2['default'].acronyms(errors);
   }
+  errors = _filters2['default'].numbers(errors);
   return errors;
 }
 

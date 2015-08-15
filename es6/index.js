@@ -2,7 +2,7 @@ import fs from 'fs';
 import markdownParser from './markdown-parser';
 import wordParser from './word-parser';
 import spellcheck from './spellcheck';
-import filterAcronyms from './acronym-filter';
+import filters from './filters';
 
 function spell(src, options) {
   if (typeof src !== "string") {
@@ -12,8 +12,9 @@ function spell(src, options) {
   let errors = spellcheck(wordParser(markdownParser(src)));
 
   if (ignoreAcronyms) {
-    errors = filterAcronyms(errors);
+    errors = filters.acronyms(errors);
   }
+  errors = filters.numbers(errors);
   return errors;
 }
 

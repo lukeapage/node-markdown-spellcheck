@@ -14,19 +14,18 @@ exports["default"] = function (tokens) {
         break;
       }
 
-      if (!nextWord[0].match(/^[0-9,\.\-#]+$/)) {
-        var word = nextWord[0];
-        var thisWordIndex = index + nextWord.index;
+      var word = nextWord[0];
+      var thisWordIndex = index + nextWord.index;
 
-        if (word.match(/^['\u2018]/)) {
-          thisWordIndex += 1;
-          word = word.substr(1, word.length - 1);
-        }
-        if (word.match(/['\u2019]$/)) {
-          word = word.substr(0, word.length - 1);
-        }
-        wordList.push({ word: word, index: thisWordIndex });
+      if (word.match(/^['\u2018]/)) {
+        thisWordIndex += 1;
+        word = word.substr(1, word.length - 1);
       }
+      if (word.match(/['\u2019]$/)) {
+        word = word.substr(0, word.length - 1);
+      }
+      wordList.push({ word: word, index: thisWordIndex });
+
       index += nextWord.index + nextWord[0].length;
       text = text.slice(nextWord.index + nextWord[0].length);
     }
