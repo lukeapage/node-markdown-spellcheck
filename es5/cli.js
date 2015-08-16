@@ -50,10 +50,9 @@ var buildVersion = JSON.parse(packageConfig).version;
 _commander2['default'].version(buildVersion)
 // default cli behaviour will be an interactive walkthrough each error, with suggestions,
 // options to replace etc.
-.option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.').option('-r, --report', 'Outputs a full report which details the unique spelling errors found.')
-//  .option('-n, --ignore-numbers', 'Ignores numbers.')
+.option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.').option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.')
 //  .option('-d, --dictionary', 'Ignores numbers.')
-.option('-a, --ignore-acronyms', 'Ignores acronyms.').usage("[options] source-file source-file");
+.option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').usage("[options] source-file source-file");
 
 var ACTION_IGNORE = "ignore",
     ACTION_FILE_IGNORE = "fileignore",
@@ -65,10 +64,28 @@ var CHOICE_IGNORE = { key: "i", name: "Ignore", value: ACTION_IGNORE },
     CHOICE_ADD = { key: "a", name: "Add to dictionary", value: ACTION_ADD },
     CHOICE_CORRECT = { key: "e", name: "Enter correct spelling", value: ACTION_CORRECT };
 
+var previousChoices = Object.create(null);
+
 function incorrectWordChoices(word, message, done) {
-  var suggestions = _index2['default'].spellcheck.suggest(word);
+  var suggestions = _commander2['default'].noSuggestions ? [] : _index2['default'].spellcheck.suggest(word);
 
   var choices = [CHOICE_IGNORE, CHOICE_FILE_IGNORE, CHOICE_ADD, CHOICE_CORRECT];
+
+  var defaultAction = ACTION_CORRECT;
+  if (previousChoices[word]) {
+    var previousAction = previousChoices[word];
+    if (previousAction.newWord) {
+      var suggestionIndex = suggestions.indexOf(previousAction.newWord);
+      if (suggestions.indexOf(previousAction.newWord) >= 0) {
+        defaultAction = suggestionIndex.toString();
+      } else {
+        suggestions.unshift(previousAction.newWord);
+        defaultAction = "0";
+      }
+    } else {
+      defaultAction = previousAction.action;
+    }
+  }
 
   suggestions.forEach(function (suggestion, index) {
     choices.push({
@@ -83,7 +100,7 @@ function incorrectWordChoices(word, message, done) {
     name: "action",
     message: message,
     choices: choices,
-    'default': "enter"
+    'default': defaultAction
   }], function (answer) {
     switch (answer.action) {
       case ACTION_ADD:
@@ -96,6 +113,7 @@ function incorrectWordChoices(word, message, done) {
         break;
       case ACTION_FILE_IGNORE:
         _index2['default'].spellcheck.addWord(word, true);
+        previousChoices[word] = answer;
         done();
         break;
       case ACTION_IGNORE:
@@ -103,6 +121,7 @@ function incorrectWordChoices(word, message, done) {
         done();
         break;
       default:
+        previousChoices[word] = { newWord: suggestions[Number(answer.action)] };
         done(suggestions[Number(answer.action)]);
         break;
     }
@@ -121,7 +140,9 @@ function getCorrectWord(word, done) {
       done(newWord);
     } else {
       incorrectWordChoices(newWord, "Corrected word is not in dictionary..", function (newNewWord) {
-        done(newNewWord || newWord);
+        var finalNewWord = newNewWord || newWord;
+        previousChoices[word] = { newWord: finalNewWord };
+        done(finalNewWord);
       });
     }
   });
@@ -168,7 +189,8 @@ if (!_commander2['default'].args.length) {
   (function () {
 
     var options = {
-      ignoreAcronyms: _commander2['default'].ignoreAcronyms
+      ignoreAcronyms: _commander2['default'].ignoreAcronyms,
+      ignoreNumbers: _commander2['default'].ignoreNumbers
     };
 
     var inputPatterns = _commander2['default'].args;

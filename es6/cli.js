@@ -22,6 +22,7 @@ program
   .option('-n, --ignore-numbers', 'Ignores numbers.')
 //  .option('-d, --dictionary', 'Ignores numbers.')
   .option('-a, --ignore-acronyms', 'Ignores acronyms.')
+  .option('-x, --no-suggestions', 'Do not suggest words (can be slow)')
   .usage("[options] source-file source-file");
 
 const ACTION_IGNORE = "ignore",
@@ -34,8 +35,11 @@ const CHOICE_IGNORE =  { key: "i", name: "Ignore", value: ACTION_IGNORE},
   CHOICE_ADD = { key: "a", name: "Add to dictionary", value: ACTION_ADD},
   CHOICE_CORRECT = { key: "e", name: "Enter correct spelling", value: ACTION_CORRECT};
 
+const previousChoices = Object.create(null);
+
 function incorrectWordChoices(word, message, done) {
-  const suggestions = markdownSpellcheck.spellcheck.suggest(word);
+  const suggestions =
+    program.noSuggestions ? [] : markdownSpellcheck.spellcheck.suggest(word);
 
   var choices = [
     CHOICE_IGNORE,
@@ -43,6 +47,22 @@ function incorrectWordChoices(word, message, done) {
     CHOICE_ADD,
     CHOICE_CORRECT
   ];
+
+  let defaultAction = ACTION_CORRECT;
+  if (previousChoices[word]) {
+    var previousAction = previousChoices[word];
+    if (previousAction.newWord) {
+      const suggestionIndex = suggestions.indexOf(previousAction.newWord);
+      if (suggestions.indexOf(previousAction.newWord) >= 0) {
+        defaultAction = suggestionIndex.toString();
+      } else {
+        suggestions.unshift(previousAction.newWord);
+        defaultAction = "0";
+      }
+    } else {
+      defaultAction = previousAction.action;
+    }
+  }
 
   suggestions.forEach((suggestion, index) => {
     choices.push({
@@ -57,7 +77,7 @@ function incorrectWordChoices(word, message, done) {
     name: "action",
     message: message,
     choices,
-    default: "enter"
+    default: defaultAction
   }], function (answer) {
     switch(answer.action) {
       case ACTION_ADD:
@@ -70,6 +90,7 @@ function incorrectWordChoices(word, message, done) {
         break;
       case ACTION_FILE_IGNORE:
         markdownSpellcheck.spellcheck.addWord(word, true);
+        previousChoices[word] = answer;
         done();
         break;
       case ACTION_IGNORE:
@@ -77,6 +98,7 @@ function incorrectWordChoices(word, message, done) {
         done();
         break;
       default:
+        previousChoices[word] = {newWord: suggestions[Number(answer.action)]};
         done(suggestions[Number(answer.action)]);
         break;
     }
@@ -95,7 +117,9 @@ function getCorrectWord(word, done) {
       done(newWord);
     } else {
       incorrectWordChoices(newWord, "Corrected word is not in dictionary..", (newNewWord) => {
-        done(newNewWord || newWord);
+        const finalNewWord = newNewWord || newWord;
+        previousChoices[word] = {newWord: finalNewWord};
+        done(finalNewWord);
       });
     }
   });

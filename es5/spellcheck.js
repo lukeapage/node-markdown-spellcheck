@@ -39,9 +39,19 @@ function checkWord(word) {
 
   // for etc. as we cannot tell if it ends in "." as that is stripped
   // todo: could flag
-  word = word + ".";
-  if (spellchecker.check(word)) {
+  var wordWithDot = word + ".";
+  if (spellchecker.check(wordWithDot)) {
     return true;
+  }
+
+  if (word.indexOf('-')) {
+    var subWords = word.split('-');
+
+    if (subWords.every(function (word) {
+      console.log(word);return spellchecker.check(word);
+    })) {
+      return true;
+    }
   }
 
   return false;

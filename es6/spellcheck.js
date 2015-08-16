@@ -24,15 +24,15 @@ function checkWord(word) {
 
   // for etc. as we cannot tell if it ends in "." as that is stripped
   // todo: could flag
-  word = word + ".";
-  if (spellchecker.check(word)) {
+  const wordWithDot = word + ".";
+  if (spellchecker.check(wordWithDot)) {
     return true;
   }
 
   if(word.indexOf('-')) {
     const subWords = word.split('-');
 
-    if (subWords.every((word)=> spellchecker.check(word))) {
+    if (subWords.every((word)=> { console.log(word); return spellchecker.check(word); })) {
       return true;
     }
   }
