@@ -32,7 +32,7 @@ function checkWord(word) {
   if(word.indexOf('-')) {
     const subWords = word.split('-');
 
-    if (subWords.every((word)=> { console.log(word); return spellchecker.check(word); })) {
+    if (subWords.every((word)=> spellchecker.check(word))) {
       return true;
     }
   }
@@ -58,6 +58,10 @@ function _addWord(word) {
 var customDictionary = [];
 var needsReset = false;
 function addWord(word, temporary) {
+  if (!spellchecker) {
+    initialise();
+  }
+
   if (!temporary) {
     customDictionary.push(word);
   } else {

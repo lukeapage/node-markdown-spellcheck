@@ -75,6 +75,10 @@ function _addWord(word) {
 var customDictionary = [];
 var needsReset = false;
 function addWord(word, temporary) {
+  if (!spellchecker) {
+    initialise();
+  }
+
   if (!temporary) {
     customDictionary.push(word);
   } else {

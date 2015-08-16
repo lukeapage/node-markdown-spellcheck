@@ -9,6 +9,7 @@ import inquirer from 'inquirer';
 import async from'async'
 import chalk from 'chalk';
 import { replace } from './word-replacer';
+import spellConfig from './spell-config';
 
 const packageConfig = fs.readFileSync(path.join(__dirname, '../package.json'));
 const buildVersion = JSON.parse(packageConfig).version;
@@ -37,7 +38,7 @@ const CHOICE_IGNORE =  { key: "i", name: "Ignore", value: ACTION_IGNORE},
 
 const previousChoices = Object.create(null);
 
-function incorrectWordChoices(word, message, done) {
+function incorrectWordChoices(word, message, filename, done) {
   const suggestions =
     program.noSuggestions ? [] : markdownSpellcheck.spellcheck.suggest(word);
 
@@ -82,14 +83,15 @@ function incorrectWordChoices(word, message, done) {
     switch(answer.action) {
       case ACTION_ADD:
         markdownSpellcheck.spellcheck.addWord(word);
-        // todo save to dictionary
+        spellConfig.addToGlobalDictionary(word);
         done();
         break;
       case ACTION_CORRECT:
-        getCorrectWord(word, done);
+        getCorrectWord(word, filename, done);
         break;
       case ACTION_FILE_IGNORE:
         markdownSpellcheck.spellcheck.addWord(word, true);
+        spellConfig.addToFileDictionary(filename, word);
         previousChoices[word] = answer;
         done();
         break;
@@ -105,7 +107,7 @@ function incorrectWordChoices(word, message, done) {
   });
 }
 
-function getCorrectWord(word, done) {
+function getCorrectWord(word, filename, done) {
   inquirer.prompt([{
     type: "input",
     name: "word",
@@ -116,7 +118,7 @@ function getCorrectWord(word, done) {
     if (markdownSpellcheck.spellcheck.checkWord(newWord)) {
       done(newWord);
     } else {
-      incorrectWordChoices(newWord, "Corrected word is not in dictionary..", (newNewWord) => {
+      incorrectWordChoices(newWord, "Corrected word is not in dictionary..", filename, (newNewWord) => {
         const finalNewWord = newNewWord || newWord;
         previousChoices[word] = {newWord: finalNewWord};
         done(finalNewWord);
@@ -132,7 +134,7 @@ function spellAndFixFile(file, options, onFinishedFile) {
     function onSpellingMistake(wordInfo, done) {
       var displayBlock = context.getBlock(src, wordInfo.index, wordInfo.word.length);
       console.log(displayBlock.info);
-      incorrectWordChoices(wordInfo.word, " ", (newWord) => {
+      incorrectWordChoices(wordInfo.word, " ", file, (newWord) => {
         if (newWord) {
           corrections.push({ wordInfo, newWord });
         }
@@ -165,6 +167,8 @@ if (!program.args.length) {
   process.exit();
 } else {
 
+  chalk.red("red"); // fix very weird bug
+
   const options = {
     ignoreAcronyms: program.ignoreAcronyms,
     ignoreNumbers: program.ignoreNumbers
@@ -172,15 +176,21 @@ if (!program.args.length) {
 
   const inputPatterns = program.args;
   const allFiles = [];
-  async.each(inputPatterns, (inputPattern, inputPatternProcessed)=> {
-    glob(inputPattern, (err, files) => {
-      allFiles.push.apply(allFiles, files);
-      inputPatternProcessed();
-    });
-  }, function() {
-    async.eachSeries(allFiles, function(file, fileProcessed) {
+  async.parallel([spellConfig.initialise.bind(spellConfig, './.spelling'),
+    async.each.bind(async, inputPatterns, (inputPattern, inputPatternProcessed)=> {
+      glob(inputPattern, (err, files) => {
+        allFiles.push.apply(allFiles, files);
+        inputPatternProcessed();
+      });
+    })], () => {
+      spellConfig.getGlobalWords()
+        .forEach((word) => markdownSpellcheck.spellcheck.addWord(word));
+      async.eachSeries(allFiles, function(file, fileProcessed) {
         try {
           console.log("Spelling - " + chalk.bold(file));
+
+          spellConfig.getFileWords(file)
+            .forEach((word) => markdownSpellcheck.spellcheck.addWord(word, true));
 
           if (program.report) {
             var spellingInfo = markdownSpellcheck.spellFile(file, options);
@@ -199,11 +209,13 @@ if (!program.args.length) {
             }
             fileProcessed();
           } else {
-            spellAndFixFile(file, options, fileProcessed);
+            spellAndFixFile(file, options, () => {
+              spellConfig.writeFile(fileProcessed);
+            });
           }
         }
         catch(e) {
-          console.log("Error in " + files[j]);
+          console.log("Error in " + file);
           console.error(e);
           console.error(e.stack);
         }

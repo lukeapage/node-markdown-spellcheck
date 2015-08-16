@@ -44,6 +44,10 @@ var _chalk2 = _interopRequireDefault(_chalk);
 
 var _wordReplacer = require('./word-replacer');
 
+var _spellConfig = require('./spell-config');
+
+var _spellConfig2 = _interopRequireDefault(_spellConfig);
+
 var packageConfig = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../package.json'));
 var buildVersion = JSON.parse(packageConfig).version;
 
@@ -66,7 +70,7 @@ var CHOICE_IGNORE = { key: "i", name: "Ignore", value: ACTION_IGNORE },
 
 var previousChoices = Object.create(null);
 
-function incorrectWordChoices(word, message, done) {
+function incorrectWordChoices(word, message, filename, done) {
   var suggestions = _commander2['default'].noSuggestions ? [] : _index2['default'].spellcheck.suggest(word);
 
   var choices = [CHOICE_IGNORE, CHOICE_FILE_IGNORE, CHOICE_ADD, CHOICE_CORRECT];
@@ -105,14 +109,15 @@ function incorrectWordChoices(word, message, done) {
     switch (answer.action) {
       case ACTION_ADD:
         _index2['default'].spellcheck.addWord(word);
-        // todo save to dictionary
+        _spellConfig2['default'].addToGlobalDictionary(word);
         done();
         break;
       case ACTION_CORRECT:
-        getCorrectWord(word, done);
+        getCorrectWord(word, filename, done);
         break;
       case ACTION_FILE_IGNORE:
         _index2['default'].spellcheck.addWord(word, true);
+        _spellConfig2['default'].addToFileDictionary(filename, word);
         previousChoices[word] = answer;
         done();
         break;
@@ -128,7 +133,7 @@ function incorrectWordChoices(word, message, done) {
   });
 }
 
-function getCorrectWord(word, done) {
+function getCorrectWord(word, filename, done) {
   _inquirer2['default'].prompt([{
     type: "input",
     name: "word",
@@ -139,7 +144,7 @@ function getCorrectWord(word, done) {
     if (_index2['default'].spellcheck.checkWord(newWord)) {
       done(newWord);
     } else {
-      incorrectWordChoices(newWord, "Corrected word is not in dictionary..", function (newNewWord) {
+      incorrectWordChoices(newWord, "Corrected word is not in dictionary..", filename, function (newNewWord) {
         var finalNewWord = newNewWord || newWord;
         previousChoices[word] = { newWord: finalNewWord };
         done(finalNewWord);
@@ -155,22 +160,27 @@ function spellAndFixFile(file, options, onFinishedFile) {
     function onSpellingMistake(wordInfo, done) {
       var displayBlock = _context2['default'].getBlock(src, wordInfo.index, wordInfo.word.length);
       console.log(displayBlock.info);
-      incorrectWordChoices(wordInfo.word, " ", function (newWord) {
+      incorrectWordChoices(wordInfo.word, " ", file, function (newWord) {
         if (newWord) {
           corrections.push({ wordInfo: wordInfo, newWord: newWord });
         }
+        console.log("on spelling mistake finished");
         done();
       });
     }
 
     _index2['default'].spellCallback(src, options, onSpellingMistake, function () {
+      console.log("file done");
       function onCorrected() {
         _index2['default'].spellcheck.resetTemporaryCustomDictionary();
+        console.log("on finished file");
         onFinishedFile();
       }
       if (corrections.length) {
         var correctedSrc = _wordReplacer.replace(src, corrections);
+        console.log("writing file");
         _fs2['default'].writeFile(file, correctedSrc, function (err) {
+          console.log("written");
           onCorrected();
         });
       } else {
@@ -188,6 +198,8 @@ if (!_commander2['default'].args.length) {
 } else {
   (function () {
 
+    //chalk.red("red"); // fix very weird bug
+
     var options = {
       ignoreAcronyms: _commander2['default'].ignoreAcronyms,
       ignoreNumbers: _commander2['default'].ignoreNumbers
@@ -195,15 +207,22 @@ if (!_commander2['default'].args.length) {
 
     var inputPatterns = _commander2['default'].args;
     var allFiles = [];
-    _async2['default'].each(inputPatterns, function (inputPattern, inputPatternProcessed) {
+    _async2['default'].parallel([_spellConfig2['default'].initialise.bind(_spellConfig2['default'], './.spelling'), _async2['default'].each.bind(_async2['default'], inputPatterns, function (inputPattern, inputPatternProcessed) {
       _glob2['default'](inputPattern, function (err, files) {
         allFiles.push.apply(allFiles, files);
         inputPatternProcessed();
       });
-    }, function () {
+    })], function () {
+      _spellConfig2['default'].getGlobalWords().forEach(function (word) {
+        return _index2['default'].spellcheck.addWord(word);
+      });
       _async2['default'].eachSeries(allFiles, function (file, fileProcessed) {
         try {
           console.log("Spelling - " + _chalk2['default'].bold(file));
+
+          _spellConfig2['default'].getFileWords(file).forEach(function (word) {
+            return _index2['default'].spellcheck.addWord(word, true);
+          });
 
           if (_commander2['default'].report) {
             var spellingInfo = _index2['default'].spellFile(file, options);
@@ -222,10 +241,12 @@ if (!_commander2['default'].args.length) {
             }
             fileProcessed();
           } else {
-            spellAndFixFile(file, options, fileProcessed);
+            spellAndFixFile(file, options, function () {
+              _spellConfig2['default'].writeFile(fileProcessed);
+            });
           }
         } catch (e) {
-          console.log("Error in " + files[j]);
+          console.log("Error in " + file);
           console.error(e);
           console.error(e.stack);
         }
