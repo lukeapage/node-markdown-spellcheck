@@ -104,12 +104,7 @@ function resetTemporaryCustomDictionary() {
 }
 
 function suggest(word) {
-  try {
-    return spellchecker.suggest(word);
-  } catch (e) {
-    // https://github.com/GitbookIO/hunspell-spellchecker/pull/4
-    return [];
-  }
+  return spellchecker.suggest(word);
 }
 
 exports['default'] = {

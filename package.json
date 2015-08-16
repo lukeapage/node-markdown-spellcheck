@@ -16,7 +16,7 @@
     "chalk": "^1.1.0",
     "commander": "^2.8.1",
     "glob": "^5.0.14",
-    "hunspell-spellchecker": "^1.0.1",
+    "hunspell-spellchecker": "^1.0.2",
     "inquirer": "^0.9.0",
     "marked": "^0.3.5"
   },
