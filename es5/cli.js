@@ -48,6 +48,10 @@ var _spellConfig = require('./spell-config');
 
 var _spellConfig2 = _interopRequireDefault(_spellConfig);
 
+var _filters = require('./filters');
+
+var _filters2 = _interopRequireDefault(_filters);
+
 var packageConfig = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../package.json'));
 var buildVersion = JSON.parse(packageConfig).version;
 
@@ -141,7 +145,7 @@ function getCorrectWord(word, filename, done) {
     'default': word
   }], function (answer) {
     var newWord = answer.word;
-    if (_index2['default'].spellcheck.checkWord(newWord)) {
+    if (_filters2['default'].filter([newWord], options).length > 0 && _index2['default'].spellcheck.checkWord(newWord)) {
       done(newWord);
     } else {
       incorrectWordChoices(newWord, "Corrected word is not in dictionary..", filename, function (newNewWord) {

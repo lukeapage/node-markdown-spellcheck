@@ -6,17 +6,9 @@ import filters from './filters';
 import async from 'async';
 
 function getWords(src, options) {
-  const ignoreAcronyms = options && options.ignoreAcronyms;
-  const ignoreNumbers = options && options.ignoreNumbers;
   let words = wordParser(markdownParser(src));
 
-  if (ignoreAcronyms) {
-    words = filters.acronyms(words);
-  }
-  if (ignoreNumbers) {
-    words = filters.numbers(words);
-  }
-  return words;
+  return filters.filter(words, options);
 }
 
 function spell(src, options) {

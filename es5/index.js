@@ -29,17 +29,9 @@ var _async = require('async');
 var _async2 = _interopRequireDefault(_async);
 
 function getWords(src, options) {
-  var ignoreAcronyms = options && options.ignoreAcronyms;
-  var ignoreNumbers = options && options.ignoreNumbers;
   var words = _wordParser2['default'](_markdownParser2['default'](src));
 
-  if (ignoreAcronyms) {
-    words = _filters2['default'].acronyms(words);
-  }
-  if (ignoreNumbers) {
-    words = _filters2['default'].numbers(words);
-  }
-  return words;
+  return _filters2['default'].filter(words, options);
 }
 
 function spell(src, options) {

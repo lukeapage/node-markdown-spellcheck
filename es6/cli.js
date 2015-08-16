@@ -10,6 +10,7 @@ import async from'async'
 import chalk from 'chalk';
 import { replace } from './word-replacer';
 import spellConfig from './spell-config';
+import filters from './filters';
 
 const packageConfig = fs.readFileSync(path.join(__dirname, '../package.json'));
 const buildVersion = JSON.parse(packageConfig).version;
@@ -115,7 +116,7 @@ function getCorrectWord(word, filename, done) {
     default: word
   }], function(answer) {
     const newWord = answer.word;
-    if (markdownSpellcheck.spellcheck.checkWord(newWord)) {
+    if (filters.filter([newWord], options).length > 0 && markdownSpellcheck.spellcheck.checkWord(newWord)) {
       done(newWord);
     } else {
       incorrectWordChoices(newWord, "Corrected word is not in dictionary..", filename, (newNewWord) => {
