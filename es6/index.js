@@ -44,8 +44,4 @@ function spellCallback(src, options, callback, done) {
   }, done);
 }
 
-function suggest(wordInfo) {
-  return spellcheck.suggest(wordInfo.word);
-}
-
-export default { spell, spellFile, spellCallback, suggest };
+export default { spell, spellFile, spellCallback, spellcheck };

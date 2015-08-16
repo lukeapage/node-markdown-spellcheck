@@ -18,7 +18,18 @@ function checkWord(word) {
     initialise();
   }
   word = word.replace(/\u2019/, "'");
-  return spellchecker.check(word);
+  if (spellchecker.check(word)) {
+    return true;
+  }
+
+  // for etc. as we cannot tell if it ends in "." as that is stripped
+  // todo: could flag
+  word = word + ".";
+  if (spellchecker.check(word)) {
+    return true;
+  }
+
+  return false;
 }
 
 function checkWords(words) {

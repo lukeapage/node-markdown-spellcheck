@@ -53,31 +53,88 @@ _commander2['default'].version(buildVersion)
 //  .option('-d, --dictionary', 'Ignores numbers.')
 .option('-a, --ignore-acronyms', 'Ignores acronyms.').usage("[options] source-file source-file");
 
+var ACTION_IGNORE = "ignore",
+    ACTION_FILE_IGNORE = "fileignore",
+    ACTION_ADD = "add",
+    ACTION_CORRECT = "enter";
+
+var CHOICE_IGNORE = { key: "i", name: "Ignore", value: ACTION_IGNORE },
+    CHOICE_FILE_IGNORE = { key: "f", name: "Add to file ignores", value: ACTION_FILE_IGNORE },
+    CHOICE_ADD = { key: "a", name: "Add to dictionary", value: ACTION_ADD },
+    CHOICE_CORRECT = { key: "e", name: "Enter correct spelling", value: ACTION_CORRECT };
+
+function incorrectWordChoices(word, message, done) {
+  var suggestions = _index2['default'].spellcheck.suggest(word);
+
+  var choices = [CHOICE_IGNORE, CHOICE_FILE_IGNORE, CHOICE_ADD, CHOICE_CORRECT];
+
+  suggestions.forEach(function (suggestion, index) {
+    choices.push({
+      key: index,
+      name: suggestion,
+      value: index.toString()
+    });
+  });
+
+  _inquirer2['default'].prompt([{
+    type: "list",
+    name: "action",
+    message: message,
+    choices: choices,
+    'default': "enter"
+  }], function (answer) {
+    switch (answer.action) {
+      case ACTION_ADD:
+        _index2['default'].spellcheck.addWord(word);
+        // todo save to dictionary
+        done();
+        break;
+      case ACTION_CORRECT:
+        getCorrectWord(word, done);
+        break;
+      case ACTION_FILE_IGNORE:
+        _index2['default'].spellcheck.addWord(word);
+        // todo only ignore this file
+        done();
+        break;
+      case ACTION_IGNORE:
+        _index2['default'].spellcheck.addWord(word);
+        done();
+        break;
+      default:
+        done(suggestions[Number(answer.action)]);
+        break;
+    }
+  });
+}
+
+function getCorrectWord(word, done) {
+  _inquirer2['default'].prompt([{
+    type: "input",
+    name: "word",
+    message: "correct word >",
+    'default': word
+  }], function (answer) {
+    var newWord = answer.word;
+    if (_index2['default'].spellcheck.checkWord(newWord)) {
+      done(newWord);
+    } else {
+      incorrectWordChoices(newWord, "Corrected word is not in dictionary..", done);
+    }
+  });
+}
+
 function spellAndFixFile(file, options, onFinishedFile) {
   var src = _fs2['default'].readFileSync(file, 'utf-8');
 
   function onSpellingMistake(wordInfo, done) {
     var displayBlock = _context2['default'].getBlock(src, wordInfo.index, wordInfo.word.length);
     console.log(displayBlock.info);
-    var suggestions = _index2['default'].suggest(wordInfo);
-    if (suggestions) {
-      suggestions.forEach(function (suggestion, index) {
-        return console.log(index + ": " + suggestion);
-      });
-    }
-    _inquirer2['default'].prompt([{
-      type: "expand",
-      name: "action",
-      message: "message",
-      choices: [{ key: "i", name: "Ignore", value: "ignore" }, { key: "f", name: "Add to file ignores", value: "fileignore" }, { key: "a", name: "Add to dictionary", value: "add" }, { key: "s", name: "Use suggestion", value: "suggestion" }, { key: "e", name: "Enter correct spelling", value: "enter" }] /*{
-                                                                                                                                                                                                                                                                                                               "i": "Ignore",
-                                                                                                                                                                                                                                                                                                               "f": "Add to file ignores",
-                                                                                                                                                                                                                                                                                                               "a": "Add to dictionary",
-                                                                                                                                                                                                                                                                                                               "s": "use suggestion",
-                                                                                                                                                                                                                                                                                                               "e": "Enter correct spelling"
-                                                                                                                                                                                                                                                                                                               }*/
-    }], function (answer) {
-      console.log(answer);
+    incorrectWordChoices(wordInfo.word, " ", function (newWord) {
+      if (newWord) {
+        // add to corrections
+        console.log("correcting to:" + _chalk2['default'].green(newWord));
+      }
       done();
     });
   }
@@ -139,4 +196,3 @@ if (!_commander2['default'].args.length) {
     });
   })();
 }
-//default: "e"

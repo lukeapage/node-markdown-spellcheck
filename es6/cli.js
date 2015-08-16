@@ -23,36 +23,93 @@ program
   .option('-a, --ignore-acronyms', 'Ignores acronyms.')
   .usage("[options] source-file source-file");
 
+const ACTION_IGNORE = "ignore",
+  ACTION_FILE_IGNORE = "fileignore",
+  ACTION_ADD = "add",
+  ACTION_CORRECT = "enter";
+
+const CHOICE_IGNORE =  { key: "i", name: "Ignore", value: ACTION_IGNORE},
+  CHOICE_FILE_IGNORE = { key: "f", name: "Add to file ignores", value: ACTION_FILE_IGNORE},
+  CHOICE_ADD = { key: "a", name: "Add to dictionary", value: ACTION_ADD},
+  CHOICE_CORRECT = { key: "e", name: "Enter correct spelling", value: ACTION_CORRECT};
+
+function incorrectWordChoices(word, message, done) {
+  const suggestions = markdownSpellcheck.spellcheck.suggest(word);
+
+  var choices = [
+    CHOICE_IGNORE,
+    CHOICE_FILE_IGNORE,
+    CHOICE_ADD,
+    CHOICE_CORRECT
+  ];
+
+  suggestions.forEach((suggestion, index) => {
+    choices.push({
+      key: index,
+      name: suggestion,
+      value: index.toString()
+    });
+  });
+
+  inquirer.prompt([{
+    type: "list",
+    name: "action",
+    message: message,
+    choices,
+    default: "enter"
+  }], function (answer) {
+    switch(answer.action) {
+      case ACTION_ADD:
+        markdownSpellcheck.spellcheck.addWord(word);
+        // todo save to dictionary
+        done();
+        break;
+      case ACTION_CORRECT:
+        getCorrectWord(word, done);
+        break;
+      case ACTION_FILE_IGNORE:
+        markdownSpellcheck.spellcheck.addWord(word);
+        // todo only ignore this file
+        done();
+        break;
+      case ACTION_IGNORE:
+        markdownSpellcheck.spellcheck.addWord(word);
+        done();
+        break;
+      default:
+        done(suggestions[Number(answer.action)]);
+        break;
+    }
+  });
+}
+
+function getCorrectWord(word, done) {
+  inquirer.prompt([{
+    type: "input",
+    name: "word",
+    message: "correct word >",
+    default: word
+  }], function(answer) {
+    const newWord = answer.word;
+    if (markdownSpellcheck.spellcheck.checkWord(newWord)) {
+      done(newWord);
+    } else {
+      incorrectWordChoices(newWord, "Corrected word is not in dictionary..", done);
+    }
+  });
+}
+
 function spellAndFixFile(file, options, onFinishedFile) {
   let src = fs.readFileSync(file, 'utf-8');
 
   function onSpellingMistake(wordInfo, done) {
     var displayBlock = context.getBlock(src, wordInfo.index, wordInfo.word.length);
     console.log(displayBlock.info);
-    const suggestions = markdownSpellcheck.suggest(wordInfo);
-    if (suggestions) {
-      suggestions.forEach((suggestion, index) => console.log(index + ": " + suggestion));
-    }
-    inquirer.prompt([{
-      type: "expand",
-      name: "action",
-      message: "message",
-      choices: [
-        { key: "i", name: "Ignore", value: "ignore"},
-        { key: "f", name: "Add to file ignores", value: "fileignore"},
-        { key: "a", name: "Add to dictionary", value: "add"},
-        { key: "s", name: "Use suggestion", value:"suggestion"},
-        { key: "e", name: "Enter correct spelling", value:"enter"}
-        ]/*{
-        "i": "Ignore",
-        "f": "Add to file ignores",
-        "a": "Add to dictionary",
-        "s": "use suggestion",
-        "e": "Enter correct spelling"
-      }*/,
-      //default: "e"
-    }], function (answer) {
-      console.log(answer);
+    incorrectWordChoices(wordInfo.word, " ", (newWord) => {
+      if (newWord) {
+        // add to corrections
+        console.log("correcting to:" + chalk.green(newWord));
+      }
       done();
     });
   }

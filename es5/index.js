@@ -67,9 +67,5 @@ function spellCallback(src, options, callback, done) {
   }, done);
 }
 
-function suggest(wordInfo) {
-  return _spellcheck2['default'].suggest(wordInfo.word);
-}
-
-exports['default'] = { spell: spell, spellFile: spellFile, spellCallback: spellCallback, suggest: suggest };
+exports['default'] = { spell: spell, spellFile: spellFile, spellCallback: spellCallback, spellcheck: _spellcheck2['default'] };
 module.exports = exports['default'];
