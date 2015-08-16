@@ -164,23 +164,18 @@ function spellAndFixFile(file, options, onFinishedFile) {
         if (newWord) {
           corrections.push({ wordInfo: wordInfo, newWord: newWord });
         }
-        console.log("on spelling mistake finished");
         done();
       });
     }
 
     _index2['default'].spellCallback(src, options, onSpellingMistake, function () {
-      console.log("file done");
       function onCorrected() {
         _index2['default'].spellcheck.resetTemporaryCustomDictionary();
-        console.log("on finished file");
         onFinishedFile();
       }
       if (corrections.length) {
         var correctedSrc = _wordReplacer.replace(src, corrections);
-        console.log("writing file");
         _fs2['default'].writeFile(file, correctedSrc, function (err) {
-          console.log("written");
           onCorrected();
         });
       } else {
@@ -198,7 +193,7 @@ if (!_commander2['default'].args.length) {
 } else {
   (function () {
 
-    //chalk.red("red"); // fix very weird bug
+    _chalk2['default'].red("red"); // fix very weird bug
 
     var options = {
       ignoreAcronyms: _commander2['default'].ignoreAcronyms,

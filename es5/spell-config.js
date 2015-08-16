@@ -71,7 +71,6 @@ function initialise(filename, done) {
 }
 
 function writeFile(done) {
-  console.log("writing file");
   var data = fileLines.join(isCrLf ? "\r\n" : "\n");
   _fs2['default'].writeFile('./.spelling', data, function (err) {
     if (err) console.error(err);

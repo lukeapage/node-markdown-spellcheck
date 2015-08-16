@@ -48,7 +48,7 @@ function checkWord(word) {
     var subWords = word.split('-');
 
     if (subWords.every(function (word) {
-      console.log(word);return spellchecker.check(word);
+      return spellchecker.check(word);
     })) {
       return true;
     }
