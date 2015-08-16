@@ -5,5 +5,5 @@ function filterFactory(regexp) {
 
 export default {
   acronyms: filterFactory(/^[A-Z0-9]{2,}(['\u2018-\u2019]s)?$/),
-  numbers: filterFactory(/^[0-9,\.\-#]+$/)
+  numbers: filterFactory(/^[0-9,\.\-#]+(th|st|nd|rd)?$/)
 };

@@ -29,6 +29,14 @@ function checkWord(word) {
     return true;
   }
 
+  if(word.indexOf('-')) {
+    const subWords = word.split('-');
+
+    if (subWords.every((word)=> spellchecker.check(word))) {
+      return true;
+    }
+  }
+
   return false;
 }
 
@@ -43,8 +51,26 @@ function checkWords(words) {
   return mistakes;
 }
 
-function addWord(word) {
+function _addWord(word) {
   dict.dictionaryTable[word] = [[]];
+}
+
+var customDictionary = [];
+var needsReset = false;
+function addWord(word, temporary) {
+  if (!temporary) {
+    customDictionary.push(word);
+  } else {
+    needsReset = true;
+  }
+  _addWord(word);
+}
+
+function resetTemporaryCustomDictionary() {
+  if (needsReset) {
+    initialise();
+    customDictionary.forEach((word) => _addWord(word));
+  }
 }
 
 function suggest(word) {
@@ -61,5 +87,6 @@ export default {
   checkWords,
   checkWord,
   addWord,
+  resetTemporaryCustomDictionary,
   suggest
 };

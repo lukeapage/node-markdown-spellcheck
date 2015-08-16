@@ -58,8 +58,28 @@ function checkWords(words) {
   return mistakes;
 }
 
-function addWord(word) {
+function _addWord(word) {
   dict.dictionaryTable[word] = [[]];
+}
+
+var customDictionary = [];
+var needsReset = false;
+function addWord(word, temporary) {
+  if (!temporary) {
+    customDictionary.push(word);
+  } else {
+    needsReset = true;
+  }
+  _addWord(word);
+}
+
+function resetTemporaryCustomDictionary() {
+  if (needsReset) {
+    initialise();
+    customDictionary.forEach(function (word) {
+      return _addWord(word);
+    });
+  }
 }
 
 function suggest(word) {
@@ -76,6 +96,7 @@ exports['default'] = {
   checkWords: checkWords,
   checkWord: checkWord,
   addWord: addWord,
+  resetTemporaryCustomDictionary: resetTemporaryCustomDictionary,
   suggest: suggest
 };
 module.exports = exports['default'];

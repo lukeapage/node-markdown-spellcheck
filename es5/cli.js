@@ -42,6 +42,8 @@ var _chalk = require('chalk');
 
 var _chalk2 = _interopRequireDefault(_chalk);
 
+var _wordReplacer = require('./word-replacer');
+
 var packageConfig = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../package.json'));
 var buildVersion = JSON.parse(packageConfig).version;
 
@@ -93,8 +95,7 @@ function incorrectWordChoices(word, message, done) {
         getCorrectWord(word, done);
         break;
       case ACTION_FILE_IGNORE:
-        _index2['default'].spellcheck.addWord(word);
-        // todo only ignore this file
+        _index2['default'].spellcheck.addWord(word, true);
         done();
         break;
       case ACTION_IGNORE:
@@ -119,28 +120,42 @@ function getCorrectWord(word, done) {
     if (_index2['default'].spellcheck.checkWord(newWord)) {
       done(newWord);
     } else {
-      incorrectWordChoices(newWord, "Corrected word is not in dictionary..", done);
+      incorrectWordChoices(newWord, "Corrected word is not in dictionary..", function (newNewWord) {
+        done(newNewWord || newWord);
+      });
     }
   });
 }
 
 function spellAndFixFile(file, options, onFinishedFile) {
-  var src = _fs2['default'].readFileSync(file, 'utf-8');
+  _fs2['default'].readFile(file, 'utf-8', function (err, src) {
+    var corrections = [];
 
-  function onSpellingMistake(wordInfo, done) {
-    var displayBlock = _context2['default'].getBlock(src, wordInfo.index, wordInfo.word.length);
-    console.log(displayBlock.info);
-    incorrectWordChoices(wordInfo.word, " ", function (newWord) {
-      if (newWord) {
-        // add to corrections
-        console.log("correcting to:" + _chalk2['default'].green(newWord));
+    function onSpellingMistake(wordInfo, done) {
+      var displayBlock = _context2['default'].getBlock(src, wordInfo.index, wordInfo.word.length);
+      console.log(displayBlock.info);
+      incorrectWordChoices(wordInfo.word, " ", function (newWord) {
+        if (newWord) {
+          corrections.push({ wordInfo: wordInfo, newWord: newWord });
+        }
+        done();
+      });
+    }
+
+    _index2['default'].spellCallback(src, options, onSpellingMistake, function () {
+      function onCorrected() {
+        _index2['default'].spellcheck.resetTemporaryCustomDictionary();
+        onFinishedFile();
       }
-      done();
+      if (corrections.length) {
+        var correctedSrc = _wordReplacer.replace(src, corrections);
+        _fs2['default'].writeFile(file, correctedSrc, function (err) {
+          onCorrected();
+        });
+      } else {
+        onCorrected();
+      }
     });
-  }
-
-  _index2['default'].spellCallback(src, options, onSpellingMistake, function () {
-    return onFinishedFile();
   });
 }
 
