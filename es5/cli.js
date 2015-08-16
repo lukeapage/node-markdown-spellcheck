@@ -65,12 +65,14 @@ _commander2['default'].version(buildVersion)
 var ACTION_IGNORE = "ignore",
     ACTION_FILE_IGNORE = "fileignore",
     ACTION_ADD = "add",
+    ACTION_ADD_CASED = "add-cased",
     ACTION_CORRECT = "enter";
 
-var CHOICE_IGNORE = { key: "i", name: "Ignore", value: ACTION_IGNORE },
-    CHOICE_FILE_IGNORE = { key: "f", name: "Add to file ignores", value: ACTION_FILE_IGNORE },
-    CHOICE_ADD = { key: "a", name: "Add to dictionary", value: ACTION_ADD },
-    CHOICE_CORRECT = { key: "e", name: "Enter correct spelling", value: ACTION_CORRECT };
+var CHOICE_IGNORE = { name: "Ignore", value: ACTION_IGNORE },
+    CHOICE_FILE_IGNORE = { name: "Add to file ignores", value: ACTION_FILE_IGNORE },
+    CHOICE_ADD = { name: "Add to dictionary - case insensitive", value: ACTION_ADD },
+    CHOICE_ADD_CASED = { name: "Add to dictionary - case sensitive", value: ACTION_ADD_CASED },
+    CHOICE_CORRECT = { name: "Enter correct spelling", value: ACTION_CORRECT };
 
 var previousChoices = Object.create(null);
 
@@ -78,6 +80,10 @@ function incorrectWordChoices(word, message, filename, done) {
   var suggestions = _commander2['default'].noSuggestions ? [] : _index2['default'].spellcheck.suggest(word);
 
   var choices = [CHOICE_IGNORE, CHOICE_FILE_IGNORE, CHOICE_ADD, CHOICE_CORRECT];
+
+  if (word.match(/A-Z/)) {
+    choices.splice(3, 0, CHOICE_ADD_CASED);
+  }
 
   var defaultAction = ACTION_CORRECT;
   if (previousChoices[word]) {
@@ -112,6 +118,9 @@ function incorrectWordChoices(word, message, filename, done) {
   }], function (answer) {
     switch (answer.action) {
       case ACTION_ADD:
+        word = word.toLowerCase();
+      /* fallthrough */
+      case ACTION_ADD_CASED:
         _index2['default'].spellcheck.addWord(word);
         _spellConfig2['default'].addToGlobalDictionary(word);
         done();

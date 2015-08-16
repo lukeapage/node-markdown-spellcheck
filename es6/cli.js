@@ -30,12 +30,14 @@ program
 const ACTION_IGNORE = "ignore",
   ACTION_FILE_IGNORE = "fileignore",
   ACTION_ADD = "add",
+  ACTION_ADD_CASED = "add-cased",
   ACTION_CORRECT = "enter";
 
-const CHOICE_IGNORE =  { key: "i", name: "Ignore", value: ACTION_IGNORE},
-  CHOICE_FILE_IGNORE = { key: "f", name: "Add to file ignores", value: ACTION_FILE_IGNORE},
-  CHOICE_ADD = { key: "a", name: "Add to dictionary", value: ACTION_ADD},
-  CHOICE_CORRECT = { key: "e", name: "Enter correct spelling", value: ACTION_CORRECT};
+const CHOICE_IGNORE =  { name: "Ignore", value: ACTION_IGNORE},
+  CHOICE_FILE_IGNORE = { name: "Add to file ignores", value: ACTION_FILE_IGNORE},
+  CHOICE_ADD = { name: "Add to dictionary - case insensitive", value: ACTION_ADD},
+  CHOICE_ADD_CASED = { name: "Add to dictionary - case sensitive", value: ACTION_ADD_CASED},
+  CHOICE_CORRECT = { name: "Enter correct spelling", value: ACTION_CORRECT};
 
 const previousChoices = Object.create(null);
 
@@ -49,6 +51,10 @@ function incorrectWordChoices(word, message, filename, done) {
     CHOICE_ADD,
     CHOICE_CORRECT
   ];
+
+  if (word.match(/A-Z/)) {
+    choices.splice(3, 0, CHOICE_ADD_CASED);
+  }
 
   let defaultAction = ACTION_CORRECT;
   if (previousChoices[word]) {
@@ -83,6 +89,9 @@ function incorrectWordChoices(word, message, filename, done) {
   }], function (answer) {
     switch(answer.action) {
       case ACTION_ADD:
+        word = word.toLowerCase();
+        /* fallthrough */
+      case ACTION_ADD_CASED:
         markdownSpellcheck.spellcheck.addWord(word);
         spellConfig.addToGlobalDictionary(word);
         done();
