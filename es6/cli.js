@@ -25,7 +25,13 @@ program
 //  .option('-d, --dictionary', 'Ignores numbers.')
   .option('-a, --ignore-acronyms', 'Ignores acronyms.')
   .option('-x, --no-suggestions', 'Do not suggest words (can be slow)')
-  .usage("[options] source-file source-file");
+  .usage("[options] source-file source-file")
+  .parse(process.argv);
+
+const options = {
+  ignoreAcronyms: program.ignoreAcronyms,
+  ignoreNumbers: program.ignoreNumbers
+};
 
 const ACTION_IGNORE = "ignore",
   ACTION_FILE_IGNORE = "fileignore",
@@ -43,7 +49,7 @@ const previousChoices = Object.create(null);
 
 function incorrectWordChoices(word, message, filename, done) {
   const suggestions =
-    program.noSuggestions ? [] : markdownSpellcheck.spellcheck.suggest(word);
+    program.suggestions ? markdownSpellcheck.spellcheck.suggest(word) : [];
 
   var choices = [
     CHOICE_IGNORE,
@@ -52,7 +58,7 @@ function incorrectWordChoices(word, message, filename, done) {
     CHOICE_CORRECT
   ];
 
-  if (word.match(/A-Z/)) {
+  if (word.match(/[A-Z]/)) {
     choices.splice(3, 0, CHOICE_ADD_CASED);
   }
 
@@ -125,7 +131,7 @@ function getCorrectWord(word, filename, done) {
     default: word
   }], function(answer) {
     const newWord = answer.word;
-    if (filters.filter([newWord], options).length > 0 && markdownSpellcheck.spellcheck.checkWord(newWord)) {
+    if (filters.filter([answer], options).length > 0 && markdownSpellcheck.spellcheck.checkWord(newWord)) {
       done(newWord);
     } else {
       incorrectWordChoices(newWord, "Corrected word is not in dictionary..", filename, (newNewWord) => {
@@ -169,20 +175,12 @@ function spellAndFixFile(file, options, onFinishedFile) {
   });
 }
 
-
-program.parse(process.argv);
-
 if (!program.args.length) {
   program.outputHelp();
   process.exit();
 } else {
 
   chalk.red("red"); // fix very weird bug
-
-  const options = {
-    ignoreAcronyms: program.ignoreAcronyms,
-    ignoreNumbers: program.ignoreNumbers
-  };
 
   const inputPatterns = program.args;
   const allFiles = [];

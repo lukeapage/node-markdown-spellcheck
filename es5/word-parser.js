@@ -21,8 +21,9 @@ exports["default"] = function (tokens) {
         thisWordIndex += 1;
         word = word.substr(1, word.length - 1);
       }
-      if (word.match(/['\u2019]$/)) {
-        word = word.substr(0, word.length - 1);
+      var badEndings = word.match(/['\u2019\-#]+$/);
+      if (badEndings) {
+        word = word.substr(0, word.length - badEndings[0].length);
       }
       wordList.push({ word: word, index: thisWordIndex });
 

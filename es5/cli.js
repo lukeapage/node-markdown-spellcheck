@@ -60,7 +60,12 @@ _commander2['default'].version(buildVersion)
 // options to replace etc.
 .option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.').option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.')
 //  .option('-d, --dictionary', 'Ignores numbers.')
-.option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').usage("[options] source-file source-file");
+.option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').usage("[options] source-file source-file").parse(process.argv);
+
+var options = {
+  ignoreAcronyms: _commander2['default'].ignoreAcronyms,
+  ignoreNumbers: _commander2['default'].ignoreNumbers
+};
 
 var ACTION_IGNORE = "ignore",
     ACTION_FILE_IGNORE = "fileignore",
@@ -77,11 +82,11 @@ var CHOICE_IGNORE = { name: "Ignore", value: ACTION_IGNORE },
 var previousChoices = Object.create(null);
 
 function incorrectWordChoices(word, message, filename, done) {
-  var suggestions = _commander2['default'].noSuggestions ? [] : _index2['default'].spellcheck.suggest(word);
+  var suggestions = _commander2['default'].suggestions ? _index2['default'].spellcheck.suggest(word) : [];
 
   var choices = [CHOICE_IGNORE, CHOICE_FILE_IGNORE, CHOICE_ADD, CHOICE_CORRECT];
 
-  if (word.match(/A-Z/)) {
+  if (word.match(/[A-Z]/)) {
     choices.splice(3, 0, CHOICE_ADD_CASED);
   }
 
@@ -154,7 +159,7 @@ function getCorrectWord(word, filename, done) {
     'default': word
   }], function (answer) {
     var newWord = answer.word;
-    if (_filters2['default'].filter([newWord], options).length > 0 && _index2['default'].spellcheck.checkWord(newWord)) {
+    if (_filters2['default'].filter([answer], options).length > 0 && _index2['default'].spellcheck.checkWord(newWord)) {
       done(newWord);
     } else {
       incorrectWordChoices(newWord, "Corrected word is not in dictionary..", filename, function (newNewWord) {
@@ -198,8 +203,6 @@ function spellAndFixFile(file, options, onFinishedFile) {
   });
 }
 
-_commander2['default'].parse(process.argv);
-
 if (!_commander2['default'].args.length) {
   _commander2['default'].outputHelp();
   process.exit();
@@ -207,11 +210,6 @@ if (!_commander2['default'].args.length) {
   (function () {
 
     _chalk2['default'].red("red"); // fix very weird bug
-
-    var options = {
-      ignoreAcronyms: _commander2['default'].ignoreAcronyms,
-      ignoreNumbers: _commander2['default'].ignoreNumbers
-    };
 
     var inputPatterns = _commander2['default'].args;
     var allFiles = [];
