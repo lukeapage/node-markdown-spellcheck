@@ -7,12 +7,15 @@ import async from 'async';
 
 function getWords(src, options) {
   const ignoreAcronyms = options && options.ignoreAcronyms;
+  const ignoreNumbers = options && options.ignoreNumbers;
   let words = wordParser(markdownParser(src));
 
   if (ignoreAcronyms) {
     words = filters.acronyms(words);
   }
-  words = filters.numbers(words);
+  if (ignoreNumbers) {
+    words = filters.numbers(words);
+  }
   return words;
 }
 

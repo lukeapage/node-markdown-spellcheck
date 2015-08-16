@@ -19,7 +19,7 @@ program
   // options to replace etc.
   .option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.')
   .option('-r, --report', 'Outputs a full report which details the unique spelling errors found.')
-//  .option('-n, --ignore-numbers', 'Ignores numbers.')
+  .option('-n, --ignore-numbers', 'Ignores numbers.')
 //  .option('-d, --dictionary', 'Ignores numbers.')
   .option('-a, --ignore-acronyms', 'Ignores acronyms.')
   .usage("[options] source-file source-file");
@@ -142,7 +142,8 @@ if (!program.args.length) {
 } else {
 
   const options = {
-    ignoreAcronyms: program.ignoreAcronyms
+    ignoreAcronyms: program.ignoreAcronyms,
+    ignoreNumbers: program.ignoreNumbers
   };
 
   const inputPatterns = program.args;
