@@ -37,6 +37,13 @@ function checkWord(word) {
     return true;
   }
 
+  if (word.match(/'s$/)) {
+    var wordWithoutPlural = word.substr(0, word.length - 2);
+    if (spellchecker.check(wordWithoutPlural)) {
+      return true;
+    }
+  }
+
   // for etc. as we cannot tell if it ends in "." as that is stripped
   // todo: could flag
   var wordWithDot = word + ".";

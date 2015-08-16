@@ -26,5 +26,12 @@ describe("spell checker", () => {
     expect(badWords).to.deep.equal([]);
   });
 
+  it("should allow plural on anything", () => {
+    const badWords = spellcheck.checkWords([{ word: "safety's", index: 0 }]);
+
+    expect(badWords).to.deep.equal([]);
+  });
+
+
 
 });
