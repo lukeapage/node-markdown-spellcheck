@@ -1,7 +1,12 @@
 {
   "name": "markdown-spellcheck",
-  "version": "0.1.1",
-  "description": "",
+  "version": "0.1.2",
+  "description": "Spell-checks markdown files with an interactive CLI allowing automated spell checking.",
+  "keywords": ["spelling",
+    "spell",
+    "spellcheck",
+    "spell-check",
+    "markdown"],
   "main": "es5/index.js",
   "bin": {
     "mdspell": "./bin/mdspell"
@@ -11,6 +16,13 @@
   },
   "author": "Luke Page",
   "license": "ISC",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/lukeapage/node-markdown-spellcheck.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lukeapage/node-markdown-spellcheck/issues"
+  },
   "dependencies": {
     "async": "^1.4.2",
     "chalk": "^1.1.0",
