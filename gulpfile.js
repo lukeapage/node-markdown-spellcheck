@@ -37,8 +37,5 @@ gulp.task('mocha', function () {
     .once('error', function (e) {
       console.error(e);
       process.exit(1);
-    })
-    .once('end', function () {
-      process.exit();
     });
 });
