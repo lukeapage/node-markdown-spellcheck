@@ -35,7 +35,7 @@ function parse() {
     lastNonCommentIndex = index;
   });
   if (inGlobal) {
-    globalDictionaryIndex = lastNonCommentIndex === -1 ? index : lastNonCommentIndex + 1;
+    globalDictionaryIndex = lastNonCommentIndex === -1 ? fileLines.length : lastNonCommentIndex + 1;
   } else {
     fileDictionary[currentFile].index = lastNonCommentIndex;
   }
