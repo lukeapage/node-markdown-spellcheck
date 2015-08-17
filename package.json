@@ -12,7 +12,7 @@
     "mdspell": "./bin/mdspell"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "node bin/mdspell -ran *.md && gulp test"
   },
   "author": "Luke Page",
   "license": "ISC",

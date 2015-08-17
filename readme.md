@@ -9,14 +9,28 @@ There are two modes, interactive fixing, which will allow you to fix mistakes an
 # install
 npm i markdown-spellcheck -g
 
-# use
+# run in interactive mode
 mdspell "**/*.md"
 
 # see help & options
 mdspell
 ```
 
-### Interactive mode
+### CLI Options
+
+#### Ignore numbers (-n, --ignore-numbers)
+
+Ignores numbers like `1.2` and `1,2.4`.
+
+#### Ignore acronyms (-a, --ignore-acronyms)
+
+Ignores acronyms like `NPM`. Also ignores numbers. Does not ignore single letters e.g. `U`.
+
+#### No suggestions (-x, --no-suggestions)
+
+Suggestions are slow at present, so use this to remove them.
+
+### Interactive Mode
 
 The default interactive mode shows you the context of the spelling mistake and gives you options with what to do about it. E.g.
 
@@ -44,7 +58,7 @@ Where `speling` will be highlighted in red.
  
 All exclusions will be stored in a `.spelling` file in the directory from which you run the command.
 
-### Report mode
+### Report Mode
 
 Using the `--report` (`-r`) option will show you every mistake. You can get a summary with `--report --summary` or `-rs`.
 
@@ -60,6 +74,28 @@ The `.spelling` file is self documenting as it includes...
 # where filename is relative to this configuration file
 ```
 
-## Usage in `grunt` or `gulp` to automatically check spellings
+## Use To Stop Spelling Regressions
+
+### Usage with `npm`
+
+Add to your `package.json` and then run in report mode. If new spelling errors occur that are not ignored in the `.spelling` file, a error exit code will be set.
+
+For instance, if your `package.json` has:
+
+```
+  "scripts": {
+    "test": "gulp test"
+  },
+```
+
+Change it to...
+
+```
+  "scripts": {
+    "test": "mdspell -r **/*.md && gulp test"
+  },
+```
+
+### Usage in `grunt` or `gulp`
 
 
