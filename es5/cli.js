@@ -222,7 +222,7 @@ if (!_commander2['default'].args.length) {
       _spellConfig2['default'].getGlobalWords().forEach(function (word) {
         return _index2['default'].spellcheck.addWord(word);
       });
-      _async2['default'].eachSeries(allFiles, function (file, fileProcessed) {
+      _async2['default'].mapSeries(allFiles, function (file, fileProcessed) {
         try {
           console.log("Spelling - " + _chalk2['default'].bold(file));
 
@@ -245,7 +245,7 @@ if (!_commander2['default'].args.length) {
               }
               console.log();
             }
-            fileProcessed();
+            fileProcessed(null, spellingInfo.errors);
           } else {
             spellAndFixFile(file, options, function () {
               _spellConfig2['default'].writeFile(fileProcessed);
@@ -256,6 +256,19 @@ if (!_commander2['default'].args.length) {
           console.error(e);
           console.error(e.stack);
         }
+      }, function (err, results) {
+        var exitCode = 0;
+        if (err) {
+          exitCode = 1;
+        } else {
+          var spellingErrors = results.some(function (e) {
+            return e && e.length;
+          });
+          if (spellingErrors) {
+            exitCode = 1;
+          }
+        }
+        process.exitCode = exitCode;
       });
     });
   })();
