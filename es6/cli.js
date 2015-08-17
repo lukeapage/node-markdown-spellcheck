@@ -193,7 +193,7 @@ if (!program.args.length) {
     })], () => {
       spellConfig.getGlobalWords()
         .forEach((word) => markdownSpellcheck.spellcheck.addWord(word));
-      async.eachSeries(allFiles, function(file, fileProcessed) {
+      async.mapSeries(allFiles, function(file, fileProcessed) {
         try {
           console.log("Spelling - " + chalk.bold(file));
 
@@ -215,7 +215,7 @@ if (!program.args.length) {
               }
               console.log();
             }
-            fileProcessed();
+            fileProcessed(null, spellingInfo.errors);
           } else {
             spellAndFixFile(file, options, () => {
               spellConfig.writeFile(fileProcessed);
@@ -227,6 +227,19 @@ if (!program.args.length) {
           console.error(e);
           console.error(e.stack);
         }
+      }, function(err, results) {
+        var exitCode = 0;
+        if (err) {
+          exitCode = 1;
+        } else {
+          var spellingErrors = results.some(function(e) {
+            return e && e.length;
+          });
+          if (spellingErrors) {
+            exitCode = 1;
+          }
+        }
+        process.exitCode = exitCode;
       });
   });
 }
