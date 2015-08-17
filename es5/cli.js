@@ -58,7 +58,7 @@ var buildVersion = JSON.parse(packageConfig).version;
 _commander2['default'].version(buildVersion)
 // default cli behaviour will be an interactive walkthrough each error, with suggestions,
 // options to replace etc.
-.option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.').option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.')
+.option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found (implies -r).').option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.')
 //  .option('-d, --dictionary', 'Ignores numbers.')
 .option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').usage("[options] source-file source-file").parse(process.argv);
 
@@ -230,7 +230,7 @@ if (!_commander2['default'].args.length) {
             return _index2['default'].spellcheck.addWord(word, true);
           });
 
-          if (_commander2['default'].report) {
+          if (_commander2['default'].report || _commander2['default'].summary) {
             var spellingInfo = _index2['default'].spellFile(file, options);
 
             if (_commander2['default'].summary) {
