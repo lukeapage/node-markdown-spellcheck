@@ -19,7 +19,7 @@ program
   .version(buildVersion)
   // default cli behaviour will be an interactive walkthrough each error, with suggestions,
   // options to replace etc.
-  .option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found.')
+  .option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found (implies -r).')
   .option('-r, --report', 'Outputs a full report which details the unique spelling errors found.')
   .option('-n, --ignore-numbers', 'Ignores numbers.')
 //  .option('-d, --dictionary', 'Ignores numbers.')
@@ -200,7 +200,7 @@ if (!program.args.length) {
           spellConfig.getFileWords(file)
             .forEach((word) => markdownSpellcheck.spellcheck.addWord(word, true));
 
-          if (program.report) {
+          if (program.report || program.summary) {
             var spellingInfo = markdownSpellcheck.spellFile(file, options);
 
             if (program.summary) {
