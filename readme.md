@@ -96,6 +96,8 @@ Change it to...
   },
 ```
 
-### Usage in `grunt` or `gulp`
+### Usage in `grunt`
 
+See [grunt-mdspell](https://github.com/ColinEberhardt/grunt-mdspell).
 
+### Usage un `gulp`
