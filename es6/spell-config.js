@@ -11,7 +11,7 @@ function parse() {
   let inGlobal = true;
   let currentFile;
   fileLines.forEach((line, index) => {
-    if (line.indexOf('#') === 0) {
+    if (!line || line.indexOf('#') === 0) {
       return;
     }
     let fileMatch = line.match(/^\s*-\s+(.*)/);
@@ -34,8 +34,12 @@ function parse() {
     }
     lastNonCommentIndex = index;
   });
+  // make sure we end on a new-line
+  if (fileLines[fileLines.length - 1]) {
+    fileLines[fileLines.length] = "";
+  }
   if (inGlobal) {
-    globalDictionaryIndex = lastNonCommentIndex === -1 ? fileLines.length : lastNonCommentIndex + 1;
+    globalDictionaryIndex = lastNonCommentIndex === -1 ? fileLines.length - 1 : lastNonCommentIndex + 1;
   } else {
     fileDictionary[currentFile].index = lastNonCommentIndex;
   }
@@ -47,9 +51,10 @@ function emptyFile() {
     "# Format - lines begining # are comments",
     "# global dictionary is at the start, file overrides afterwards",
     "# one word per line, to define a file override use ' - filename'",
-    "# where filename is relative to this configuration file"
+    "# where filename is relative to this configuration file",
+    ""
   ];
-  globalDictionaryIndex = fileLines.length;
+  globalDictionaryIndex = fileLines.length - 1;
 }
 
 function initialise(filename, done) {
@@ -99,10 +104,9 @@ function addToFileDictionary(filename, word) {
     }
     fileDict.words.push(word);
   } else {
-    fileLines.push(" - " + filename);
-    fileLines.push(word);
+    fileLines.splice(fileLines.length - 1, 0, " - " + filename, word);
     fileDictionary[filename] = {
-      index: fileLines.length,
+      index: fileLines.length - 1,
       words: [word]
     };
   }
