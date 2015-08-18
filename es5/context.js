@@ -9,12 +9,12 @@ var _chalk = require('chalk');
 var _chalk2 = _interopRequireDefault(_chalk);
 
 function getLines(src, index, noBefore, noAfter) {
-  var beforeLines = [],
-      afterLines = [];
+  var beforeLines = [];
+  var afterLines = [];
   var thisLineStart = undefined,
       line = undefined,
-      column = undefined,
-      lastCutIndex = index;
+      column = undefined;
+  var lastCutIndex = index;
 
   for (var i = index - 1; i >= 0; i--) {
     if (src[i] === '\n') {
@@ -61,8 +61,8 @@ function getLines(src, index, noBefore, noAfter) {
 exports['default'] = {
   getBlock: function getBlock(src, index, length) {
     var lineInfo = getLines(src, index, 2, 2);
-    var lineStart = 0,
-        lineEnd = lineInfo.line.length;
+    var lineStart = 0;
+    var lineEnd = lineInfo.line.length;
     if (lineInfo.column > 30) {
       lineStart = lineInfo.column - 30;
     }

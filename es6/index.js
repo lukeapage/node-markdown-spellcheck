@@ -33,7 +33,8 @@ function spellCallback(src, options, callback, done) {
   async.eachSeries(words, function(wordInfo, onWordProcessed) {
     if (!spellcheck.checkWord(wordInfo.word)) {
       callback(wordInfo, onWordProcessed);
-    } else {
+    }
+    else {
       onWordProcessed();
     }
   }, done);

@@ -19,16 +19,19 @@ function parse() {
       if (inGlobal) {
         globalDictionaryIndex = lastNonCommentIndex === -1 ? index : lastNonCommentIndex + 1;
         inGlobal = false;
-      } else {
+      }
+      else {
         fileDictionary[currentFile].index = lastNonCommentIndex + 1;
       }
       currentFile = fileMatch[1];
       fileDictionary[currentFile] = { words: [] };
-    } else {
+    }
+    else {
       let word = line.trim();
       if (inGlobal) {
         globalDictionary.push(word);
-      } else {
+      }
+      else {
         fileDictionary[currentFile].words.push(word);
       }
     }
@@ -40,7 +43,8 @@ function parse() {
   }
   if (inGlobal) {
     globalDictionaryIndex = lastNonCommentIndex === -1 ? fileLines.length - 1 : lastNonCommentIndex + 1;
-  } else {
+  }
+  else {
     fileDictionary[currentFile].index = lastNonCommentIndex;
   }
 }
@@ -76,7 +80,11 @@ function initialise(filename, done) {
 function writeFile(done) {
   const data = fileLines.join(isCrLf ? "\r\n" : "\n");
   fs.writeFile('./.spelling', data, (err) => {
-    if (err) console.error(err);
+    if (err) {
+      console.error("Failed to save spelling file");
+      console.error(err);
+      process.exitCode = 1;
+    }
     done();
   });
 }
@@ -85,7 +93,7 @@ function addToGlobalDictionary(word) {
   globalDictionary.push(word);
   fileLines.splice(globalDictionaryIndex, 0, word);
   globalDictionaryIndex++;
-  for(let filename in fileDictionary) {
+  for (let filename in fileDictionary) {
     if (fileDictionary.hasOwnProperty(filename)) {
       fileDictionary[filename].index++;
     }
@@ -96,14 +104,15 @@ function addToFileDictionary(filename, word) {
   if (fileDictionary.hasOwnProperty(filename)) {
     let fileDict = fileDictionary[filename];
     fileLines.splice(fileDict.index, 0, word);
-    for(let filename in fileDictionary) {
-      if (fileDictionary.hasOwnProperty(filename) &&
-      fileDictionary[filename].index >= fileDict.index) {
-        fileDictionary[filename].index++;
+    for (let dictionaryFilename in fileDictionary) {
+      if (fileDictionary.hasOwnProperty(dictionaryFilename) &&
+      fileDictionary[dictionaryFilename].index >= fileDict.index) {
+        fileDictionary[dictionaryFilename].index++;
       }
     }
     fileDict.words.push(word);
-  } else {
+  }
+  else {
     fileLines.splice(fileLines.length - 1, 0, " - " + filename, word);
     fileDictionary[filename] = {
       index: fileLines.length - 1,

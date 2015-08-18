@@ -24,7 +24,12 @@ exports['default'] = function (inputPatterns, options, fileCallback) {
   var allFiles = [];
   _async2['default'].parallel([_spellConfig2['default'].initialise.bind(_spellConfig2['default'], './.spelling'), _async2['default'].each.bind(_async2['default'], inputPatterns, function (inputPattern, inputPatternProcessed) {
     _glob2['default'](inputPattern, function (err, files) {
-      allFiles.push.apply(allFiles, files);
+      if (err) {
+        console.error("Error globbing:", inputPattern);
+        process.exitCode = 1;
+      } else {
+        allFiles.push.apply(allFiles, files);
+      }
       inputPatternProcessed();
     });
   })], function () {

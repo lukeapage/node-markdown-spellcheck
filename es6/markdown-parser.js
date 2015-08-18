@@ -5,7 +5,7 @@ export default function(src) {
   const textTokens = [];
   let currentIndex = 0;
 
-  var tracker = trackingReplacer(src);
+  const tracker = trackingReplacer(src);
 
   // remove things we won't process so we can use simple next matching word logic
   // to calculate the index
@@ -23,25 +23,25 @@ export default function(src) {
   const options = {
     gfm: true,
     renderer: {
-      strong: function () {
+      strong: function() {
       },
-      em: function () {
+      em: function() {
       },
-      codespan: function () {
+      codespan: function() {
       },
-      br: function () {
+      br: function() {
       },
-      del: function () {
+      del: function() {
       },
-      link: function () {
+      link: function() {
       },
-      image: function () {
+      image: function() {
       },
-      text: function (text) {
+      text: function(text) {
         text = text.replace(/&#39;/g, "'");
-        var roughSplit = text.split(/(https?|ftp):\/\/[^\s/$.?#].[^\s]*|[\s\xa0\r\n]|&[a-z#0-9]+;|[&<>]/);
-        for(let i = 0; i < roughSplit.length; i++) {
-          var split = roughSplit[i];
+        const roughSplit = text.split(/(https?|ftp):\/\/[^\s/$.?#].[^\s]*|[\s\xa0\r\n]|&[a-z#0-9]+;|[&<>]/);
+        for (let i = 0; i < roughSplit.length; i++) {
+          const split = roughSplit[i];
           if (split) {
             addToken(split);
           }
@@ -56,7 +56,7 @@ export default function(src) {
       throw new Error("Markdown Parser : Inline Lexer : Could not find index of text - \n" + text + "\n\n**In**\n\n" + src.substring(currentIndex, 30) + "\n");
     }
     currentIndex = newIndex + text.length;
-    textTokens.push({text: text, index: tracker.getOriginalIndex(newIndex)});
+    textTokens.push({ text: text, index: tracker.getOriginalIndex(newIndex) });
   }
 
   const tokens = marked.lexer(src, options);
@@ -70,4 +70,4 @@ export default function(src) {
   }
 
   return textTokens;
-};
+}

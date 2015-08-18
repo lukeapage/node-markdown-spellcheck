@@ -30,15 +30,9 @@ var _summaryGenerator = require('./summary-generator');
 
 var _summaryGenerator2 = _interopRequireDefault(_summaryGenerator);
 
-var _async = require('async');
-
-var _async2 = _interopRequireDefault(_async);
-
 var _chalk = require('chalk');
 
 var _chalk2 = _interopRequireDefault(_chalk);
-
-var _wordReplacer = require('./word-replacer');
 
 var _multiFileProcessor = require('./multi-file-processor');
 
@@ -68,14 +62,13 @@ if (!_commander2['default'].args.length) {
   _chalk2['default'].red("red"); // fix very weird bug - https://github.com/chalk/chalk/issues/80
 
   var inputPatterns = _commander2['default'].args;
-  var allFiles = [];
   _multiFileProcessor2['default'](inputPatterns, options, function (file, fileProcessed) {
     console.log("Spelling - " + _chalk2['default'].bold(file));
 
     if (_commander2['default'].report || _commander2['default'].summary) {
       var spellingInfo = _index2['default'].spellFile(file, options);
 
-      if (spellingInfo.errors) {
+      if (spellingInfo.errors.length) {
         process.exitCode = 1;
       }
 
@@ -83,8 +76,8 @@ if (!_commander2['default'].args.length) {
         var summary = _summaryGenerator2['default'](spellingInfo.errors);
         console.log(summary);
       } else {
-        for (var k = 0; k < spellingInfo.errors.length; k++) {
-          var error = spellingInfo.errors[k];
+        for (var i = 0; i < spellingInfo.errors.length; i++) {
+          var error = spellingInfo.errors[i];
 
           var displayBlock = _context2['default'].getBlock(spellingInfo.src, error.index, error.word.length);
           console.log(displayBlock.info);

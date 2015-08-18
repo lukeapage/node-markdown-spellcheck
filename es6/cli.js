@@ -5,10 +5,7 @@ import cliInteractive from './cli-interactive';
 import context from './context';
 import markdownSpellcheck from "./index";
 import generateSummary from './summary-generator';
-
-import async from'async'
 import chalk from 'chalk';
-import { replace } from './word-replacer';
 import multiFileProcessor from './multi-file-processor';
 
 const packageConfig = fs.readFileSync(path.join(__dirname, '../package.json'));
@@ -36,36 +33,38 @@ const options = {
 if (!program.args.length) {
   program.outputHelp();
   process.exit();
-} else {
+}
+else {
 
   chalk.red("red"); // fix very weird bug - https://github.com/chalk/chalk/issues/80
 
   const inputPatterns = program.args;
-  const allFiles = [];
   multiFileProcessor(inputPatterns, options, (file, fileProcessed) => {
     console.log("Spelling - " + chalk.bold(file));
 
     if (program.report || program.summary) {
-      var spellingInfo = markdownSpellcheck.spellFile(file, options);
+      const spellingInfo = markdownSpellcheck.spellFile(file, options);
 
-      if (spellingInfo.errors) {
+      if (spellingInfo.errors.length) {
         process.exitCode = 1;
       }
 
       if (program.summary) {
         const summary = generateSummary(spellingInfo.errors);
         console.log(summary);
-      } else {
-        for (let k = 0; k < spellingInfo.errors.length; k++) {
-          const error = spellingInfo.errors[k];
+      }
+      else {
+        for (let i = 0; i < spellingInfo.errors.length; i++) {
+          const error = spellingInfo.errors[i];
 
-          var displayBlock = context.getBlock(spellingInfo.src, error.index, error.word.length);
+          const displayBlock = context.getBlock(spellingInfo.src, error.index, error.word.length);
           console.log(displayBlock.info);
         }
         console.log();
       }
       fileProcessed(null, spellingInfo.errors);
-    } else {
+    }
+    else {
       cliInteractive(file, options, fileProcessed);
     }
   });

@@ -1,10 +1,10 @@
-export default function (tokens) {
+export default function(tokens) {
   const wordList = [];
-  for(let i = 0; i < tokens.length; i++) {
+  for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i];
     let text = token.text;
     let index = token.index;
-    while(true) {
+    while (true) { // eslint-disable-line no-constant-condition
       const nextWord = text.match(/(\w+(\.\w+)+\.?)|[\u00c0-\u00ff\w'\u2018-\u2019][\-#\u00c0-\u00ff\w'\u2018-\u2019]*/);
       if (!nextWord) {
         break;
@@ -21,7 +21,7 @@ export default function (tokens) {
       if (badEndings) {
         word = word.substr(0, word.length - badEndings[0].length);
       }
-      wordList.push({word: word, index: thisWordIndex});
+      wordList.push({ word: word, index: thisWordIndex });
 
       index += nextWord.index + nextWord[0].length;
       text = text.slice(nextWord.index + nextWord[0].length);

@@ -45,7 +45,6 @@ function checkWord(word) {
   }
 
   // for etc. as we cannot tell if it ends in "." as that is stripped
-  // todo: could flag
   var wordWithDot = word + ".";
   if (spellchecker.check(wordWithDot)) {
     return true;
@@ -54,8 +53,8 @@ function checkWord(word) {
   if (word.indexOf('-')) {
     var subWords = word.split('-');
 
-    if (subWords.every(function (word) {
-      return spellchecker.check(word);
+    if (subWords.every(function (subWord) {
+      return spellchecker.check(subWord);
     })) {
       return true;
     }

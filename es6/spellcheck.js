@@ -30,16 +30,15 @@ function checkWord(word) {
   }
 
   // for etc. as we cannot tell if it ends in "." as that is stripped
-  // todo: could flag
   const wordWithDot = word + ".";
   if (spellchecker.check(wordWithDot)) {
     return true;
   }
 
-  if(word.indexOf('-')) {
+  if (word.indexOf('-')) {
     const subWords = word.split('-');
 
-    if (subWords.every((word)=> spellchecker.check(word))) {
+    if (subWords.every((subWord) => spellchecker.check(subWord))) {
       return true;
     }
   }
@@ -62,8 +61,8 @@ function _addWord(word) {
   dict.dictionaryTable[word] = [[]];
 }
 
-var customDictionary = [];
-var needsReset = false;
+const customDictionary = [];
+let needsReset = false;
 function addWord(word, temporary) {
   if (!spellchecker) {
     initialise();
@@ -71,7 +70,8 @@ function addWord(word, temporary) {
 
   if (!temporary) {
     customDictionary.push(word);
-  } else {
+  }
+  else {
     needsReset = true;
   }
   _addWord(word);

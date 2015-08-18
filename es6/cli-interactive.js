@@ -12,11 +12,11 @@ const ACTION_ADD = "add";
 const ACTION_ADD_CASED = "add-cased";
 const ACTION_CORRECT = "enter";
 
-const CHOICE_IGNORE =  { name: "Ignore", value: ACTION_IGNORE};
-const CHOICE_FILE_IGNORE = { name: "Add to file ignores", value: ACTION_FILE_IGNORE};
-const CHOICE_ADD = { name: "Add to dictionary - case insensitive", value: ACTION_ADD};
-const CHOICE_ADD_CASED = { name: "Add to dictionary - case sensitive", value: ACTION_ADD_CASED};
-const CHOICE_CORRECT = { name: "Enter correct spelling", value: ACTION_CORRECT};
+const CHOICE_IGNORE = { name: "Ignore", value: ACTION_IGNORE };
+const CHOICE_FILE_IGNORE = { name: "Add to file ignores", value: ACTION_FILE_IGNORE };
+const CHOICE_ADD = { name: "Add to dictionary - case insensitive", value: ACTION_ADD };
+const CHOICE_ADD_CASED = { name: "Add to dictionary - case sensitive", value: ACTION_ADD_CASED };
+const CHOICE_CORRECT = { name: "Enter correct spelling", value: ACTION_CORRECT };
 
 const previousChoices = Object.create(null);
 
@@ -24,7 +24,7 @@ function incorrectWordChoices(word, message, filename, options, done) {
   const suggestions =
     options.suggestions ? markdownSpellcheck.spellcheck.suggest(word) : [];
 
-  var choices = [
+  const choices = [
     CHOICE_IGNORE,
     CHOICE_FILE_IGNORE,
     CHOICE_ADD,
@@ -37,16 +37,18 @@ function incorrectWordChoices(word, message, filename, options, done) {
 
   let defaultAction = ACTION_CORRECT;
   if (previousChoices[word]) {
-    var previousAction = previousChoices[word];
+    const previousAction = previousChoices[word];
     if (previousAction.newWord) {
       const suggestionIndex = suggestions.indexOf(previousAction.newWord);
       if (suggestions.indexOf(previousAction.newWord) >= 0) {
         defaultAction = suggestionIndex.toString();
-      } else {
+      }
+      else {
         suggestions.unshift(previousAction.newWord);
         defaultAction = "0";
       }
-    } else {
+    }
+    else {
       defaultAction = previousAction.action;
     }
   }
@@ -65,8 +67,8 @@ function incorrectWordChoices(word, message, filename, options, done) {
     message: message,
     choices,
     default: defaultAction
-  }], function (answer) {
-    switch(answer.action) {
+  }], function(answer) {
+    switch (answer.action) {
       case ACTION_ADD:
         word = word.toLowerCase();
       /* fallthrough */
@@ -89,7 +91,7 @@ function incorrectWordChoices(word, message, filename, options, done) {
         done();
         break;
       default:
-        previousChoices[word] = {newWord: suggestions[Number(answer.action)]};
+        previousChoices[word] = { newWord: suggestions[Number(answer.action)] };
         done(suggestions[Number(answer.action)]);
         break;
     }
@@ -106,22 +108,42 @@ function getCorrectWord(word, filename, options, done) {
     const newWord = answer.word;
     if (filters.filter([answer], options).length > 0 && markdownSpellcheck.spellcheck.checkWord(newWord)) {
       done(newWord);
-    } else {
+    }
+    else {
       incorrectWordChoices(newWord, "Corrected word is not in dictionary..", filename, options, (newNewWord) => {
         const finalNewWord = newNewWord || newWord;
-        previousChoices[word] = {newWord: finalNewWord};
+        previousChoices[word] = { newWord: finalNewWord };
         done(finalNewWord);
       });
     }
   });
 }
 
+function writeCorrections(src, file, corrections, onCorrected) {
+  const correctedSrc = replace(src, corrections);
+  fs.writeFile(file, correctedSrc, (err) => {
+    if (err) {
+      console.error("Failed to write corrections to :", file);
+      process.exitCode = 1;
+    }
+    onCorrected();
+  });
+}
+
 function spellAndFixFile(file, options, onFinishedFile) {
   fs.readFile(file, 'utf-8', (err, src) => {
+
+    if (err) {
+      console.error("Failed to open file:" + file);
+      console.error(err);
+      process.exitCode = 1;
+      return onFinishedFile();
+    }
+
     const corrections = [];
 
     function onSpellingMistake(wordInfo, done) {
-      var displayBlock = context.getBlock(src, wordInfo.index, wordInfo.word.length);
+      const displayBlock = context.getBlock(src, wordInfo.index, wordInfo.word.length);
       console.log(displayBlock.info);
       incorrectWordChoices(wordInfo.word, " ", file, options, (newWord) => {
         if (newWord) {
@@ -137,11 +159,9 @@ function spellAndFixFile(file, options, onFinishedFile) {
         onFinishedFile();
       }
       if (corrections.length) {
-        const correctedSrc = replace(src, corrections);
-        fs.writeFile(file, correctedSrc, (err) => {
-          onCorrected();
-        });
-      } else {
+        writeCorrections(src, file, corrections, onCorrected);
+      }
+      else {
         onCorrected();
       }
     });
@@ -152,4 +172,4 @@ export default function(file, options, fileProcessed) {
   spellAndFixFile(file, options, () => {
     spellConfig.writeFile(fileProcessed);
   });
-};
+}

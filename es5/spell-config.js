@@ -77,7 +77,11 @@ function initialise(filename, done) {
 function writeFile(done) {
   var data = fileLines.join(isCrLf ? "\r\n" : "\n");
   _fs2['default'].writeFile('./.spelling', data, function (err) {
-    if (err) console.error(err);
+    if (err) {
+      console.error("Failed to save spelling file");
+      console.error(err);
+      process.exitCode = 1;
+    }
     done();
   });
 }
@@ -97,9 +101,9 @@ function addToFileDictionary(filename, word) {
   if (fileDictionary.hasOwnProperty(filename)) {
     var fileDict = fileDictionary[filename];
     fileLines.splice(fileDict.index, 0, word);
-    for (var _filename in fileDictionary) {
-      if (fileDictionary.hasOwnProperty(_filename) && fileDictionary[_filename].index >= fileDict.index) {
-        fileDictionary[_filename].index++;
+    for (var dictionaryFilename in fileDictionary) {
+      if (fileDictionary.hasOwnProperty(dictionaryFilename) && fileDictionary[dictionaryFilename].index >= fileDict.index) {
+        fileDictionary[dictionaryFilename].index++;
       }
     }
     fileDict.words.push(word);

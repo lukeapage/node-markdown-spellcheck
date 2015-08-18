@@ -18,7 +18,7 @@
     "mdspell": "./bin/mdspell"
   },
   "scripts": {
-    "test": "node bin/mdspell -ran *.md && gulp test"
+    "test": "node bin/mdspell -ran *.md && gulp lint && gulp test"
   },
   "author": "Luke Page",
   "license": "ISC",

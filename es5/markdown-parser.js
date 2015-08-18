@@ -76,5 +76,4 @@ exports["default"] = function (src) {
   return textTokens;
 };
 
-;
 module.exports = exports["default"];

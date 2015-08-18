@@ -134,8 +134,27 @@ function getCorrectWord(word, filename, options, done) {
   });
 }
 
+function writeCorrections(src, file, corrections, onCorrected) {
+  var correctedSrc = _wordReplacer.replace(src, corrections);
+  _fs2['default'].writeFile(file, correctedSrc, function (err) {
+    if (err) {
+      console.error("Failed to write corrections to :", file);
+      process.exitCode = 1;
+    }
+    onCorrected();
+  });
+}
+
 function spellAndFixFile(file, options, onFinishedFile) {
   _fs2['default'].readFile(file, 'utf-8', function (err, src) {
+
+    if (err) {
+      console.error("Failed to open file:" + file);
+      console.error(err);
+      process.exitCode = 1;
+      return onFinishedFile();
+    }
+
     var corrections = [];
 
     function onSpellingMistake(wordInfo, done) {
@@ -155,10 +174,7 @@ function spellAndFixFile(file, options, onFinishedFile) {
         onFinishedFile();
       }
       if (corrections.length) {
-        var correctedSrc = _wordReplacer.replace(src, corrections);
-        _fs2['default'].writeFile(file, correctedSrc, function (err) {
-          onCorrected();
-        });
+        writeCorrections(src, file, corrections, onCorrected);
       } else {
         onCorrected();
       }
@@ -172,5 +188,4 @@ exports['default'] = function (file, options, fileProcessed) {
   });
 };
 
-;
 module.exports = exports['default'];

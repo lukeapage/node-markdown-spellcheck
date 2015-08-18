@@ -1,10 +1,10 @@
 function filterFactory(regexp) {
   return (errors) =>
-    errors.filter(e => !e.word.match(regexp));
+    errors.filter((e) => !e.word.match(regexp));
 }
 
-const numbers = filterFactory(/^[0-9,\.\-#]+(th|st|nd|rd)?$/),
-  acronyms = filterFactory(/^[A-Z0-9]{2,}(['\u2018-\u2019]s)?$/);
+const numbers = filterFactory(/^[0-9,\.\-#]+(th|st|nd|rd)?$/);
+const acronyms = filterFactory(/^[A-Z0-9]{2,}(['\u2018-\u2019]s)?$/);
 
 export default {
   acronyms,
