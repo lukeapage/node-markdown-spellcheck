@@ -20,7 +20,7 @@ var _index = require("./index");
 
 var _index2 = _interopRequireDefault(_index);
 
-exports['default'] = function (inputPatterns, options, fileCallback) {
+exports['default'] = function (inputPatterns, options, fileCallback, resultCallback) {
   var allFiles = [];
   _async2['default'].parallel([_spellConfig2['default'].initialise.bind(_spellConfig2['default'], './.spelling'), _async2['default'].each.bind(_async2['default'], inputPatterns, function (inputPattern, inputPatternProcessed) {
     _glob2['default'](inputPattern, function (err, files) {
@@ -45,7 +45,7 @@ exports['default'] = function (inputPatterns, options, fileCallback) {
       });
 
       fileCallback(file, fileProcessed);
-    });
+    }, resultCallback);
   });
 };
 
