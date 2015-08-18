@@ -33,7 +33,9 @@ gulp.task('test', function(callback) {
 });
 gulp.task('mocha', function () {
   return gulp.src(paths.test)
-    .pipe(mocha())
+    .pipe(mocha({
+      timeout: 10000
+    }))
     .once('error', function (e) {
       console.error(e);
       process.exit(1);
