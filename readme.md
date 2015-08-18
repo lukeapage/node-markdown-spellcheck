@@ -4,7 +4,7 @@ Reads markdown files and spellchecks them, using OpenOffice hunspell files.
 
 ## CLI Usage
 
-There are two modes, interactive fixing, which will allow you to fix mistakes and add exceptions to a custom dictionary and a report mode which will just you the list of errors.
+There are two modes, interactive fixing, which will allow you to fix mistakes and add exceptions to a custom dictionary and a report mode which will just report the list of errors.
 
 ```
 # install
@@ -19,15 +19,15 @@ mdspell
 
 ### CLI Options
 
-#### Ignore numbers (-n, --ignore-numbers)
+#### Ignore numbers (`-n`, `--ignore-numbers`)
 
 Ignores numbers like `1.2` and `1,2.4`.
 
-#### Ignore acronyms (-a, --ignore-acronyms)
+#### Ignore acronyms (`-a`, `--ignore-acronyms`)
 
 Ignores acronyms like `NPM`. Also ignores numbers. Does not ignore single letters e.g. `U`.
 
-#### No suggestions (-x, --no-suggestions)
+#### No suggestions (`-x`, `--no-suggestions`)
 
 Suggestions are slow at present, so use this to remove them.
 
