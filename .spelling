@@ -5,3 +5,4 @@
 # where filename is relative to this configuration file
 hunspell
 CLI
+grunt-mdspell

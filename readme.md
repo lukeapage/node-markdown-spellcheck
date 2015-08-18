@@ -100,4 +100,4 @@ Change it to...
 
 See [grunt-mdspell](https://github.com/ColinEberhardt/grunt-mdspell).
 
-### Usage un `gulp`
+### Usage in `gulp`
