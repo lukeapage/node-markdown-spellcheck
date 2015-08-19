@@ -44,11 +44,18 @@ function getLines(src, index, noBefore, noAfter) {
   if (line === undefined) {
     line = src.slice(thisLineStart);
   }
+  let lineNumber = 1;
+  for(let i = index - 1; i >= 0; i--) {
+    if (src[i] === '\n') {
+      lineNumber ++;
+    }
+  }
   return {
     line,
     beforeLines,
     afterLines,
-    column
+    column,
+    lineNumber
   };
 }
 
@@ -67,7 +74,8 @@ export default {
       chalk.red(lineInfo.line.substr(lineInfo.column, length)) +
       lineInfo.line.substring(lineInfo.column + length, lineEnd);
     return {
-      info
+      info,
+      lineNumber: lineInfo.lineNumber
     };
   }
 };

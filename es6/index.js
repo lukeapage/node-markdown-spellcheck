@@ -4,6 +4,7 @@ import wordParser from './word-parser';
 import spellcheck from './spellcheck';
 import filters from './filters';
 import async from 'async';
+import { generateSummaryReport, generateFileReport } from './report-generator';
 
 function getWords(src, options) {
   let words = wordParser(markdownParser(src));
@@ -40,4 +41,4 @@ function spellCallback(src, options, callback, done) {
   }, done);
 }
 
-export default { spell, spellFile, spellCallback, spellcheck };
+export default { spell, spellFile, spellCallback, spellcheck, generateSummaryReport, generateFileReport };

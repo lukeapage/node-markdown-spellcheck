@@ -3,7 +3,7 @@ import async from'async';
 import spellConfig from './spell-config';
 import markdownSpellcheck from "./index";
 
-export default function(inputPatterns, options, fileCallback) {
+export default function(inputPatterns, options, fileCallback, resultCallback) {
   const allFiles = [];
   async.parallel([spellConfig.initialise.bind(spellConfig, './.spelling'),
     async.each.bind(async, inputPatterns, (inputPattern, inputPatternProcessed) => {
@@ -22,12 +22,12 @@ export default function(inputPatterns, options, fileCallback) {
       spellConfig.getGlobalWords()
         .forEach((word) => markdownSpellcheck.spellcheck.addWord(word));
 
-      async.mapSeries(allFiles, function(file, fileProcessed) {
+      async.mapSeries(allFiles, (file, fileProcessed) => {
 
         spellConfig.getFileWords(file)
           .forEach((word) => markdownSpellcheck.spellcheck.addWord(word, true));
 
         fileCallback(file, fileProcessed);
-      });
+      }, resultCallback);
     });
 }

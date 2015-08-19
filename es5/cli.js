@@ -18,17 +18,9 @@ var _cliInteractive = require('./cli-interactive');
 
 var _cliInteractive2 = _interopRequireDefault(_cliInteractive);
 
-var _context = require('./context');
-
-var _context2 = _interopRequireDefault(_context);
-
 var _index = require("./index");
 
 var _index2 = _interopRequireDefault(_index);
-
-var _summaryGenerator = require('./summary-generator');
-
-var _summaryGenerator2 = _interopRequireDefault(_summaryGenerator);
 
 var _chalk = require('chalk');
 
@@ -38,13 +30,15 @@ var _multiFileProcessor = require('./multi-file-processor');
 
 var _multiFileProcessor2 = _interopRequireDefault(_multiFileProcessor);
 
+var _reportGenerator = require('./report-generator');
+
 var packageConfig = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../package.json'));
 var buildVersion = JSON.parse(packageConfig).version;
 
 _commander2['default'].version(buildVersion)
 // default cli behaviour will be an interactive walkthrough each error, with suggestions,
 // options to replace etc.
-.option('-s, --summary', 'Outputs a summary report which details the unique spelling errors found (implies -r).').option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.')
+.option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.')
 //  .option('-d, --dictionary', 'Ignores numbers.')
 .option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').usage("[options] source-file source-file").parse(process.argv);
 
@@ -63,30 +57,19 @@ if (!_commander2['default'].args.length) {
 
   var inputPatterns = _commander2['default'].args;
   _multiFileProcessor2['default'](inputPatterns, options, function (file, fileProcessed) {
-    console.log("Spelling - " + _chalk2['default'].bold(file));
 
-    if (_commander2['default'].report || _commander2['default'].summary) {
+    if (_commander2['default'].report) {
       var spellingInfo = _index2['default'].spellFile(file, options);
-
-      if (spellingInfo.errors.length) {
+      if (spellingInfo.errors.length > 0) {
+        console.log(_reportGenerator.generateFileReport(file, spellingInfo));
         process.exitCode = 1;
-      }
-
-      if (_commander2['default'].summary) {
-        var summary = _summaryGenerator2['default'](spellingInfo.errors);
-        console.log(summary);
-      } else {
-        for (var i = 0; i < spellingInfo.errors.length; i++) {
-          var error = spellingInfo.errors[i];
-
-          var displayBlock = _context2['default'].getBlock(spellingInfo.src, error.index, error.word.length);
-          console.log(displayBlock.info);
-        }
-        console.log();
       }
       fileProcessed(null, spellingInfo.errors);
     } else {
+      console.log("Spelling - " + _chalk2['default'].bold(file));
       _cliInteractive2['default'](file, options, fileProcessed);
     }
+  }, function (e, results) {
+    console.log(_reportGenerator.generateSummaryReport(results));
   });
 }
