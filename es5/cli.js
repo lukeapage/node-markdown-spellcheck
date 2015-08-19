@@ -22,10 +22,6 @@ var _index = require("./index");
 
 var _index2 = _interopRequireDefault(_index);
 
-var _summaryGenerator = require('./summary-generator');
-
-var _summaryGenerator2 = _interopRequireDefault(_summaryGenerator);
-
 var _chalk = require('chalk');
 
 var _chalk2 = _interopRequireDefault(_chalk);
@@ -73,7 +69,7 @@ if (!_commander2['default'].args.length) {
       console.log("Spelling - " + _chalk2['default'].bold(file));
       _cliInteractive2['default'](file, options, fileProcessed);
     }
-  }, function (err, results) {
+  }, function (e, results) {
     console.log(_reportGenerator.generateSummaryReport(results));
   });
 }

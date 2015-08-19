@@ -21,7 +21,7 @@ export function generateSummaryReport(results) {
 
 // Generates a report for the errors found in a single markdown file.
 export function generateFileReport(file, spellingInfo) {
-  let report = `    ${chalk.bold(file)}\r\n`;
+  let report = `    ${chalk.bold(file)}\n`;
 
   for (let k = 0; k < spellingInfo.errors.length; k++) {
     const error = spellingInfo.errors[k];

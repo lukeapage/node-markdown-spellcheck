@@ -3,7 +3,6 @@ import fs from 'fs';
 import path from 'path';
 import cliInteractive from './cli-interactive';
 import markdownSpellcheck from "./index";
-import generateSummary from './summary-generator';
 import chalk from 'chalk';
 import multiFileProcessor from './multi-file-processor';
 import { generateSummaryReport, generateFileReport } from './report-generator';
@@ -52,7 +51,7 @@ else {
       console.log("Spelling - " + chalk.bold(file));
       cliInteractive(file, options, fileProcessed);
     }
-  }, (err, results) => {
+  }, (e, results) => {
     console.log(generateSummaryReport(results));
   });
 }
