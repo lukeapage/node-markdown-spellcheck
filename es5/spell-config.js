@@ -54,7 +54,7 @@ function parse() {
 }
 
 function emptyFile() {
-  fileLines = ["# markdown-spellcheck spelling configuration file", "# Format - lines begining # are comments", "# global dictionary is at the start, file overrides afterwards", "# one word per line, to define a file override use ' - filename'", "# where filename is relative to this configuration file", ""];
+  fileLines = ["# markdown-spellcheck spelling configuration file", "# Format - lines beginning # are comments", "# global dictionary is at the start, file overrides afterwards", "# one word per line, to define a file override use ' - filename'", "# where filename is relative to this configuration file", ""];
   globalDictionaryIndex = fileLines.length - 1;
 }
 
