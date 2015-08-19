@@ -39,7 +39,7 @@ function generateSummaryReport(results) {
 // Generates a report for the errors found in a single markdown file.
 
 function generateFileReport(file, spellingInfo) {
-  var report = '    ' + _chalk2['default'].bold(file) + '\r\n';
+  var report = '    ' + _chalk2['default'].bold(file) + '\n';
 
   for (var k = 0; k < spellingInfo.errors.length; k++) {
     var error = spellingInfo.errors[k];
