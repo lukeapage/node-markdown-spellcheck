@@ -28,6 +28,8 @@ var _async = require('async');
 
 var _async2 = _interopRequireDefault(_async);
 
+var _reportGenerator = require('./report-generator');
+
 function getWords(src, options) {
   var words = _wordParser2['default'](_markdownParser2['default'](src));
 
@@ -62,5 +64,5 @@ function spellCallback(src, options, callback, done) {
   }, done);
 }
 
-exports['default'] = { spell: spell, spellFile: spellFile, spellCallback: spellCallback, spellcheck: _spellcheck2['default'] };
+exports['default'] = { spell: spell, spellFile: spellFile, spellCallback: spellCallback, spellcheck: _spellcheck2['default'], generateSummaryReport: _reportGenerator.generateSummaryReport, generateFileReport: _reportGenerator.generateFileReport };
 module.exports = exports['default'];
