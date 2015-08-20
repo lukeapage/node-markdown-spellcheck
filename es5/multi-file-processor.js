@@ -16,9 +16,9 @@ var _spellConfig = require('./spell-config');
 
 var _spellConfig2 = _interopRequireDefault(_spellConfig);
 
-var _index = require("./index");
+var _spellcheck = require("./spellcheck");
 
-var _index2 = _interopRequireDefault(_index);
+var _spellcheck2 = _interopRequireDefault(_spellcheck);
 
 exports['default'] = function (inputPatterns, options, fileCallback, resultCallback) {
   var allFiles = [];
@@ -35,16 +35,19 @@ exports['default'] = function (inputPatterns, options, fileCallback, resultCallb
   })], function () {
 
     _spellConfig2['default'].getGlobalWords().forEach(function (word) {
-      return _index2['default'].spellcheck.addWord(word);
+      return _spellcheck2['default'].addWord(word);
     });
 
     _async2['default'].mapSeries(allFiles, function (file, fileProcessed) {
 
       _spellConfig2['default'].getFileWords(file).forEach(function (word) {
-        return _index2['default'].spellcheck.addWord(word, true);
+        return _spellcheck2['default'].addWord(word, true);
       });
 
-      fileCallback(file, fileProcessed);
+      fileCallback(file, function () {
+        _spellcheck2['default'].resetTemporaryCustomDictionary();
+        fileProcessed();
+      });
     }, resultCallback);
   });
 };

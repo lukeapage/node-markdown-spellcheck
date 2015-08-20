@@ -1,7 +1,7 @@
 import glob from 'glob';
 import async from'async';
 import spellConfig from './spell-config';
-import markdownSpellcheck from "./index";
+import spellcheck from "./spellcheck";
 
 export default function(inputPatterns, options, fileCallback, resultCallback) {
   const allFiles = [];
@@ -20,14 +20,17 @@ export default function(inputPatterns, options, fileCallback, resultCallback) {
     })], () => {
 
       spellConfig.getGlobalWords()
-        .forEach((word) => markdownSpellcheck.spellcheck.addWord(word));
+        .forEach((word) => spellcheck.addWord(word));
 
       async.mapSeries(allFiles, (file, fileProcessed) => {
 
         spellConfig.getFileWords(file)
-          .forEach((word) => markdownSpellcheck.spellcheck.addWord(word, true));
+          .forEach((word) => spellcheck.addWord(word, true));
 
-        fileCallback(file, fileProcessed);
+        fileCallback(file, () => {
+          spellcheck.resetTemporaryCustomDictionary();
+          fileProcessed();
+        });
       }, resultCallback);
     });
 }

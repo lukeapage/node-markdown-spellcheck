@@ -154,15 +154,11 @@ function spellAndFixFile(file, options, onFinishedFile) {
     }
 
     markdownSpellcheck.spellCallback(src, options, onSpellingMistake, () => {
-      function onCorrected() {
-        markdownSpellcheck.spellcheck.resetTemporaryCustomDictionary();
-        onFinishedFile();
-      }
       if (corrections.length) {
-        writeCorrections(src, file, corrections, onCorrected);
+        writeCorrections(src, file, corrections, onFinishedFile);
       }
       else {
-        onCorrected();
+        onFinishedFile();
       }
     });
   });

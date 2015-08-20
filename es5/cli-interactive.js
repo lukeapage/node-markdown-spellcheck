@@ -169,14 +169,10 @@ function spellAndFixFile(file, options, onFinishedFile) {
     }
 
     _index2['default'].spellCallback(src, options, onSpellingMistake, function () {
-      function onCorrected() {
-        _index2['default'].spellcheck.resetTemporaryCustomDictionary();
-        onFinishedFile();
-      }
       if (corrections.length) {
-        writeCorrections(src, file, corrections, onCorrected);
+        writeCorrections(src, file, corrections, onFinishedFile);
       } else {
-        onCorrected();
+        onFinishedFile();
       }
     });
   });
