@@ -56,18 +56,18 @@ if (!_commander2['default'].args.length) {
   _chalk2['default'].red("red"); // fix very weird bug - https://github.com/chalk/chalk/issues/80
 
   var inputPatterns = _commander2['default'].args;
-  _multiFileProcessor2['default'](inputPatterns, options, function (file, fileProcessed) {
+  _multiFileProcessor2['default'](inputPatterns, options, function (filename, src, fileProcessed) {
 
     if (_commander2['default'].report) {
-      var spellingInfo = _index2['default'].spellFile(file, options);
-      if (spellingInfo.errors.length > 0) {
-        console.log(_reportGenerator.generateFileReport(file, spellingInfo));
+      var errors = _index2['default'].spell(src, options);
+      if (errors.length > 0) {
+        console.log(_reportGenerator.generateFileReport(filename, { errors: errors, src: src }));
         process.exitCode = 1;
       }
-      fileProcessed(null, spellingInfo.errors);
+      fileProcessed(null, errors);
     } else {
-      console.log("Spelling - " + _chalk2['default'].bold(file));
-      _cliInteractive2['default'](file, options, fileProcessed);
+      console.log("Spelling - " + _chalk2['default'].bold(filename));
+      _cliInteractive2['default'](filename, src, options, fileProcessed);
     }
   }, function (e, results) {
     console.log(_reportGenerator.generateSummaryReport(results));

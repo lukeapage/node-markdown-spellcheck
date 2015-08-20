@@ -37,19 +37,19 @@ else {
   chalk.red("red"); // fix very weird bug - https://github.com/chalk/chalk/issues/80
 
   const inputPatterns = program.args;
-  multiFileProcessor(inputPatterns, options, (file, fileProcessed) => {
+  multiFileProcessor(inputPatterns, options, (filename, src, fileProcessed) => {
 
     if (program.report) {
-      const spellingInfo = markdownSpellcheck.spellFile(file, options);
-      if (spellingInfo.errors.length > 0) {
-        console.log(generateFileReport(file, spellingInfo));
+      const errors = markdownSpellcheck.spell(src, options);
+      if (errors.length > 0) {
+        console.log(generateFileReport(filename, { errors: errors, src: src }));
         process.exitCode = 1;
       }
-      fileProcessed(null, spellingInfo.errors);
+      fileProcessed(null, errors);
     }
     else {
-      console.log("Spelling - " + chalk.bold(file));
-      cliInteractive(file, options, fileProcessed);
+      console.log("Spelling - " + chalk.bold(filename));
+      cliInteractive(filename, src, options, fileProcessed);
     }
   }, (e, results) => {
     console.log(generateSummaryReport(results));

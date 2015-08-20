@@ -5,7 +5,7 @@ import context from './context';
 // markdown files.
 // results is an array containing the errors (as a nested array) for each file.
 export function generateSummaryReport(results) {
-  const errorCount = results.map(e =>  e && e.length ? e.length : 0)
+  const errorCount = results.map((e) =>  e && e.length ? e.length : 0)
                             .reduce((p, c) => p + c, 0);
 
   const filePlural = 'file' + (results.length > 1 ? 's' : '');
@@ -14,9 +14,8 @@ export function generateSummaryReport(results) {
 
   if (errorCount > 0) {
     return `${chalk.red('>>')} ${errorCount} spelling ${errorPlural} found in ${results.length} ${filePlural}`;
-  } else {
-    return `${chalk.green('>>')} ${results.length} ${filePlural} ${areOrIs} free from spelling errors`;
   }
+  return `${chalk.green('>>')} ${results.length} ${filePlural} ${areOrIs} free from spelling errors`;
 }
 
 // Generates a report for the errors found in a single markdown file.

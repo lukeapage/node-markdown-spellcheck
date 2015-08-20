@@ -45,9 +45,9 @@ function getLines(src, index, noBefore, noAfter) {
     line = src.slice(thisLineStart);
   }
   let lineNumber = 1;
-  for(let i = index - 1; i >= 0; i--) {
+  for (let i = index - 1; i >= 0; i--) {
     if (src[i] === '\n') {
-      lineNumber ++;
+      lineNumber++;
     }
   }
   return {
