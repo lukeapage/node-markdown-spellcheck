@@ -158,4 +158,20 @@ code
     expect(tokens).to.deep.equal([
       {text: 'code', index: 7}]);
   });
+
+  it("doesn't confuse tags", () => {
+    const tokens = markdownParser("<code>code</code>code");
+
+    expect(tokens).to.deep.equal([
+      {text: 'code', index: 6},
+      {text: 'code', index: 17}]);
+  });
+
+  it("handles code blocks that are spaced", () => {
+    const tokens = markdownParser(`
+    $('#upload-form').transloadit({
+    `);
+
+    expect(tokens).to.deep.equal([]);
+  });
 });

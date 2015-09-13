@@ -32,6 +32,12 @@ describe("word parser", () => {
     expect(words).to.deep.equal([ { word: "3", index: 2 }, { word: "C#5s", index: 4 }]);
   });
 
+  it("should not include # at start", () => {
+    const words = wordParser([{ text: "$('#word", index: 0 }]);
+
+    expect(words).to.deep.equal([ { word: "word", index: 4 }]);
+  });
+
   it("should include accented characters", () => {
     const words = wordParser([{ text: "\u00c2lph\u00c2 gr\u00ffb", index: 0 }]);
 

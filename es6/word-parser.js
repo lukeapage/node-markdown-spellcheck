@@ -9,13 +9,14 @@ export default function(tokens) {
       if (!nextWord) {
         break;
       }
-
       let word = nextWord[0];
       let thisWordIndex = index + nextWord.index;
 
-      if (word.match(/^['\u2018]/)) {
-        thisWordIndex += 1;
-        word = word.substr(1, word.length - 1);
+      const badStart = word.match(/^[#'\u2018]+/);
+      if (badStart) {
+        const badStartLength = badStart[0].length;
+        thisWordIndex += badStartLength;
+        word = word.substr(badStartLength, word.length - badStartLength);
       }
       const badEndings = word.match(/['\u2019\-#]+$/);
       if (badEndings) {

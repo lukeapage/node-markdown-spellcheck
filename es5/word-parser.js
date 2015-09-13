@@ -14,13 +14,14 @@ exports["default"] = function (tokens) {
       if (!nextWord) {
         break;
       }
-
       var word = nextWord[0];
       var thisWordIndex = index + nextWord.index;
 
-      if (word.match(/^['\u2018]/)) {
-        thisWordIndex += 1;
-        word = word.substr(1, word.length - 1);
+      var badStart = word.match(/^[#'\u2018]+/);
+      if (badStart) {
+        var badStartLength = badStart[0].length;
+        thisWordIndex += badStartLength;
+        word = word.substr(badStartLength, word.length - badStartLength);
       }
       var badEndings = word.match(/['\u2019\-#]+$/);
       if (badEndings) {
