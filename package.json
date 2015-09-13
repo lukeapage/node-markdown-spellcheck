@@ -1,6 +1,6 @@
 {
   "name": "markdown-spellcheck",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "Spell-checks markdown files with an interactive CLI allowing automated spell checking.",
   "keywords": [
     "spelling",
@@ -35,8 +35,8 @@
     "commander": "^2.8.1",
     "glob": "^5.0.14",
     "hunspell-spellchecker": "^1.0.2",
-    "inquirer": "^0.9.0",
-    "marked": "^0.3.5"
+    "inquirer": "~0.9.0",
+    "marked": "~0.3.5"
   },
   "devDependencies": {
     "babel": "^5.8.19",
@@ -46,6 +46,8 @@
     "gulp-babel": "^5.1.0",
     "gulp-eslint": "^1.0.0",
     "gulp-mocha": "^2.1.3",
-    "run-sequence": "^1.1.2"
+    "proxyquire": "^1.7.0",
+    "run-sequence": "^1.1.2",
+    "sinon": "^1.15.4"
   }
 }

@@ -1,10 +1,10 @@
 import markdownSpellcheck from "./index";
+import spellcheck from "./spellcheck";
 import inquirer from 'inquirer';
 import filters from './filters';
 import context from './context';
-import fs from 'fs';
-import { replace } from './word-replacer';
 import spellConfig from './spell-config';
+import writeCorrections from './write-corrections';
 
 const ACTION_IGNORE = "ignore";
 const ACTION_FILE_IGNORE = "fileignore";
@@ -22,7 +22,7 @@ const previousChoices = Object.create(null);
 
 function incorrectWordChoices(word, message, filename, options, done) {
   const suggestions =
-    options.suggestions ? markdownSpellcheck.spellcheck.suggest(word) : [];
+    options.suggestions ? spellcheck.suggest(word) : [];
 
   const choices = [
     CHOICE_IGNORE,
@@ -73,7 +73,7 @@ function incorrectWordChoices(word, message, filename, options, done) {
         word = word.toLowerCase();
       /* fallthrough */
       case ACTION_ADD_CASED:
-        markdownSpellcheck.spellcheck.addWord(word);
+        spellcheck.addWord(word);
         spellConfig.addToGlobalDictionary(word);
         done();
         break;
@@ -81,13 +81,13 @@ function incorrectWordChoices(word, message, filename, options, done) {
         getCorrectWord(word, filename, options, done);
         break;
       case ACTION_FILE_IGNORE:
-        markdownSpellcheck.spellcheck.addWord(word, true);
+        spellcheck.addWord(word, true);
         spellConfig.addToFileDictionary(filename, word);
         previousChoices[word] = answer;
         done();
         break;
       case ACTION_IGNORE:
-        markdownSpellcheck.spellcheck.addWord(word);
+        spellcheck.addWord(word);
         done();
         break;
       default:
@@ -106,7 +106,7 @@ function getCorrectWord(word, filename, options, done) {
     default: word
   }], function(answer) {
     const newWord = answer.word;
-    if (filters.filter([answer], options).length > 0 && markdownSpellcheck.spellcheck.checkWord(newWord)) {
+    if (filters.filter([answer], options).length > 0 && spellcheck.checkWord(newWord)) {
       done(newWord);
     }
     else {
@@ -119,57 +119,32 @@ function getCorrectWord(word, filename, options, done) {
   });
 }
 
-function writeCorrections(src, file, corrections, onCorrected) {
-  const correctedSrc = replace(src, corrections);
-  fs.writeFile(file, correctedSrc, (err) => {
-    if (err) {
-      console.error("Failed to write corrections to :", file);
-      process.exitCode = 1;
-    }
-    onCorrected();
-  });
-}
+function spellAndFixFile(filename, src, options, onFinishedFile) {
+  const corrections = [];
 
-function spellAndFixFile(file, options, onFinishedFile) {
-  fs.readFile(file, 'utf-8', (err, src) => {
-
-    if (err) {
-      console.error("Failed to open file:" + file);
-      console.error(err);
-      process.exitCode = 1;
-      return onFinishedFile();
-    }
-
-    const corrections = [];
-
-    function onSpellingMistake(wordInfo, done) {
-      const displayBlock = context.getBlock(src, wordInfo.index, wordInfo.word.length);
-      console.log(displayBlock.info);
-      incorrectWordChoices(wordInfo.word, " ", file, options, (newWord) => {
-        if (newWord) {
-          corrections.push({ wordInfo, newWord });
-        }
-        done();
-      });
-    }
-
-    markdownSpellcheck.spellCallback(src, options, onSpellingMistake, () => {
-      function onCorrected() {
-        markdownSpellcheck.spellcheck.resetTemporaryCustomDictionary();
-        onFinishedFile();
+  function onSpellingMistake(wordInfo, done) {
+    const displayBlock = context.getBlock(src, wordInfo.index, wordInfo.word.length);
+    console.log(displayBlock.info);
+    incorrectWordChoices(wordInfo.word, " ", filename, options, (newWord) => {
+      if (newWord) {
+        corrections.push({ wordInfo, newWord });
       }
-      if (corrections.length) {
-        writeCorrections(src, file, corrections, onCorrected);
-      }
-      else {
-        onCorrected();
-      }
+      done();
     });
+  }
+
+  markdownSpellcheck.spellCallback(src, options, onSpellingMistake, () => {
+    if (corrections.length) {
+      writeCorrections(src, filename, corrections, onFinishedFile);
+    }
+    else {
+      onFinishedFile();
+    }
   });
 }
 
-export default function(file, options, fileProcessed) {
-  spellAndFixFile(file, options, () => {
+export default function(file, src, options, fileProcessed) {
+  spellAndFixFile(file, src, options, () => {
     spellConfig.writeFile(fileProcessed);
   });
 }

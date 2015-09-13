@@ -50,11 +50,18 @@ function getLines(src, index, noBefore, noAfter) {
   if (line === undefined) {
     line = src.slice(thisLineStart);
   }
+  var lineNumber = 1;
+  for (var i = index - 1; i >= 0; i--) {
+    if (src[i] === '\n') {
+      lineNumber++;
+    }
+  }
   return {
     line: line,
     beforeLines: beforeLines,
     afterLines: afterLines,
-    column: column
+    column: column,
+    lineNumber: lineNumber
   };
 }
 
@@ -71,7 +78,8 @@ exports['default'] = {
     }
     var info = lineInfo.line.substring(lineStart, lineInfo.column) + _chalk2['default'].red(lineInfo.line.substr(lineInfo.column, length)) + lineInfo.line.substring(lineInfo.column + length, lineEnd);
     return {
-      info: info
+      info: info,
+      lineNumber: lineInfo.lineNumber
     };
   }
 };

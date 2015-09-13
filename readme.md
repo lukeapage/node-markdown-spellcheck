@@ -61,7 +61,7 @@ All exclusions will be stored in a `.spelling` file in the directory from which 
 
 ### Report Mode
 
-Using the `--report` (`-r`) option will show you every mistake. You can get a summary with `--report --summary` or `-rs`.
+Using the `--report` (`-r`) option will show a report of all the spelling mistakes that have been found. This mode is useful for CI build reports. 
 
 ## `.spelling` files
 
