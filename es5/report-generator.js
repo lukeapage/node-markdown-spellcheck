@@ -31,9 +31,8 @@ function generateSummaryReport(results) {
 
   if (errorCount > 0) {
     return _chalk2['default'].red('>>') + ' ' + errorCount + ' spelling ' + errorPlural + ' found in ' + results.length + ' ' + filePlural;
-  } else {
-    return _chalk2['default'].green('>>') + ' ' + results.length + ' ' + filePlural + ' ' + areOrIs + ' free from spelling errors';
   }
+  return _chalk2['default'].green('>>') + ' ' + results.length + ' ' + filePlural + ' ' + areOrIs + ' free from spelling errors';
 }
 
 // Generates a report for the errors found in a single markdown file.
