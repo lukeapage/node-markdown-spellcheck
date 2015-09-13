@@ -34,8 +34,6 @@ if (!program.args.length) {
 }
 else {
 
-  chalk.red("red"); // fix very weird bug - https://github.com/chalk/chalk/issues/80
-
   const inputPatterns = program.args;
   multiFileProcessor(inputPatterns, options, (filename, src, fileProcessed) => {
 

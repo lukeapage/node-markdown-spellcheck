@@ -53,8 +53,6 @@ if (!_commander2['default'].args.length) {
   process.exit();
 } else {
 
-  _chalk2['default'].red("red"); // fix very weird bug - https://github.com/chalk/chalk/issues/80
-
   var inputPatterns = _commander2['default'].args;
   _multiFileProcessor2['default'](inputPatterns, options, function (filename, src, fileProcessed) {
 
