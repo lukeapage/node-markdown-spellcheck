@@ -99,7 +99,9 @@ function addWord(word, temporary) {
 
 function resetTemporaryCustomDictionary() {
   if (needsReset) {
-    initialise();
+    if (!spellchecker) {
+      initialise();
+    }
     customDictionary.forEach((word) => _addWord(word));
   }
 }
