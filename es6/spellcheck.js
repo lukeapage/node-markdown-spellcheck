@@ -4,11 +4,31 @@ import path from 'path';
 
 let spellchecker, dict;
 
-function initialise() {
+function initialise(options) {
+
+  const dictionaryOptions = options && options.dictionary;
+
+  let baseFile = path.join(__dirname, '../data/en_GB');
+  if (dictionaryOptions && dictionaryOptions.file) {
+    baseFile = dictionaryOptions.file;
+  }
+  else if (dictionaryOptions && dictionaryOptions.language) {
+    switch (dictionaryOptions.language) {
+      case 'en-us':
+        baseFile = path.join(__dirname, '../data/en_US');
+        break;
+      case 'en-gb':
+        // default - do nothing
+        break;
+      default:
+        throw new Error("unsupported language:" + dictionaryOptions.language);
+    }
+  }
+
   spellchecker = new SpellChecker();
   dict = spellchecker.parse({
-    aff: fs.readFileSync(path.join(__dirname, '../data/en_GB.aff')),
-    dic: fs.readFileSync(path.join(__dirname, '../data/en_GB.dic'))
+    aff: fs.readFileSync(baseFile + '.aff'),
+    dic: fs.readFileSync(baseFile + '.dic')
   });
   spellchecker.use(dict);
 }

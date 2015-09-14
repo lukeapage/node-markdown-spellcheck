@@ -5,6 +5,7 @@ import cliInteractive from './cli-interactive';
 import markdownSpellcheck from "./index";
 import chalk from 'chalk';
 import multiFileProcessor from './multi-file-processor';
+import { initialise as spellcheckInitialise } from './spellcheck';
 import { generateSummaryReport, generateFileReport } from './report-generator';
 
 const packageConfig = fs.readFileSync(path.join(__dirname, '../package.json'));
@@ -16,7 +17,9 @@ program
   // options to replace etc.
   .option('-r, --report', 'Outputs a full report which details the unique spelling errors found.')
   .option('-n, --ignore-numbers', 'Ignores numbers.')
-//  .option('-d, --dictionary', 'Ignores numbers.')
+  .option('--en-us', 'American english dictionary.')
+  .option('--en-gb', 'British english dictionary.')
+  .option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.')
   .option('-a, --ignore-acronyms', 'Ignores acronyms.')
   .option('-x, --no-suggestions', 'Do not suggest words (can be slow)')
   .usage("[options] source-file source-file")
@@ -25,7 +28,11 @@ program
 const options = {
   ignoreAcronyms: program.ignoreAcronyms,
   ignoreNumbers: program.ignoreNumbers,
-  suggestions: program.suggestions
+  suggestions: program.suggestions,
+  dictionary: {
+    language: program.enUs ? "en-us" : program.enGb ? "en-gb" : undefined,
+    file: program.dictionary
+  }
 };
 
 if (!program.args.length) {
@@ -33,6 +40,8 @@ if (!program.args.length) {
   process.exit();
 }
 else {
+
+  spellcheckInitialise(options);
 
   const inputPatterns = program.args;
   multiFileProcessor(inputPatterns, options, (filename, src, fileProcessed) => {

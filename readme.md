@@ -31,6 +31,18 @@ Ignores acronyms like `NPM`. Also ignores numbers. Does not ignore single letter
 
 Suggestions are slow at present, so use this to remove them.
 
+#### American English (`--en-us`)
+
+Use the American English dictionary. We default to British English but will change in the next major to American.
+
+#### British English (`--en-gb`)
+
+Use the British English dictionary. We default default to British English but will change in the next major to American.
+
+#### Dictionary (`-d`, `--dictionary`)
+
+Specify a custom Hunspell dictionary to load. The passed filename should not include a file extension and `markdown-spellcheck` will attempt to load the file with `.aif` and `.dic` extensions. 
+
 ### Interactive Mode
 
 The default interactive mode shows you the context of the spelling mistake and gives you options with what to do about it. E.g.

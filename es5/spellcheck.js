@@ -19,11 +19,30 @@ var _path2 = _interopRequireDefault(_path);
 var spellchecker = undefined,
     dict = undefined;
 
-function initialise() {
+function initialise(options) {
+
+  var dictionaryOptions = options && options.dictionary;
+
+  var baseFile = _path2['default'].join(__dirname, '../data/en_GB');
+  if (dictionaryOptions && dictionaryOptions.file) {
+    baseFile = dictionaryOptions.file;
+  } else if (dictionaryOptions && dictionaryOptions.language) {
+    switch (dictionaryOptions.language) {
+      case 'en-us':
+        baseFile = _path2['default'].join(__dirname, '../data/en_US');
+        break;
+      case 'en-gb':
+        // default - do nothing
+        break;
+      default:
+        throw new Error("unsupported language:" + dictionaryOptions.language);
+    }
+  }
+
   spellchecker = new _hunspellSpellchecker2['default']();
   dict = spellchecker.parse({
-    aff: _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../data/en_GB.aff')),
-    dic: _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../data/en_GB.dic'))
+    aff: _fs2['default'].readFileSync(baseFile + '.aff'),
+    dic: _fs2['default'].readFileSync(baseFile + '.dic')
   });
   spellchecker.use(dict);
 }
