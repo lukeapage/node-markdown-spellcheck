@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/lukeapage/node-markdown-spellcheck.svg?branch=master)](https://travis-ci.org/lukeapage/node-markdown-spellcheck) [![Build status](https://ci.appveyor.com/api/projects/status/o0ypaoe7tbm31nkd/branch/master?svg=true)](https://ci.appveyor.com/project/lukeapage/node-markdown-spellcheck/branch/master) [![npm version](https://badge.fury.io/js/markdown-spellcheck.svg)](http://badge.fury.io/js/markdown-spellcheck)  [![Dependencies](https://david-dm.org/lukeapage/node-markdown-spellcheck.svg)](https://david-dm.org/lukeapage/node-markdown-spellcheck) [![devDependency Status](https://david-dm.org/lukeapage/node-markdown-spellcheck/dev-status.svg)](https://david-dm.org/lukeapage/node-markdown-spellcheck#info=devDependencies)
 
-Reads markdown files and spellchecks them, using [open source hunspell dictionary files](#dictionaries-being-used).
+Reads markdown files and spellchecks them, using [open source Hunspell dictionary files](#dictionaries-being-used).
 
 ## CLI Usage
 
