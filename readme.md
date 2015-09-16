@@ -117,5 +117,14 @@ See [grunt-mdspell](https://github.com/ColinEberhardt/grunt-mdspell).
 
 ### Dictionaries being used
 
-English-GB - https://github.com/marcoagpinto/aoo-mozilla-en-dict
-English-US - http://wordlist.aspell.net/dicts/
+#### English-GB
+
+See [https://github.com/marcoagpinto/aoo-mozilla-en-dict](https://github.com/marcoagpinto/aoo-mozilla-en-dict).
+
+Missing word? Raise it at [https://github.com/marcoagpinto/aoo-mozilla-en-dict/issues](https://github.com/marcoagpinto/aoo-mozilla-en-dict/issues).
+
+#### English-US
+
+See [http://wordlist.aspell.net/dicts/](http://wordlist.aspell.net/dicts/).
+
+Missing word? Raise it at [https://github.com/kevina/wordlist/issues](https://github.com/kevina/wordlist/issues).
