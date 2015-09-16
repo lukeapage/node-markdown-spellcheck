@@ -8,14 +8,14 @@ function initialise(options) {
 
   const dictionaryOptions = options && options.dictionary;
 
-  let baseFile = path.join(__dirname, '../data/en_GB');
+  let baseFile = path.join(__dirname, '../data/en-GB');
   if (dictionaryOptions && dictionaryOptions.file) {
     baseFile = dictionaryOptions.file;
   }
   else if (dictionaryOptions && dictionaryOptions.language) {
     switch (dictionaryOptions.language) {
       case 'en-us':
-        baseFile = path.join(__dirname, '../data/en_US');
+        baseFile = path.join(__dirname, '../data/en_US-large');
         break;
       case 'en-gb':
         // default - do nothing

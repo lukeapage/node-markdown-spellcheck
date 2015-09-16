@@ -23,13 +23,13 @@ function initialise(options) {
 
   var dictionaryOptions = options && options.dictionary;
 
-  var baseFile = _path2['default'].join(__dirname, '../data/en_GB');
+  var baseFile = _path2['default'].join(__dirname, '../data/en-GB');
   if (dictionaryOptions && dictionaryOptions.file) {
     baseFile = dictionaryOptions.file;
   } else if (dictionaryOptions && dictionaryOptions.language) {
     switch (dictionaryOptions.language) {
       case 'en-us':
-        baseFile = _path2['default'].join(__dirname, '../data/en_US');
+        baseFile = _path2['default'].join(__dirname, '../data/en_US-large');
         break;
       case 'en-gb':
         // default - do nothing
