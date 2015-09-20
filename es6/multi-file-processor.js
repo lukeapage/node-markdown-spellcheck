@@ -1,5 +1,5 @@
 import glob from 'glob';
-import async from'async';
+import async from 'async';
 import spellConfig from './spell-config';
 import spellcheck from "./spellcheck";
 import fs from 'fs';

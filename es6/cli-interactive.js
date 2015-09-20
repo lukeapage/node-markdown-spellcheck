@@ -91,7 +91,11 @@ function incorrectWordChoices(word, message, filename, options, done) {
         done();
         break;
       default:
-        previousChoices[word] = { newWord: suggestions[Number(answer.action)] };
+        const suggestionId = Number(answer.action);
+        if (isNaN(suggestionId) || suggestionId >= suggestions.length) {
+          throw new Error("unrecognise prompt action");
+        }
+        previousChoices[word] = { newWord: suggestions[suggestionId] };
         done(suggestions[Number(answer.action)]);
         break;
     }
@@ -105,17 +109,31 @@ function getCorrectWord(word, filename, options, done) {
     message: "correct word >",
     default: word
   }], function(answer) {
-    const newWord = answer.word;
-    if (filters.filter([answer], options).length > 0 && spellcheck.checkWord(newWord)) {
-      done(newWord);
+    const newWords = answer.word.split(/\s/g);
+    let hasMistake = false;
+
+    for (let i = 0; i < newWords.length; i++) {
+      const newWord = newWords[i];
+      if (filters.filter([newWord], options).length > 0 && !spellcheck.checkWord(newWord)) {
+        hasMistake = true;
+      }
     }
-    else {
-      incorrectWordChoices(newWord, "Corrected word is not in dictionary..", filename, options, (newNewWord) => {
-        const finalNewWord = newNewWord || newWord;
-        previousChoices[word] = { newWord: finalNewWord };
-        done(finalNewWord);
-      });
+
+    if (hasMistake) {
+      if (newWords.length === 1) {
+        incorrectWordChoices(answer.word, "Corrected word is not in dictionary..", filename, options, (newNewWord) => {
+          const finalNewWord = newNewWord || answer.word;
+          previousChoices[word] = { newWord: finalNewWord };
+          done(finalNewWord);
+        });
+        return;
+      }
+
+      console.log("Detected some words in your correction that may be invalid. Re-run to check.");
     }
+
+    previousChoices[word] = { newWord: answer.word };
+    done(answer.word);
   });
 }
 

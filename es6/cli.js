@@ -25,12 +25,20 @@ program
   .usage("[options] source-file source-file")
   .parse(process.argv);
 
+let language;
+if (program.enUs) {
+  language = "en-us";
+}
+else if (program.enGb) {
+  language = "en-gb";
+}
+
 const options = {
   ignoreAcronyms: program.ignoreAcronyms,
   ignoreNumbers: program.ignoreNumbers,
   suggestions: program.suggestions,
   dictionary: {
-    language: program.enUs ? "en-us" : program.enGb ? "en-gb" : undefined,
+    language: language,
     file: program.dictionary
   }
 };
