@@ -39,6 +39,10 @@ Use the American English dictionary. We default to British English but will chan
 
 Use the British English dictionary. We default default to British English but will change in the next major to American.
 
+#### Spanish (`--es-es`)
+
+Use the Spanish dictionary.
+
 #### Dictionary (`-d`, `--dictionary`)
 
 Specify a custom Hunspell dictionary to load. The passed filename should not include a file extension and `markdown-spellcheck` will attempt to load the file with `.aif` and `.dic` extensions. 
