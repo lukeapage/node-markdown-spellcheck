@@ -20,6 +20,9 @@ function initialise(options) {
       case 'en-gb':
         // default - do nothing
         break;
+      case 'es-es':
+        baseFile = path.join(__dirname, '../data/es_ANY');
+        break;
       default:
         throw new Error("unsupported language:" + dictionaryOptions.language);
     }

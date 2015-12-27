@@ -31,11 +31,11 @@ function initialise(options) {
       case 'en-us':
         baseFile = _path2['default'].join(__dirname, '../data/en_US-large');
         break;
-      case 'es-es':
-        baseFile = _path2['default'].join(__dirname, '../data/es_ANY');
-        break;
       case 'en-gb':
         // default - do nothing
+        break;
+      case 'es-es':
+        baseFile = _path2['default'].join(__dirname, '../data/es_ANY');
         break;
       default:
         throw new Error("unsupported language:" + dictionaryOptions.language);

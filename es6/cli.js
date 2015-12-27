@@ -19,6 +19,7 @@ program
   .option('-n, --ignore-numbers', 'Ignores numbers.')
   .option('--en-us', 'American english dictionary.')
   .option('--en-gb', 'British english dictionary.')
+  .option('--es-es', 'Spanish dictionary.')
   .option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.')
   .option('-a, --ignore-acronyms', 'Ignores acronyms.')
   .option('-x, --no-suggestions', 'Do not suggest words (can be slow)')
@@ -31,6 +32,9 @@ if (program.enUs) {
 }
 else if (program.enGb) {
   language = "en-gb";
+}
+else if (program.esEs) {
+  language = "es-es";
 }
 
 const options = {

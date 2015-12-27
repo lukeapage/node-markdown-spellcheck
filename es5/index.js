@@ -25,7 +25,7 @@ var _filters = require('./filters');
 var _filters2 = _interopRequireDefault(_filters);
 
 var _async = require('async');
- 
+
 var _async2 = _interopRequireDefault(_async);
 
 var _reportGenerator = require('./report-generator');
