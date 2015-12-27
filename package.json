@@ -33,10 +33,10 @@
     "async": "^1.4.2",
     "chalk": "^1.1.1",
     "commander": "^2.8.1",
-    "glob": "^5.0.14",
+    "glob": "^6.0.2",
     "hunspell-spellchecker": "^1.0.2",
-    "inquirer": "~0.9.0",
-    "marked": "~0.3.5"
+    "inquirer": "^0.11.0",
+    "marked": "^0.3.5"
   },
   "devDependencies": {
     "babel": "^5.8.23",
