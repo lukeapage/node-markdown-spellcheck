@@ -5,11 +5,11 @@ LGPL licence.
 
 It has been extensively updated by David Bartlett, Brian Kelk
 and Andrew Brown:
-- numerous Americanism have been removed;
-- numerous American spellings have been corrected;
-- missing words have been added;
-- many errors have been corrected;
-- compound hyphenated words have been added where appropriate.
+- Numerous Americanism have been removed;
+- Numerous American spellings have been corrected;
+- Missing words have been added;
+- Many errors have been corrected;
+- Compound hyphenated words have been added where appropriate.
 
 Valuable inputs to this process were received from many other
 people - far too numerous to name. Serious thanks to you all
@@ -32,6 +32,9 @@ will facilitate future localisation to other variants of
 English.
 
 ---
+
+This is a locally hosted copy of the English dictionaries with fixed dash handling and new ligature and phonetic suggestion support extension:
+http://extensions.openoffice.org/en/node/3785
 
 Original version of the en_GB dictionary:
 http://www.openoffice.org/issues/show_bug.cgi/id=72145
@@ -72,7 +75,7 @@ The sources used to verify the spelling of the words I included in the dictionar
 6) Physical dictionaries
 
 Main difficulties developing this dictionary:
-1) Names of places and persons;
+1) Proper names;
 2) Words ending with 's;
 3) Plurals.
 
@@ -10354,3 +10357,912 @@ V2.28 - 1-SEP-2015
 7637) goldeneye (+plural)
 7638) alveolars (added plural)
 7639) circumcisers (added plural)
+
+
+V2.29 - 1-OCT-2015
+------------------
+7640) Emmental + Emmenthal
+7641) Brie
+7642) ciabatta (+plural)
+7643) flatbreads (added plural)
+7644) pita (removed as it was American)
+7645) pitta (+plural - it is a bread and a bird)
+7646) bap (+plural)
+7647) Redditor (+plural)
+7648) Reddit
+7649) subreddit (+plural)
+7650) manspreading
+7651) MacGyver (+'s - name)
+7652) Brexit + Brixit
+7653) awestricken (another way of awestruck)
+7654) stagehand (fixed: stage-hand)
+7655) CVT (abbreviation: Continuously Variable Transmission)
+7656) Europass (European Union site)
+7657) anything's (added the 's)
+7658) everything's (added the 's)
+7659) how'd (Wiktionary)
+7660) how're (Wiktionary)
+7661) can't've (Wiktionary)
+7662) couldn't've (Wiktionary)
+7663) how've (Wiktionary)
+7664) might've (Wiktionary)
+7665) mightn't've (Wiktionary)
+7666) nothing's (added the 's)
+7667) shouldn't've (Wiktionary)
+7668) there're (Wiktionary)
+7669) this'd (Wiktionary)
+7670) wouldn't've (Wiktionary)
+7671) arses + arsing (merged into arse)
+7672) half-arse (+ing +ed)
+7673) anxiolytic (+plural)
+7674) antiepileptics (added plural - Wiktionary)
+7675) clonazepam
+7676) hydrocodone (+plural - Wiktionary)
+7677) MAOI
+7678) naproxen
+7679) oxycodone
+7680) SSRI
+7681) sublingual (+ally)
+7682) ADHD (abbreviation: Attention deficit hyperactivity disorder)
+7683) BPD
+7684) CBT (abbreviation: Cognitive behavioural therapy)
+7685) cyclothymia
+7686) cyclothymic
+7687) dysmorphia
+7688) dysmorphic
+7689) dysphoria
+7690) dysphoric
+7691) dysthymia
+7692) dysthymic
+7693) NPD
+7694) suicidality
+7695) backtick (+plural)
+7696) configurability (Google)
+7697) display's (added the 's)
+7698) ECMAScript (+'s - Wiktionary)
+7699) microSD (Wikipedia)
+7700) programmatically
+7701) symlink (+s +ing +ed)
+7702) throbber (+plural)
+7703) untick (+s +ing +ed - Wiktionary)
+7704) transclude (+s +ing +ed - Wiktionary)
+7705) wiki's (added the 's)
+7706) blog's (added the 's)
+7707) blogger's (added the 's)
+7708) griefing + griefed (merged into grief - Wiktionary)
+7709) griefer (+plural +'s)
+7710) hiragana
+7711) kana
+7712) kanji
+7713) katakana
+7714) classism
+7715) classist (+plural)
+7716) heteronormative
+7717) heteronormativity
+7718) heterophobe (+plural - Wiktionary)
+7719) Hopkins's (added the 's - name - Wikipedia)
+7720) heterophobia (Wiktionary)
+7721) heterophobic (Wiktionary)
+7722) heterosexism
+7723) heterosexist
+7724) intersectionality
+7725) intersectional
+7726) intersectionalism (Wiktionary)
+7727) misandrist (+plural)
+7728) patriarchically
+7729) transphobe (+plural - Wiktionary)
+7730) transphobia
+7731) transphobic
+7732) aromantic (+plural)
+7733) aromanticism (Wiktionary)
+7734) demisexual (+plural + ity - Wiktionary)
+7735) demisexuality (Wiktionary)
+7736) heteroflexible (Collins)
+7737) agender
+7738) teen's (added the 's - Wikipedia)
+7739) androgyne (+plural)
+7740) androgynously
+7741) bi-gender
+7742) bi-gendered
+7743) cis
+7744) substituent (+plural)
+7745) methoxyl
+7746) cisgender
+7747) cisgendered
+7748) gender-fluid
+7749) genderqueer (+plural)
+7750) trans
+7751) autotune (+s +ing +ed +er +ers - merged into autotune)
+7752) cancellable (Collins)
+7753) miscategorise (+s +ing +ed - Wiktionary)
+7754) epilation
+7755) epilate (+s +ing +ed)
+7756) epilator (+plural)
+7757) isopropyl
+7758) sequitur (+plural - non sequitur)
+7759) trinary (Collins)
+7760) unfulfillable
+7761) unfulfilling
+7762) veganism
+7763) fruitarian (+plural)
+7764) fruitarianism
+7765) non-American
+7766) unpair (+s +ing +ed - Wiktionary)
+7767) linting (merged into lint - Collins)
+7768) genericise (+s +ing +ed - Wiktionary)
+7769) geneticize (-IZE)
+7770) geneticise (-ISE)
+7771) geneticism
+7772) repolarization
+7773) repolish (+s +ing +ed)
+7774) reanalyse (+s +ing +ed)
+7775) intraindividual (Wiktionary)
+7776) denaturation
+7777) photovoltage (Wiktionary)
+7778) oftenness
+7779) Oftel + OFTEL
+7780) superphylum (Collins)
+7781) Asteroidea
+7782) Ophiuroidea
+7783) crossopterygian (+plural)
+7784) burrfish (+plural)
+7785) catfight (+s +ing)
+7786) Felix's (added the 's - name)
+7787) baddy (another way of baddie)
+7788) Darnley (+'s - name)
+7789) azidothymidine
+7790) zidovudine
+7791) thymidine
+7792) nucleoside (+plural)
+7793) miscreate (+s +ing +ed)
+7794) miscreative
+7795) Germain (+'s - name - Wikipedia)
+7796) that've (Wiktionary)
+7797) there've (Wiktionary)
+7798) which've (Wiktionary)
+7799) unsupportive
+8800) kibibit (+plural - IEC - Wikipedia)
+8801) mebibit (+plural - IEC - Wikipedia)
+8802) gibibit (+plural - IEC - Wikipedia)
+8803) tebibit (+plural - IEC - Wikipedia)
+8804) pebibit (+plural - IEC - Wikipedia)
+8805) exbibit (+plural - IEC - Wikipedia)
+8806) zebibit (+plural - IEC - Wikipedia)
+8807) yobibit (+plural - IEC - Wikipedia)
+8808) kibibyte (+plural - IEC - Wikipedia)
+8809) mebibyte (+plural - IEC - Wikipedia)
+8810) gibibyte (+plural - IEC - Wikipedia)
+8811) tebibyte (+plural - IEC - Wikipedia)
+8812) pebibyte (+plural - IEC - Wikipedia)
+8813) exbibyte (+plural - IEC - Wikipedia)
+8814) zebibyte (+plural - IEC - Wikipedia)
+8815) yobibyte (+plural - IEC - Wikipedia)
+8816) anonymiser (+plural - Wiktionary)
+8817) backtrace (+s +ing +ed - Wiktionary)
+8818) bashism (+plural - Wiktionary)
+8819) bi-endian (Wiktionary)
+8820) big-endian
+8821) little-endian
+8822) bytecode (+plural - Wiktionary)
+8823) misprice (+s +ing +ed)
+8824) noncallable
+8825) classful (Wiktionary)
+8826) cron
+8827) draggability (Wiktionary)
+8828) draggable (Wiktionary)
+8829) daemonize (+s +ing +ed - Wiktionary)
+8830) diff (+s +ing +ed)
+8831) endian
+8832) idempotence
+8833) ‎idempotency
+8834) metasyntactic (Wiktionary)
+8835) nullable
+8836) opcode (+plural)
+8837) pageable (Wiktionary)
+8838) parallelize (+s +ing +ed +ion -IZE)
+8839) parallelise (+s +ing +ed +ion -ISE)
+8840) performant (Wiktionary)
+8841) procuracy (+plural)
+8842) proxying + proxied (merged into proxy - Wiktionary)
+8843) stateful
+8844) Marston (+'s - name - Wikipedia)
+8845) bedplate
+8846) templating + templated (Wiktionary)
+8847) tokenisation (Wiktionary)
+8848) tokeniser (+plural - Wiktionary)
+8849) webmail's (added the 's)
+8850) unmount (+s +ing +ed)
+8851) noninfringement (Collins)
+8852) nonrefoulement
+8853) refoulement
+8854) unmourned
+8855) unwarned
+8856) unwatchable
+8857) resurrectable
+8858) paralexia
+8859) paralexic
+8860) audiotaping + audiotaped (merged into audiotape)
+8861) Lenin's (added the 's - name - Wikipedia)
+8862) presentism
+8863) presentist
+8864) presentimental
+8865) presentness
+8866) presentor
+8867) fleuron (+plural)
+8868) mouchette
+8869) mouchard
+8870) psycho-educational
+8871) psycho-aesthetic (+plural)
+8872) psychicist
+8873) psychist
+8874) psychicism
+8875) unprovided
+8876) unprovability
+8877) unproud
+8878) unprotrusive
+8879) unprotesting
+8880) unprotestingly
+8881) unresting
+8882) unrestingly
+8883) unrestorable
+8884) CLI (abbreviation: Command Line Interface)
+8885) Ci (abbreviation: Curie)
+8886) CI (abbreviation: several meanings)
+8887) minify (+s +ing +ed +ion)
+8888) transpile (+s +ing +ed +er +ers - Wiktionary)
+8889) transcompile (+s +ing +ed - Wiktionary)
+8890) setup (setup file - Collins)
+8891) technocentric
+8892) technocomplex
+8893) technocratically
+8894) managerialism
+8895) managerialist
+8896) technofear
+8897) technofreak
+8898) technographer
+8899) technography
+8900) technologism
+8901) technomaniac
+8902) technomania
+8903) technomic
+8904) technopark
+8905) technopolis
+8906) technopolitan
+8907) technoscience
+8908) technoscientist
+8909) technosphere
+8910) technostress
+8911) technostructures (added plural)
+8912) technotronic + technetronic
+8913) combatting + combatted (another way of combating and combated)
+8914) cross-hair (removed, Oxford says it is two words)
+8915) debounce (+s +ing +ed - Wiktionary)
+8916) yuck + yuk (Oxford: informal)
+8917) gyro (+plural)
+8918) repo (+plural - source code repository - Wiktionary)
+8919) unopinionated
+8920) useable (another way of usable)
+8921) unicity
+8922) thusly (Oxford: informal)
+8923) spandex
+8924) buildable (Collins)
+8925) buildability (Wiktionary)
+8926) primatial
+8927) dilatancy
+8928) sulphonate (+plural +ing +ed +ion)
+8929) sulfonamide (+plural - another way of sulphonamide)
+8930) lovebird (+plural - fixed: love-bird)
+8931) she-god
+8932) she-goat
+8933) she-friend
+8934) she-dog
+8935) she-devil
+8936) she-dragon
+8937) she-cat
+8938) she-ass
+8939) Jacopo (+'s - name)
+8940) caryopsis
+8941) caryopses (plural of previous word)
+8942) digitate
+8943) digitation
+8944) behaviouralists (added plural)
+8945) underbred
+8946) bioterrorists (added plural)
+8947) ironworking
+8948) glasswork (+plural - Collins)
+8949) Whitehouse (+'s - name - Wikipedia)
+8950) Serenity (+'s - name - Wikipedia)
+8951) serenities (plural of serenity)
+8952) Pinochet (+'s - name - Wikipedia)
+
+
+V2.30 - 1-NOV-2015
+------------------
+8953) affordance
+8954) roofline (+plural)
+8955) ideating + ideated (merged into ideate)
+8956) repurpose (+s +ing +ed)
+8957) collotype (+plural)
+8958) Jones's (added the 's - name - Wikipedia)
+8959) biosensor (+plural)
+8960) radiotracer
+8961) microsphere (+plural)
+8962) radiotoxicity
+8963) radiotoxic
+8964) radiothorium
+8965) radiothermal
+8966) radiotherapeutically
+8967) radiotelex
+8968) radioteletype
+8969) radiotelemetry
+8970) radiotelegraphically
+8971) radiosurgery
+8972) radiosurgical
+8973) radiostrontium
+8974) radiosterilized
+8975) radiosterilization
+8976) radiostereometric
+8977) radiosondage
+8978) radiosity
+8979) radiosensitizer
+8980) radiosensitizing
+8981) radiosensitization
+8982) radiosensitize
+8983) radiosensitivity
+8984) radiosensitive (+ness)
+8985) radioscanning
+8986) radioresistant
+8987) radioreceptor
+8988) radiolabelled
+8989) radioland
+8990) radiolaria
+8991) Sipuncula
+8992) sipunculan (+plural)
+8993) sipunculid (+plural)
+8994) Sipunculus
+8995) Coverley (+'s - name - Wikipedia)
+8996) Harvey's (added the 's - name - Wikipedia)
+8997) colourblock (+ing +ed)
+8998) tankini (+plural)
+8999) tankodrome
+8000) tankette
+9001) tankbuster (Oxford: informal)
+9002) airgraph
+9003) encaustic
+9004) Gogh (+'s - name - Wikipedia)
+9005) pastegrain
+9006) pasteboard-like
+9007) headbay
+9008) headborough
+9009) headcams (added plural)
+9010) headbutts (added plural)
+9011) Fairfax's (added the 's - name - Wikipedia)
+9012) royalism
+9013) parliamentarianism
+9014) Aquarian (+plural)
+9015) libra
+9016) librae (plural of previous word)
+9017) libidinally
+9018) object-libido
+9019) libertyless
+9020) LIBOR
+9021) amylose
+9022) crystallizable (-IZE)
+9023) crystallisable (-ISE)
+9024) unbranched (Collins)
+9025) amylopectin
+9026) valproic (valproic acid)
+9027) Antisthenes (name)
+9028) trisectors (added plural)
+9029) conchoid
+9030) Nicomedes (+'s - name - Wikipedia)
+9031) pappus
+9032) pappi (plural of previous word)
+9033) pappose
+9034) Pappus (+'s - name - Wikipedia)
+9035) pappy (+plural)
+9036) poppyseeds (added plural)
+9037) poppywort
+9038) popsock (+plural)
+9039) Steckling’s (added the 's - name)
+9040) Clancarty (+'s - name - Wikipedia)
+9041) co-trimoxazole
+9042) doxycycline
+9043) minocycline
+9044) ciprofloxacin (Collins)
+9045) sulphamethoxazole + sulfamethoxazole
+9046) trimethoprim
+9047) trimeter (+plural)
+9048) trimetric
+9049) trimetrical
+9050) trisyllables (added plural)
+9051) trisyllabic
+9052) accentualist
+9053) accentuality
+9054) accentor (+plural)
+9055) waxbill (+plural)
+9056) congeneric
+9057) congenerous
+9058) primogenital
+9059) primogenitary
+9060) primogenitive
+9061) co-ally (+ed)
+9062) co-belligerent (+plural)
+9063) co-belligerence
+9064) co-branded
+9065) co-branding
+9066) co-conspirator (+plural)
+9067) co-chair (+plural)
+9068) co-counselling
+9069) Balliol (+'s - name - Wikipedia)
+9070) Whitworth
+9071) Pitt (+'s - name - Wikipedia)
+9072) Pitressin
+9073) pitpan (+plural)
+9074) touchlines (added plural)
+9075) bookaholic (Oxford: informal)
+9076) blogrolls (added plural)
+9077) noseband
+9078) cavesson (+plural)
+9079) biostratigrapher (+plural)
+9080) biostratigraphic
+9081) biostratigraphical
+9082) biostratigraphically
+9083) macrofossil
+9084) macrofungus
+9085) macrogametocyte
+9086) macrogamete
+9087) flagellar
+9088) epaxial
+9089) unwellness
+9090) aitchbone
+9091) aitchless
+9092) anterogradely
+9093) claustrum
+9094) claustra
+9095) lentiform (lentiform nucleus)
+9096) buccinator (+plural)
+9097) Bucephalus (name)
+9098) anacreontic (+plural)
+9099) Anacreon (+'s - name - Wikipedia)
+9100) essayistic
+9101) recontinuance
+9102) recontinue
+9103) reconvalescence
+9104) reconvalescent
+9105) thicko (+plural - Oxford: informal)
+9106) thicknesser (+plural)
+9107) Castro's (added the 's - name - Wikipedia)
+9108) IQs (added plural)
+9109) intellectualistic
+9110) intellectualist (+plural)
+9111) voluntarist
+9112) voluntaristic
+9113) dogmatise (+s +ing +ed - ISE)
+9114) dogmatize (+s +ing +ed - IZE)
+9115) dognap (+s +ing +ed +er +ers)
+9116) dogology
+9117) dogship
+9118) dogsleep
+9119) dogstones
+9120) televisionary (+plural)
+9121) broadleaves
+9122) broadloomed
+9123) duplet (+plural)
+9124) Burtenshaw (+'s - name - Wikipedia)
+9125) unship (+s +ing +ed)
+9126) unshockable
+9127) unshockability
+9128) unshrinkable
+9129) unshrinkability
+9130) unshrinkingly
+9131) speargun
+9132) spearfish (+plural +ing)
+9133) lumpfish (+plural)
+9134) lumpsucker (+plural)
+9135) featherback (+plural)
+9136) knifefish (+plural)
+9137) jammer (+plural)
+9138) woodturning
+9139) woodturner (+plural)
+9140) woodswallow (+plural)
+9141) corella (+plural)
+9142) wattlebird (+plural)
+9143) geckoes (another plural of gecko)
+9144) redox
+9145) stibine (Collins)
+9146) arsewipe (Oxford: slang)
+9147) arsenopyrite
+9148) wolframite
+9149) axinite (Collins)
+9150) apophyllite
+9151) heulandite (Collins)
+9152) sperrylite (Collins)
+9153) thaumasite (Collins)
+9154) fezzes (added plural)
+9155) fezzed (merged into fez)
+9156) blousy (+ier +iest - Collins)
+9157) incommensurables (added plural)
+9158) incommensurability
+9159) incommensurably
+9160) workpeople
+9161) shewn (Collins)
+9162) workperson
+9163) workwoman
+9164) workwise
+9165) Forby (+'s - name - Wikipedia)
+9166) componentry
+9167) cuirass (+plural)
+9168) chiliarch's (added the 's)
+9169) supergiant (+plural)
+9170) WordPress (+'s - name - Wikipedia)
+9171) Verizon (+'s - name - Wikipedia)
+9172) Comcast (+'s - name - Wikipedia)
+9173) underappreciate (+ed +ion)
+9174) tachyon (+plural)
+9175) bosonic
+9176) supergalactic
+9177) transmural
+9178) superfuse (+ed +ing)
+9179) superfruit
+9180) superfortress
+9181) superforce
+9182) superflux
+9183) superfluorescent
+9184) floristic (+plural)
+9185) floristically
+9186) barrenly
+9187) barrelhead (+plural)
+9188) barrelfish (+plural)
+9189) achillea
+9190) euphorbia (+plural)
+9191) cistus
+9192) lavatera
+9193) buddleia
+9194) accessorial
+9195) possessory
+9196) digresser (+plural)
+9197) dihedrals (added plural)
+9198) reflectional + reflexional
+9199) reflectionless
+9200) reflectogram (+plural)
+9201) reflectography
+9202) reflectograph
+9203) reflectogramme
+9204) coetaneous
+9205) Castilian (+plural)
+9206) pastureland (+plural)
+9207) shrubland (+plural - Collins)
+9208) cinematographically
+9209) Dumont's (added the 's - name - Wikipedia)
+9210) Bertolucci (+'s - name)
+9211) ICANN (+'s - name - Wikipedia)
+9212) DNSSEC (+'s - Wikipedia)
+9213) WHOIS (Wikipedia)
+9214) headrail (+plural)
+9215) Kieran's (added the 's - name - Wikipedia)
+9216) Euro-wasp
+9217) Eurobank
+9218) eurocredit (Collins)
+9219) Eurocentrist
+9220) IMF (+'s - Oxford: abbreviation: International Monetary Fund)
+
+
+V2.31 - 1-DEC-2015
+------------------
+9221) Euroclear
+9222) Euroconnector
+9223) Euroconvertible
+9224) blackcap (+plural)
+9225) gonolek (+plural)
+9226) shoebill (+plural)
+9227) shoeboxes (added plural)
+9228) cornmill
+9229) ropemaker
+9230) ropemanship
+9231) ropesight
+9232) campanulate
+9233) umbo (+plural)
+9234) umbones (another plural of previous word)
+9235) umbonal
+9236) umbonate
+9237) invagination (+plural)
+9238) invaginate (+ed)
+9239) chondrocyte (+plural)
+9240) chondrocranium
+9241) tessera
+9242) tesserae (plural of previous word)
+9243) tesseral
+9244) colourman
+9245) outcross (+s +ing +ed)
+9246) outcrying
+9247) dependents (added plural)
+9248) periodogram
+9249) periodograph
+9250) periodology
+9251) endodontics (Collins)
+9252) criminogenic
+9253) reconvict (+s +ing +ed +ion)
+9254) recopper
+9255) reconvoke
+9256) reconveyance
+9257) reconvertible
+9258) reconverge
+9259) reconvention
+9260) counterpetition (Collins)
+9261) reconsult
+9262) reconstructiveness
+9263) reconstructionary
+9264) reconstructional
+9265) teleprocessing (Collins)
+9266) tiddly (+ier +iest - Oxford: informal)
+9267) Tippex + Tipp-Ex (British trademark)
+9268) trendsetters (added plural)
+9269) disrate (+s +ing +ed)
+9270) snakefish (+plural)
+9271) lizardfish (+plural)
+9272) Gradle (+'s - name - Wikipedia)
+9273) Percival (+'s - name - Wikipedia)
+9274) Burnage (+'s - name - Wikipedia)
+9275) Wexler (+'s - name - Wikipedia)
+9276) picturable
+9277) Thorson (+'s - name - Wikipedia)
+9278) Fass (+'s - name - Wikipedia)
+9279) zooplankton
+9280) york (+s +ing +ed)
+9281) zeolite (+plural +ic)
+9282) zeroth
+9283) zestfulness
+9284) zesty (+ier +iest)
+9285) wunderkind (+plural)
+9286) wunderkinder (another plural of previous word)
+9287) xylene
+9288) trichloroethylene
+9289) yaks (added plural)
+9290) subwindow (+plural - Wiktionary)
+9291) multiwindow (+ed)
+9292) multiwire
+9293) subindex (+plural - Collins)
+9294) sub-idea
+9295) subindustry (+plural - Collins)
+9296) subimpose
+9297) subincandescent
+9298) subincision
+9299) subinfeud
+9300) subinfeudation + subenfeudation
+9301) subinfeudatory
+9302) subfeudatory + subfeudatary
+9303) subfeudation
+9304) subfertile
+9305) subfertility
+9306) subfauna
+9307) subfactor
+9308) subface
+9309) subevergreen
+9310) suberyl
+9311) suberous
+9312) suberose
+9313) corky (+ier +iest)
+9314) subproject (+plural - Collins)
+9315) subpubic (Collins)
+9316) analysation
+9317) analysandum
+9318) re-experience
+9319) restenosis
+9320) fibromuscular (Wiktionary)
+9321) endarterectomy (+plural)
+9322) cholecystectomy (+plural)
+9323) laparoscopy (+plural)
+9324) laparoscope
+9325) laparoscopic
+9326) laparoscopically
+9327) laparotomy (+plural)
+9328) splenectomy (+plural)
+9329) asplenia (Wiktionary)
+9330) Excel (+'s - Wikipedia)
+9331) O'Farrell (+'s - name - Wikipedia)
+9332) Kerensa (name - Wikipedia)
+9333) XUL (Wiktionary: XML user interface language)
+9334) changeset (+plural - Wiktionary)
+9335) Daniel's (added the 's - name - Wikipedia)
+9336) IIRC (Wiktionary: informal - If I remember correctly, if I recall correctly)
+9337) Stehmann (name - Wikipedia)
+9338) theophoric + theophorous
+9339) toponymy + toponymics (Collins)
+9340) topophilia (Collins)
+9341) tapless
+9342) tappable
+9343) Ginsburg (+'s - name)
+9344) panax
+9345) underlet (+s +ing)
+9346) quickset
+9347) Odette (+'s - name)
+9348) Debrett (+'s - name)
+9349) Rhett (+'s - name - Wikipedia)
+9350) comms
+9351) commove (+s +ing +ed - Wiktionary)
+9352) aidful
+9353) unclearly
+9354) unclearness
+9355) uncleared
+9356) sandfly (+plural)
+9357) Wickepin (+'s - name - Wikipedia)
+9358) Winton  (+'s - name - Wikipedia)
+9359) Surman (+'s - name - Wikipedia)
+9360) Berna (+'s - name - Wikipedia)
+9361) Birk (+'s - name - Wikipedia)
+9362) Witts (+'s - name - Wikipedia)
+9363) Balrog (+'s - name - Wikipedia)
+9364) Cloke (+'s - name - Wikipedia)
+9365) xvi's (added the 's)
+9366) cybersquatter (+plural)
+9367) cybersurf
+9368) cybertheft
+9369) cyberthreat (+plural)
+9370) cyberwarfare
+9371) cyberwarrior (+plural)
+9372) cyberworld
+9373) cybrarian (+plural)
+9374) Oshii (+'s - name - Wikipedia)
+9375) Floyd's (added the 's - name - Wikipedia)
+9376) Gilmour (+'s - name - Wikipedia)
+9377) uninvested (Collins)
+9378) Ezrin (+'s - name - Wikipedia)
+9379) maximalist (+plural)
+9380) maximalism
+9381) rejectionist (+plural)
+9382) ISIS (+'s - name of terrorist group - Wikipedia)
+9383) EMI (+'s - name - Wikipedia)
+9384) scenography
+9385) scenographic
+9386) Isis (added the 's - name - Wikipedia)
+9387) Scenopegia
+9388) Everly (+'s - name - Wikipedia)
+9389) bandmates (added plural)
+9390) freak-out (Oxford: informal)
+9391) freakily
+9392) freakiness
+9393) weakish
+9394) isospin
+9395) axisymmetric
+9396) apothem (+plural)
+9397) coplanarity
+9398) nonradiative (Wiktionary)
+9399) degradability
+9400) degradative
+9401) ethylbenzene
+9402) nitrobenzene
+9403) nitrobacterium
+9404) nitrify (+s +ing +ed)
+9405) Cortana (+'s - name - Wikipedia)
+9406) Ginnie (+'s - name - Wikipedia)
+9407) Qualcomm (+'s - name - Wikipedia)
+9408) datacard (Collins)
+9409) databus (Collins)
+9410) undogmatic
+9411) undoable (Oxford: informal)
+9412) undiversified
+9413) undistracted
+9414) undisputedly
+9415) undissociated
+9416) cycloaddition (+plural)
+9417) interpolar (Collins)
+9418) meristem (+plural)
+9419) meristematic
+9420) periderm
+9421) peridermal
+9422) phellogen
+9423) Diemen (+'s - name)
+9424) aerostatics
+9425) macromutation
+9426) micromutation
+9427) micromotor
+9428) micromorphology
+9429) micromorphological
+9430) micromorph (+plural)
+9431) micromolar
+9432) micromole (+plural)
+9433) micromodule
+9434) micromodelling + micromodeling
+9435) micromodel
+9436) microminiaturization + microminiaturisation
+9437) photoelectronics
+9438) Chambers (+'s - name - Wikipedia)
+9439) photoelectromagnetic + photomagnetoelectric
+9440) photomask
+9441) pellicle
+9442) pellicular
+9443) interceptive
+9444) multilayered (+ness)
+9445) macrospore
+9446) heterosporous (Collins)
+9447) Protoctista
+9448) protoctist (+plural)
+9449) prokaryote + procaryote
+9450) prokaryotic
+9451) homologues (added plural)
+9452) extrametrical (Collins)
+9453) riffage
+9454) illuminati
+9455) Illuminati
+9456) illuminism
+9457) illuminist (+plural)
+9458) catechumen (+plural)
+9459) Eucharistical
+9460) Euboea (name of place)
+9461) eubacterial
+9462) thunderless (Collins)
+9463) pleximetry
+9464) pleximeter
+9465) plexor + plessor
+9466) obturator (+plural)
+9467) arthroscopy
+9468) debridement
+9469) debride (+ed)
+9470) micro-environment (+plural)
+9471) autecology
+9472) autecological
+9473) caatinga
+9474) acetobacter
+9475) mycotoxin (+plural)
+9476) osteoderm (+plural)
+9477) osteodontokeratic
+9478) osteodermal
+9479) osteodentine
+9480) osteodystrophic
+9481) osteodystrophy
+9482) hyperparathyroidism
+9483) hyperparathyroid
+9484) hyperparasites (added plural)
+9485) hyperphagia
+9486) hypersomnia (Collins)
+9487) hypersomnolence (Collins)
+9488) postinflammatory
+9489) postinfectious
+9490) postinfection
+9491) postillation
+9492) postilioned
+9493) buckhound (+plural)
+9494) staghound (+plural)
+9495) elkhound (+plural)
+9496) Anglosphere
+9497) Anglophony + Anglophonie
+9498) Francophonie
+9499) Francophonia
+9500) disintegrative
+9501) disintegrator (+plural)
+9502) microcapsules (added plural)
+9503) sprayable
+9504) droppable
+9505) starchitects (added plural)
+9506) Baez (+'s - name)
+9507) sexvirate
+9508) sexuparous
+9509) sexuate (+ed)
+9510) Mondrian's (added the 's - name - Wikipedia)
+9511) naloxone
+9512) naltrexone
+9513) oxycodone's (added the 's)
+9514) opioids (added plural)
+9515) radiopaque + radio-opaque
+9516) radiopacity
+9517) psionic (+plural)
+9518) psionically
+9519) psilothrum
+9520) psilophyte
+9521) psilomelane
+9522) psilocybin
+9523) serotonergic
+9524) serotype (+plural)
+9525) serotypic
+9526) pneumococcus
+9527) pneumococci (plural of previous word)
+9528) pneumococcal
+9529) basophilia
+9530) nunchaku (+plural)
+9531) Zyrian
+9532) zythum
+9533) hippogriff + hippogryph (+plural of both)
+9534) manticore (+plural)
+9535) mantic
+9536) geomantical + geomantic
