@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-require('babel/register');
+require('babel-core/register');
 var babel = require('gulp-babel');
 var mocha = require('gulp-mocha');
 var runSequence = require("run-sequence");
@@ -21,9 +21,7 @@ gulp.task('clean', function() {
 
 gulp.task('babel', function () {
   return gulp.src(paths.es6)
-    .pipe(babel({
-        "presets": ["es2015-loose"]
-    }))
+    .pipe(babel())
     .pipe(gulp.dest(paths.es5));
 });
 
