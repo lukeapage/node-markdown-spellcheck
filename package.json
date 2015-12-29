@@ -39,6 +39,7 @@
     "marked": "^0.3.5"
   },
   "devDependencies": {
+    "babel-core": "^6.3.26",
     "babel-preset-es2015-loose": "^6.1.4",
     "chai": "^3.2.0",
     "del": "^2.0.2",
