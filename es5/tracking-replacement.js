@@ -2,7 +2,7 @@
 
 exports.__esModule = true;
 
-exports["default"] = function (src) {
+exports.default = function (src) {
   var maps = [];
   function getOriginalIndex(newIndex) {
     var firstMapBefore = undefined;
@@ -55,9 +55,8 @@ exports["default"] = function (src) {
     removeAll: function removeAll(regex) {
       return replaceAll(regex, "");
     },
+
     replaceAll: replaceAll,
     getOriginalIndex: getOriginalIndex
   };
 };
-
-module.exports = exports["default"];

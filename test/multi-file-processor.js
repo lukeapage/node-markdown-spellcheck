@@ -7,12 +7,12 @@ function getMultiFileProcessor(glob, spellConfig, spellcheck) {
   return proxyquire('../es5/multi-file-processor',
     {
       'glob': glob,
-      './spell-config': spellConfig,
-      './spellcheck': spellcheck,
+      './spell-config': { default: spellConfig },
+      './spellcheck': { default: spellcheck },
       'fs': {
         readFile: sinon.stub().callsArg(2)
       }
-    });
+    }).default;
 }
 
 function mockGlob(patterns) {

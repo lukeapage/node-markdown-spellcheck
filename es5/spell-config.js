@@ -2,11 +2,11 @@
 
 exports.__esModule = true;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fileLines = [];
 var globalDictionary = [];
@@ -59,7 +59,7 @@ function emptyFile() {
 }
 
 function initialise(filename, done) {
-  _fs2['default'].readFile(filename, { encoding: 'utf-8' }, function (err, data) {
+  _fs2.default.readFile(filename, { encoding: 'utf-8' }, function (err, data) {
     if (err) {
       emptyFile();
       return done();
@@ -76,7 +76,7 @@ function initialise(filename, done) {
 
 function writeFile(done) {
   var data = fileLines.join(isCrLf ? "\r\n" : "\n");
-  _fs2['default'].writeFile('./.spelling', data, function (err) {
+  _fs2.default.writeFile('./.spelling', data, function (err) {
     if (err) {
       console.error("Failed to save spelling file");
       console.error(err);
@@ -127,7 +127,7 @@ function getFileWords(filename) {
   return [];
 }
 
-exports['default'] = {
+exports.default = {
   initialise: initialise,
   writeFile: writeFile,
   addToGlobalDictionary: addToGlobalDictionary,
@@ -135,4 +135,3 @@ exports['default'] = {
   getGlobalWords: getGlobalWords,
   getFileWords: getFileWords
 };
-module.exports = exports['default'];

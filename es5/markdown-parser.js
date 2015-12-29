@@ -2,21 +2,11 @@
 
 exports.__esModule = true;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _marked = require("marked");
-
-var _marked2 = _interopRequireDefault(_marked);
-
-var _trackingReplacement = require("./tracking-replacement");
-
-var _trackingReplacement2 = _interopRequireDefault(_trackingReplacement);
-
-exports["default"] = function (src) {
+exports.default = function (src) {
   var textTokens = [];
   var currentIndex = 0;
 
-  var tracker = _trackingReplacement2["default"](src);
+  var tracker = (0, _trackingReplacement2.default)(src);
 
   // remove things we won't process so we can use simple next matching word logic
   // to calculate the index
@@ -63,8 +53,8 @@ exports["default"] = function (src) {
     textTokens.push({ text: text, index: tracker.getOriginalIndex(newIndex) });
   }
 
-  var tokens = _marked2["default"].lexer(src, options);
-  var inlineLexer = new _marked2["default"].InlineLexer(tokens.links, options);
+  var tokens = _marked2.default.lexer(src, options);
+  var inlineLexer = new _marked2.default.InlineLexer(tokens.links, options);
 
   for (var i = 0; i < tokens.length; i++) {
     var token = tokens[i];
@@ -76,4 +66,12 @@ exports["default"] = function (src) {
   return textTokens;
 };
 
-module.exports = exports["default"];
+var _marked = require("marked");
+
+var _marked2 = _interopRequireDefault(_marked);
+
+var _trackingReplacement = require("./tracking-replacement");
+
+var _trackingReplacement2 = _interopRequireDefault(_trackingReplacement);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

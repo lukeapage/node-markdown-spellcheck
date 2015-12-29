@@ -2,8 +2,6 @@
 
 exports.__esModule = true;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
@@ -30,10 +28,12 @@ var _async2 = _interopRequireDefault(_async);
 
 var _reportGenerator = require('./report-generator');
 
-function getWords(src, options) {
-  var words = _wordParser2['default'](_markdownParser2['default'](src));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-  return _filters2['default'].filter(words, options);
+function getWords(src, options) {
+  var words = (0, _wordParser2.default)((0, _markdownParser2.default)(src));
+
+  return _filters2.default.filter(words, options);
 }
 
 function spell(src, options) {
@@ -41,11 +41,11 @@ function spell(src, options) {
     throw new Error("spell takes a string");
   }
   var words = getWords(src, options);
-  return _spellcheck2['default'].checkWords(words);
+  return _spellcheck2.default.checkWords(words);
 }
 
 function spellFile(filename, options) {
-  var src = _fs2['default'].readFileSync(filename, 'utf-8');
+  var src = _fs2.default.readFileSync(filename, 'utf-8');
   return {
     errors: spell(src, options),
     src: src
@@ -55,8 +55,8 @@ function spellFile(filename, options) {
 function spellCallback(src, options, callback, done) {
   var words = getWords(src, options);
 
-  _async2['default'].eachSeries(words, function (wordInfo, onWordProcessed) {
-    if (!_spellcheck2['default'].checkWord(wordInfo.word)) {
+  _async2.default.eachSeries(words, function (wordInfo, onWordProcessed) {
+    if (!_spellcheck2.default.checkWord(wordInfo.word)) {
       callback(wordInfo, onWordProcessed);
     } else {
       onWordProcessed();
@@ -64,5 +64,4 @@ function spellCallback(src, options, callback, done) {
   }, done);
 }
 
-exports['default'] = { spell: spell, spellFile: spellFile, spellCallback: spellCallback, spellcheck: _spellcheck2['default'], generateSummaryReport: _reportGenerator.generateSummaryReport, generateFileReport: _reportGenerator.generateFileReport };
-module.exports = exports['default'];
+exports.default = { spell: spell, spellFile: spellFile, spellCallback: spellCallback, spellcheck: _spellcheck2.default, generateSummaryReport: _reportGenerator.generateSummaryReport, generateFileReport: _reportGenerator.generateFileReport };

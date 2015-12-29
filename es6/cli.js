@@ -5,7 +5,7 @@ import cliInteractive from './cli-interactive';
 import markdownSpellcheck from "./index";
 import chalk from 'chalk';
 import multiFileProcessor from './multi-file-processor';
-import { initialise as spellcheckInitialise } from './spellcheck';
+import spellcheck from './spellcheck';
 import { generateSummaryReport, generateFileReport } from './report-generator';
 
 const packageConfig = fs.readFileSync(path.join(__dirname, '../package.json'));
@@ -53,7 +53,7 @@ if (!program.args.length) {
 }
 else {
 
-  spellcheckInitialise(options);
+  spellcheck.initialise(options);
 
   const inputPatterns = program.args;
   multiFileProcessor(inputPatterns, options, (filename, src, fileProcessed) => {

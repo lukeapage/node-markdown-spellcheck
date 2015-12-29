@@ -7,11 +7,11 @@ function getCliInteractive(spellConfig, spellcheck, inquirer, writeCorrections, 
   return proxyquire('../es5/cli-interactive',
     {
       'inquirer': inquirer,
-      './write-corrections': writeCorrections,
-      './spell-config': spellConfig,
-      './spellcheck': spellcheck,
-      './index': index
-    });
+      './write-corrections': { default: writeCorrections },
+      './spell-config': { default: spellConfig },
+      './spellcheck': { default: spellcheck },
+      './index': { default: index }
+    }).default;
 }
 
 function mockSpellConfig(globalWords, fileWords) {
@@ -30,13 +30,14 @@ function mockSpellcheck() {
 }
 
 function mockInquirer() {
-  return {
+  var inquirer = {
     prompt: sinon.stub(),
     respond(answer) {
-      const cb = this.prompt.lastCall.args[1];
+      const cb = inquirer.prompt.lastCall.args[1];
       cb(answer);
     }
   };
+  return inquirer;
 }
 
 function mockWriteCorrections() {

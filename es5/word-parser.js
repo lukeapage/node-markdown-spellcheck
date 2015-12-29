@@ -2,7 +2,7 @@
 
 exports.__esModule = true;
 
-exports["default"] = function (tokens) {
+exports.default = function (tokens) {
   var wordList = [];
   for (var i = 0; i < tokens.length; i++) {
     var token = tokens[i];
@@ -35,5 +35,3 @@ exports["default"] = function (tokens) {
   }
   return wordList;
 };
-
-module.exports = exports["default"];

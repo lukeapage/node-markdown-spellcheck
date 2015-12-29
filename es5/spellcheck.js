@@ -2,9 +2,7 @@
 
 exports.__esModule = true;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _hunspellSpellchecker = require("hunspell-spellchecker");
+var _hunspellSpellchecker = require('hunspell-spellchecker');
 
 var _hunspellSpellchecker2 = _interopRequireDefault(_hunspellSpellchecker);
 
@@ -16,6 +14,8 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var spellchecker = undefined,
     dict = undefined;
 
@@ -23,29 +23,29 @@ function initialise(options) {
 
   var dictionaryOptions = options && options.dictionary;
 
-  var baseFile = _path2['default'].join(__dirname, '../data/en-GB');
+  var baseFile = _path2.default.join(__dirname, '../data/en-GB');
   if (dictionaryOptions && dictionaryOptions.file) {
     baseFile = dictionaryOptions.file;
   } else if (dictionaryOptions && dictionaryOptions.language) {
     switch (dictionaryOptions.language) {
       case 'en-us':
-        baseFile = _path2['default'].join(__dirname, '../data/en_US-large');
+        baseFile = _path2.default.join(__dirname, '../data/en_US-large');
         break;
       case 'en-gb':
         // default - do nothing
         break;
       case 'es-es':
-        baseFile = _path2['default'].join(__dirname, '../data/es_ANY');
+        baseFile = _path2.default.join(__dirname, '../data/es_ANY');
         break;
       default:
         throw new Error("unsupported language:" + dictionaryOptions.language);
     }
   }
 
-  spellchecker = new _hunspellSpellchecker2['default']();
+  spellchecker = new _hunspellSpellchecker2.default();
   dict = spellchecker.parse({
-    aff: _fs2['default'].readFileSync(baseFile + '.aff'),
-    dic: _fs2['default'].readFileSync(baseFile + '.dic')
+    aff: _fs2.default.readFileSync(baseFile + '.aff'),
+    dic: _fs2.default.readFileSync(baseFile + '.dic')
   });
   spellchecker.use(dict);
 }
@@ -130,7 +130,7 @@ function suggest(word) {
   return spellchecker.suggest(word);
 }
 
-exports['default'] = {
+exports.default = {
   initialise: initialise,
   checkWords: checkWords,
   checkWord: checkWord,
@@ -138,4 +138,3 @@ exports['default'] = {
   resetTemporaryCustomDictionary: resetTemporaryCustomDictionary,
   suggest: suggest
 };
-module.exports = exports['default'];

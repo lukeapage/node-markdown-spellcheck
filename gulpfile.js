@@ -22,7 +22,7 @@ gulp.task('clean', function() {
 gulp.task('babel', function () {
   return gulp.src(paths.es6)
     .pipe(babel({
-      loose: true
+        "presets": ["es2015-loose"]
     }))
     .pipe(gulp.dest(paths.es5));
 });
