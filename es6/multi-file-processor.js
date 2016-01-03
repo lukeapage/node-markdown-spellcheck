@@ -39,9 +39,9 @@ export default function(inputPatterns, options, fileCallback, resultCallback) {
           spellConfig.getFileWords(file)
             .forEach((word) => spellcheck.addWord(word, true));
 
-          fileCallback(file, src, () => {
+          fileCallback(file, src, (err, result) => {
             spellcheck.resetTemporaryCustomDictionary();
-            fileProcessed();
+            fileProcessed(err, result);
           });
         });
       }, resultCallback);

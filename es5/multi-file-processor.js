@@ -37,9 +37,9 @@ exports.default = function (inputPatterns, options, fileCallback, resultCallback
           return _spellcheck2.default.addWord(word, true);
         });
 
-        fileCallback(file, src, function () {
+        fileCallback(file, src, function (err, result) {
           _spellcheck2.default.resetTemporaryCustomDictionary();
-          fileProcessed();
+          fileProcessed(err, result);
         });
       });
     }, resultCallback);
