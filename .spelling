@@ -5,4 +5,5 @@
 # where filename is relative to this configuration file
 grunt-mdspell
  - CHANGELOG.md
+v0.8.0
 v0.7.0

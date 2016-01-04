@@ -5,7 +5,7 @@ v0.8.0
  * Upgrade Babel and fix bad ES6 import
  * Fix showing bad spelling report at end of processing
  * Fix allowing double backtick in markdown
- * Fix saving words with \u2019 apostrophe
+ * Fix saving words with `\u2019` apostrophe
  * Upgrade English GB dictionary
 
 v0.7.0
