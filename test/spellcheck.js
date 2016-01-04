@@ -32,6 +32,17 @@ describe("spell checker", () => {
     expect(badWords).to.deep.equal([]);
   });
 
+  it("should allow plural with utf apos on anything", () => {
+    const badWords = spellcheck.checkWords([{ word: "safety’s", index: 0 }]);
 
+    expect(badWords).to.deep.equal([]);
+  });
+
+  it("should utf apos when adding words", () => {
+    spellcheck.addWord("badwordspelling’s");
+    const badWords = spellcheck.checkWords([{ word: "badwordspelling’s", index: 0 }]);
+
+    expect(badWords).to.deep.equal([]);
+  });
 
 });

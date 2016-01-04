@@ -36,11 +36,15 @@ function initialise(options) {
   spellchecker.use(dict);
 }
 
+function normaliseApos(word) {
+  return word.replace(/\u2019/, "'");
+}
+
 function checkWord(word) {
   if (!spellchecker) {
     initialise();
   }
-  word = word.replace(/\u2019/, "'");
+  word = normaliseApos(word);
   if (spellchecker.check(word)) {
     return true;
   }
@@ -90,6 +94,8 @@ function addWord(word, temporary) {
   if (!spellchecker) {
     initialise();
   }
+
+  word = normaliseApos(word);
 
   if (!temporary) {
     customDictionary.push(word);
