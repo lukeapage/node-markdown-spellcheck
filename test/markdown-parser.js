@@ -84,6 +84,18 @@ This is a \`var\` inline.
       {text: 'inline.', index: 17}]);
   });
 
+  it("should be able to cope with double back-tick", () => {
+    const tokens = markdownParser(`
+This is a \`\`var\` with backtick\`\` inline.
+`);
+
+    expect(tokens).to.deep.equal([
+      {text: 'This', index: 1},
+      {text: 'is', index: 6},
+      {text: 'a', index: 9},
+      {text: 'inline.', index: 34}]);
+  });
+
   it("should be able to ignore html tags", () => {
     const tokens = markdownParser(`
 <h1>H1.</h1>
