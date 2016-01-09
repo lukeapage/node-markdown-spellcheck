@@ -4,17 +4,17 @@ exports.__esModule = true;
 
 exports.default = function (inputPatterns, options, fileCallback, resultCallback) {
   var allFiles = [];
-  _async2.default.parallel([_spellConfig2.default.initialise.bind(_spellConfig2.default, './.spelling'), _async2.default.each.bind(_async2.default, inputPatterns, function (inputPattern, inputPatternProcessed) {
-    (0, _glob2.default)(inputPattern, function (err, files) {
-      if (err) {
-        console.error("Error globbing:", inputPattern);
-        process.exitCode = 1;
-      } else {
-        allFiles.push.apply(allFiles, files);
-      }
-      inputPatternProcessed();
+
+  _async2.default.parallel([_spellConfig2.default.initialise.bind(_spellConfig2.default, './.spelling'), function (processed) {
+    (0, _globby2.default)(inputPatterns).then(function (files) {
+      allFiles = files;
+      processed();
+    }).catch(function () {
+      console.error("Error globbing:", inputPattern);
+      process.exitCode = 1;
+      processed();
     });
-  })], function () {
+  }], function () {
 
     // finished callback - config loaded and glob has returned all files
 
@@ -46,9 +46,9 @@ exports.default = function (inputPatterns, options, fileCallback, resultCallback
   });
 };
 
-var _glob = require('glob');
+var _globby = require('globby');
 
-var _glob2 = _interopRequireDefault(_glob);
+var _globby2 = _interopRequireDefault(_globby);
 
 var _async = require('async');
 

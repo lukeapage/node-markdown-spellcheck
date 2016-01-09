@@ -19,6 +19,14 @@ mdspell
 
 ### CLI Options
 
+### Excluding patterns
+
+Multiple patterns can be used on the command line and can use `!` for negation. E.g.
+
+```
+mdspell '**/*.md' '!**/node_modules/**/*.md'
+```
+
 #### Ignore numbers (`-n`, `--ignore-numbers`)
 
 Ignores numbers like `1.2` and `1,2.4`.

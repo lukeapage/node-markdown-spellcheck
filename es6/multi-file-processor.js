@@ -1,24 +1,25 @@
-import glob from 'glob';
+import globby from 'globby';
 import async from 'async';
 import spellConfig from './spell-config';
 import spellcheck from "./spellcheck";
 import fs from 'fs';
 
 export default function(inputPatterns, options, fileCallback, resultCallback) {
-  const allFiles = [];
+  let allFiles = [];
+
   async.parallel([spellConfig.initialise.bind(spellConfig, './.spelling'),
-    async.each.bind(async, inputPatterns, (inputPattern, inputPatternProcessed) => {
-      glob(inputPattern, (err, files) => {
-        if (err) {
-          console.error("Error globbing:", inputPattern);
-          process.exitCode = 1;
-        }
-        else {
-          allFiles.push.apply(allFiles, files);
-        }
-        inputPatternProcessed();
-      });
-    })], () => {
+    (processed) => {
+      globby(inputPatterns)
+        .then((files) => {
+            allFiles = files;
+            processed();
+          })
+        .catch(() => {
+            console.error("Error globbing:", inputPattern);
+            process.exitCode = 1;
+            processed();
+          });
+    }], () => {
 
       // finished callback - config loaded and glob has returned all files
 

@@ -3,10 +3,10 @@ import proxyquire from "proxyquire";
 import sinon from "sinon";
 import async from 'async';
 
-function getMultiFileProcessor(glob, spellConfig, spellcheck) {
+function getMultiFileProcessor(globby, spellConfig, spellcheck) {
   return proxyquire('../es5/multi-file-processor',
     {
-      'glob': glob,
+      'globby': globby,
       './spell-config': { default: spellConfig },
       './spellcheck': { default: spellcheck },
       'fs': {
@@ -15,12 +15,17 @@ function getMultiFileProcessor(glob, spellConfig, spellcheck) {
     }).default;
 }
 
-function mockGlob(patterns) {
-  return function(pattern, cb) {
-    if (patterns && patterns[pattern]) {
-      return cb(null, patterns[pattern]);
-    }
-    cb(null, []);
+function mockGlobby(files) {
+  return function(patterns) {
+    return {
+      then: function(cb) {
+        cb(files);
+        return this;
+      },
+      catch: function() {
+        return this;
+      }
+    };
   };
 }
 
@@ -67,7 +72,7 @@ describe("multi-file-processor", () => {
 
   it("should work with empty patterns", () => {
     const spellConfig = mockSpellConfig();
-    const multiFileProcessor = getMultiFileProcessor(mockGlob(), spellConfig, mockSpellcheck());
+    const multiFileProcessor = getMultiFileProcessor(mockGlobby([]), spellConfig, mockSpellcheck());
     const fileCallSpy = sinon.stub();
     fileCallSpy.callsArg(1);
     const finishedSpy = sinon.spy();
@@ -83,7 +88,7 @@ describe("multi-file-processor", () => {
 
     const spellConfig = mockSpellConfig(["global-word"], [["word-1"],["word-2-a", "word-2-b"],[],["word-4"]]);
     const spellcheck = mockSpellcheck();
-    const multiFileProcessor = getMultiFileProcessor(mockGlob({"a": ["1", "2"], "b": ["3", "4"]}), spellConfig, spellcheck);
+    const multiFileProcessor = getMultiFileProcessor(mockGlobby(["1", "2", "3", "4"]), spellConfig, spellcheck);
     const fileCallSpy = sinon.stub();
     fileCallSpy.callsArg(2);
     const finishedSpy = sinon.spy();
