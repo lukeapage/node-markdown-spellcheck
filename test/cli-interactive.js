@@ -139,6 +139,29 @@ describe("cli interactive", () => {
     expect(fileProcessed.calledOnce).to.equal(true);
   });
 
+  it("correct word with filtered word", () => {
+    const inquirer = mockInquirer();
+    const spellcheck = mockSpellcheck();
+    const writeCorrections = mockWriteCorrections();
+    const cliInteractive = getCliInteractive(mockSpellConfig(), spellcheck, inquirer, writeCorrections, mockIndex(["incorect"]));
+    const fileProcessed = sinon.spy();
+    cliInteractive("myfile", "", {ignoreAcronyms: true}, fileProcessed);
+
+    inquirer.respond({ action: "enter" });
+    spellcheck.checkWord.onCall(0).returns(false);
+    inquirer.respond({ word: "ABS" });
+
+    expect(writeCorrections.calledOnce).to.equal(true);
+    expect(writeCorrections.firstCall.args[2]).to.deep.equal([{
+      "newWord": "ABS",
+      "wordInfo": {
+        "index": 0,
+        "word": "incorect"
+      }
+    }]);
+    expect(fileProcessed.calledOnce).to.equal(true);
+  });
+
 
 
   // todo more tests
