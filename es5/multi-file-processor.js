@@ -10,7 +10,7 @@ exports.default = function (inputPatterns, options, fileCallback, resultCallback
       allFiles = files;
       processed();
     }).catch(function () {
-      console.error("Error globbing:", inputPattern);
+      console.error("Error globbing:", inputPatterns);
       process.exitCode = 1;
       processed();
     });
