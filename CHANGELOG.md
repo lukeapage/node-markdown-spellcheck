@@ -1,3 +1,10 @@
+v0.9.0
+
+09-01-2016
+
+ * Fix issue correcting words when filtering
+ * Add support for negated patterns
+
 v0.8.0
 
 04-01-2016

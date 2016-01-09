@@ -1,6 +1,6 @@
 {
   "name": "markdown-spellcheck",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Spell-checks markdown files with an interactive CLI allowing automated spell checking.",
   "keywords": [
     "markdown",
