@@ -114,7 +114,7 @@ function getCorrectWord(word, filename, options, done) {
 
     for (let i = 0; i < newWords.length; i++) {
       const newWord = newWords[i];
-      if (filters.filter([newWord], options).length > 0 && !spellcheck.checkWord(newWord)) {
+      if (filters.filter([{ word: newWord }], options).length > 0 && !spellcheck.checkWord(newWord)) {
         hasMistake = true;
       }
     }

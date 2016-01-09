@@ -138,7 +138,7 @@ function getCorrectWord(word, filename, options, done) {
 
     for (var i = 0; i < newWords.length; i++) {
       var newWord = newWords[i];
-      if (_filters2.default.filter([newWord], options).length > 0 && !_spellcheck2.default.checkWord(newWord)) {
+      if (_filters2.default.filter([{ word: newWord }], options).length > 0 && !_spellcheck2.default.checkWord(newWord)) {
         hasMistake = true;
       }
     }
