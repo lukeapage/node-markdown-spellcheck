@@ -35,7 +35,7 @@
     "commander": "^2.8.1",
     "globby": "^4.0.0",
     "hunspell-spellchecker": "^1.0.2",
-    "inquirer": "^0.11.0",
+    "inquirer": "^0.11.4",
     "marked": "^0.3.5"
   },
   "devDependencies": {
