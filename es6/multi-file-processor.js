@@ -11,40 +11,40 @@ export default function(inputPatterns, options, fileCallback, resultCallback) {
     (processed) => {
       globby(inputPatterns)
         .then((files) => {
-            allFiles = files;
-            processed();
-          })
+          allFiles = files;
+          processed();
+        })
         .catch(() => {
-            console.error("Error globbing:", inputPatterns);
-            process.exitCode = 1;
-            processed();
-          });
+          console.error("Error globbing:", inputPatterns);
+          process.exitCode = 1;
+          processed();
+        });
     }], () => {
 
       // finished callback - config loaded and glob has returned all files
 
-      spellConfig.getGlobalWords()
+    spellConfig.getGlobalWords()
         .forEach((word) => spellcheck.addWord(word));
 
-      async.mapSeries(allFiles, (file, fileProcessed) => {
+    async.mapSeries(allFiles, (file, fileProcessed) => {
 
-        fs.readFile(file, 'utf-8', (err, src) => {
+      fs.readFile(file, 'utf-8', (err, src) => {
 
-          if (err) {
-            console.error("Failed to open file:" + file);
-            console.error(err);
-            process.exitCode = 1;
-            return fileProcessed();
-          }
+        if (err) {
+          console.error("Failed to open file:" + file);
+          console.error(err);
+          process.exitCode = 1;
+          return fileProcessed();
+        }
 
-          spellConfig.getFileWords(file)
-            .forEach((word) => spellcheck.addWord(word, true));
+        spellConfig.getFileWords(file)
+          .forEach((word) => spellcheck.addWord(word, true));
 
-          fileCallback(file, src, (err, result) => {
-            spellcheck.resetTemporaryCustomDictionary();
-            fileProcessed(err, result);
-          });
+        fileCallback(file, src, (err, result) => {
+          spellcheck.resetTemporaryCustomDictionary();
+          fileProcessed(err, result);
         });
-      }, resultCallback);
-    });
+      });
+    }, resultCallback);
+  });
 }

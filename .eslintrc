@@ -1,14 +1,10 @@
 {
-  "ecmaFeatures": {
-    "modules": true,
-    "arrowFunctions": true,
-    "blockBindings": true,
-    "destructuring": true,
-    "objectLiteralDuplicateProperties": true,
-    "objectLiteralShorthandMethods": true,
-    "objectLiteralShorthandProperties": true,
-    "spread": true,
-    "templateStrings": true
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
   },
   "rules": {
     "no-alert": 2,
@@ -32,7 +28,6 @@
     "no-else-return": 1,
     "no-empty": 2,
     "no-empty-character-class": 2,
-    "no-empty-label": 1,
     "no-eq-null": 0,
     "no-eval": 2,
     "no-ex-assign": 2,
@@ -171,12 +166,11 @@
     "semi": [1, "always"],
     "semi-spacing": [1, {"before": false, "after": true}],
     "sort-vars": 0,
-    "space-after-keywords": [1, "always"],
+    "keyword-spacing": [1, { "before": true, "after": true }],
     "space-before-blocks": [1, "always"],
     "space-before-function-paren": [1, "never"],
     "space-in-parens": [1, "never"],
     "space-infix-ops": 1,
-    "space-return-throw-case": 1,
     "space-unary-ops": [1, { "words": true, "nonwords": false }],
     "spaced-comment": 0,
     "strict": [2, "global"],
@@ -187,8 +181,5 @@
     "wrap-iife": 0,
     "wrap-regex": 0,
     "yoda": [0, "never"]
-  },
-  "env": {
-    "node": true
   }
 }
