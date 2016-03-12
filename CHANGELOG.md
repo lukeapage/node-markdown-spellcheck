@@ -1,3 +1,9 @@
+v0.9.1
+
+12-03-2016
+
+ * Support for additional utf characters
+
 v0.9.0
 
 09-01-2016
