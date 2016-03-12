@@ -5,7 +5,7 @@ var mocha = require('gulp-mocha');
 var runSequence = require("run-sequence");
 var del = require('del');
 var eslint = require('gulp-eslint');
-var gulpIf = require('gulp-if');
+var eslintIfFixed = require('gulp-eslint-if-fixed');
 var path = require('path');
 
 var paths = {
@@ -52,12 +52,9 @@ gulp.task('lint', function () {
     .pipe(eslint.format())
     .pipe(eslint.failOnError());
 });
-function isFixed(file) {
-  return file.eslint != null && file.eslint.fixed;
-}
 gulp.task('lint-fix', function() {
   return gulp.src(paths.es6)
     .pipe(eslint({fix:true}))
     .pipe(eslint.format())
-    .pipe(gulpIf(isFixed, gulp.dest('es6')));
+    .pipe(eslintIfFixed('es6'));
 });
