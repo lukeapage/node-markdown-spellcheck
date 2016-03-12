@@ -2,7 +2,7 @@ v0.9.1
 
 12-03-2016
 
- * Support for additional utf characters
+ * Support for additional UTF characters
 
 v0.9.0
 
