@@ -44,6 +44,12 @@ describe("word parser", () => {
     expect(words).to.deep.equal([ { word: "\u00c2lph\u00c2", index: 0 }, { word: "gr\u00ffb", index: 6 }]);
   });
 
+  it("should include utf characters", () => {
+    const words = wordParser([{ text: "Ocakbaşı Balıkçısı", index: 0 }]);
+
+    expect(words).to.deep.equal([ { word: "Ocakbaşı", index: 0 }, { word: "Balıkçısı", index: 9 }]);
+  });
+
   it("should include full stops sometimes", () => {
     const words = wordParser([{ text: "e.t.c. end. Node.JS", index: 0 }]);
 
