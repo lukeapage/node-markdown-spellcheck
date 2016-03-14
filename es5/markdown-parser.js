@@ -12,6 +12,7 @@ exports.default = function (src) {
   // to calculate the index
   tracker.replaceAll(/\---\r?\n[\w\W]*?\r?\n---/, " "); // remove header
   tracker.removeAll(/```[\w\W]*?```/);
+  tracker.removeAll(/~~~[\w\W]*?~~~/);
   tracker.removeAll(/``[\w\W]*?``/);
   tracker.removeAll(/`[^`]*`/);
   tracker.replaceAll(/<style[\w\W]*?<\/style>/, " "); // remove contents of style
