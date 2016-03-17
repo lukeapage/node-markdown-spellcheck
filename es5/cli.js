@@ -44,7 +44,7 @@ _commander2.default.version(buildVersion)
 // options to replace etc.
 .option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.').option('--en-us', 'American english dictionary.').option('--en-gb', 'British english dictionary.').option('--es-es', 'Spanish dictionary.').option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.').option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').usage("[options] source-file source-file").parse(process.argv);
 
-var language = undefined;
+var language = void 0;
 if (_commander2.default.enUs) {
   language = "en-us";
 } else if (_commander2.default.enGb) {

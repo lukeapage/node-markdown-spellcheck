@@ -17,7 +17,7 @@ var globalDictionaryIndex = -1;
 function parse() {
   var lastNonCommentIndex = -1;
   var inGlobal = true;
-  var currentFile = undefined;
+  var currentFile = void 0;
   fileLines.forEach(function (line, index) {
     if (!line || line.indexOf('#') === 0) {
       return;

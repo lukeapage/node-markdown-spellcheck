@@ -5,7 +5,7 @@ exports.__esModule = true;
 exports.default = function (src) {
   var maps = [];
   function getOriginalIndex(newIndex) {
-    var firstMapBefore = undefined;
+    var firstMapBefore = void 0;
     for (var i = 0; i < maps.length; i++) {
       var map = maps[i];
       if (map.newIndex <= newIndex) {

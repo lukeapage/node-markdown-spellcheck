@@ -11,9 +11,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function getLines(src, index, noBefore, noAfter) {
   var beforeLines = [];
   var afterLines = [];
-  var thisLineStart = undefined,
-      line = undefined,
-      column = undefined;
+  var thisLineStart = void 0,
+      line = void 0,
+      column = void 0;
   var lastCutIndex = index;
 
   for (var i = index - 1; i >= 0; i--) {
@@ -34,14 +34,14 @@ function getLines(src, index, noBefore, noAfter) {
     thisLineStart = 0;
     column = index;
   }
-  for (var i = index; i < src.length; i++) {
-    if (src[i] === '\n') {
+  for (var _i = index; _i < src.length; _i++) {
+    if (src[_i] === '\n') {
       if (line === undefined) {
-        line = src.substr(thisLineStart, i - thisLineStart);
+        line = src.substr(thisLineStart, _i - thisLineStart);
       } else {
-        afterLines.push(src.substr(lastCutIndex, i - lastCutIndex));
+        afterLines.push(src.substr(lastCutIndex, _i - lastCutIndex));
       }
-      lastCutIndex = i;
+      lastCutIndex = _i;
       if (afterLines.length >= noAfter) {
         break;
       }
@@ -51,8 +51,8 @@ function getLines(src, index, noBefore, noAfter) {
     line = src.slice(thisLineStart);
   }
   var lineNumber = 1;
-  for (var i = index - 1; i >= 0; i--) {
-    if (src[i] === '\n') {
+  for (var _i2 = index - 1; _i2 >= 0; _i2--) {
+    if (src[_i2] === '\n') {
       lineNumber++;
     }
   }

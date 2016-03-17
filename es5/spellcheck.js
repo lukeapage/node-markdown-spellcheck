@@ -16,8 +16,8 @@ var _path2 = _interopRequireDefault(_path);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var spellchecker = undefined,
-    dict = undefined;
+var spellchecker = void 0,
+    dict = void 0;
 
 function initialise(options) {
 

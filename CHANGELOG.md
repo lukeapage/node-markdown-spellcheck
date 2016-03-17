@@ -1,3 +1,10 @@
+v0.10.0
+
+17-03-2016
+
+ * Upgrade English GB dictionary
+ * Support for Kramdown style code blocks
+
 v0.9.1
 
 12-03-2016
