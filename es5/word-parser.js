@@ -10,7 +10,7 @@ exports.default = function (tokens) {
     var index = token.index;
     while (true) {
       // eslint-disable-line no-constant-condition
-      var nextWord = text.match(/(\w+(\.\w+)+\.?)|[\u00c0-\u01bf\u01d0-\u029f\w'\u2018-\u2019][\-#\u00c0-\u01bf\u01d0-\u029f\w'\u2018-\u2019]*/);
+      var nextWord = text.match(/(\w+(\.\w+)+\.?)|[\u00c0-\u01bf\u01d0-\u029f\w'\u2018-\u2019][\-#\u00c0-\u01bf\u01d0-\u029f\w'\u2018-\u2019]*|[\u0400-\u04FF\w'\u2018-\u2019][\-#\u0400-\u04FF\w'\u2018-\u2019]*/);
       if (!nextWord) {
         break;
       }
