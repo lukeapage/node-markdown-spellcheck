@@ -36,7 +36,8 @@
     "globby": "^4.0.0",
     "hunspell-spellchecker": "^1.0.2",
     "inquirer": "^1.0.0",
-    "marked": "^0.3.5"
+    "marked": "^0.3.5",
+    "sinon-as-promised": "^4.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.3.26",
