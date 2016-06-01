@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import proxyquire from "proxyquire";
 import sinon from "sinon";
 import async from 'async';
+require('sinon-as-promised');
 
 function getCliInteractive(spellConfig, spellcheck, inquirer, writeCorrections, index) {
   return proxyquire('../es5/cli-interactive',
@@ -31,11 +32,7 @@ function mockSpellcheck() {
 
 function mockInquirer() {
   var inquirer = {
-    prompt: sinon.stub(),
-    respond(answer) {
-      const cb = inquirer.prompt.lastCall.args[1];
-      cb(answer);
-    }
+    prompt: sinon.stub().resolves()
   };
   return inquirer;
 }
@@ -82,10 +79,10 @@ describe("cli interactive", () => {
     const fileProcessed = sinon.spy();
     cliInteractive("myfile", "", {}, fileProcessed);
 
-    inquirer.respond({ action: "ignore" });
-
-    expect(fileProcessed.calledOnce).to.equal(true);
-    expect(spellcheck.addWord.calledOnce).to.equal(true);
+    inquirer.prompt().then(({ action = "ignore" } = {}) => {
+      expect(fileProcessed.calledOnce).to.equal(true);
+      expect(spellcheck.addWord.calledOnce).to.equal(true);
+    });
   });
 
   it("correct word with 2 words", () => {
@@ -96,21 +93,24 @@ describe("cli interactive", () => {
     const fileProcessed = sinon.spy();
     cliInteractive("myfile", "", {}, fileProcessed);
 
-    inquirer.respond({ action: "enter" });
-    spellcheck.checkWord.onCall(0).returns(true);
-    spellcheck.checkWord.onCall(1).returns(true);
-    inquirer.respond({ word: "two words" });
-    expect(spellcheck.checkWord.calledTwice).to.equal(true);
+    inquirer.prompt().then(({ action = "enter" } = {}) => {
+      spellcheck.checkWord.onCall(0).returns(true);
+      spellcheck.checkWord.onCall(1).returns(true);
 
-    expect(writeCorrections.calledOnce).to.equal(true);
-    expect(writeCorrections.firstCall.args[2]).to.deep.equal([{
-      "newWord": "two words",
-      "wordInfo": {
-        "index": 0,
-        "word": "twowords"
-      }
-    }]);
-    expect(fileProcessed.calledOnce).to.equal(true);
+      inquirer.prompt().then(({ word = "two words" } = {}) => {
+        expect(spellcheck.checkWord.calledTwice).to.equal(true);
+
+        expect(writeCorrections.calledOnce).to.equal(true);
+        expect(writeCorrections.firstCall.args[2]).to.deep.equal([{
+          "newWord": "two words",
+          "wordInfo": {
+            "index": 0,
+            "word": "twowords"
+          }
+        }]);
+        expect(fileProcessed.calledOnce).to.equal(true);
+      });
+    });
   });
 
   it("correct word with incorrect word", () => {
@@ -121,22 +121,25 @@ describe("cli interactive", () => {
     const fileProcessed = sinon.spy();
     cliInteractive("myfile", "", {}, fileProcessed);
 
-    inquirer.respond({ action: "enter" });
-    spellcheck.checkWord.onCall(0).returns(false);
-    inquirer.respond({ word: "incorret" });
-    inquirer.respond({ action: "enter" });
-    spellcheck.checkWord.onCall(1).returns(true);
-    inquirer.respond({ word: "incorrect" })
-
-    expect(writeCorrections.calledOnce).to.equal(true);
-    expect(writeCorrections.firstCall.args[2]).to.deep.equal([{
-      "newWord": "incorrect",
-      "wordInfo": {
-        "index": 0,
-        "word": "incorect"
-      }
-    }]);
-    expect(fileProcessed.calledOnce).to.equal(true);
+    inquirer.prompt().then(({ action = "enter" } = {}) => {
+      spellcheck.checkWord.onCall(0).returns(false);
+      inquirer.prompt().then(({ word = "incorret" } = {}) => {
+        inquirer.prompt().then(({ action = "enter" } = {}) => {
+          spellcheck.checkWord.onCall(1).returns(true);
+          inquirer.prompt().then(({ word = "incorret" } = {}) => {
+            expect(writeCorrections.calledOnce).to.equal(true);
+            expect(writeCorrections.firstCall.args[2]).to.deep.equal([{
+              "newWord": "incorrect",
+              "wordInfo": {
+                "index": 0,
+                "word": "incorect"
+              }
+            }]);
+            expect(fileProcessed.calledOnce).to.equal(true);
+          })
+        })
+      })
+    });
   });
 
   it("correct word with filtered word", () => {
@@ -147,22 +150,20 @@ describe("cli interactive", () => {
     const fileProcessed = sinon.spy();
     cliInteractive("myfile", "", {ignoreAcronyms: true}, fileProcessed);
 
-    inquirer.respond({ action: "enter" });
-    spellcheck.checkWord.onCall(0).returns(false);
-    inquirer.respond({ word: "ABS" });
-
-    expect(writeCorrections.calledOnce).to.equal(true);
-    expect(writeCorrections.firstCall.args[2]).to.deep.equal([{
-      "newWord": "ABS",
-      "wordInfo": {
-        "index": 0,
-        "word": "incorect"
-      }
-    }]);
-    expect(fileProcessed.calledOnce).to.equal(true);
+    inquirer.prompt().then(({ action = "enter" } = {}) => {
+      spellcheck.checkWord.onCall(0).returns(false);
+      inquirer.prompt().then(({word = "ABS"} = {}) => {
+        expect(writeCorrections.calledOnce).to.equal(true);
+        expect(writeCorrections.firstCall.args[2]).to.deep.equal([{
+          "newWord": "ABS",
+          "wordInfo": {
+            "index": 0,
+            "word": "incorect"
+          }
+        }]);
+        expect(fileProcessed.calledOnce).to.equal(true);
+      })
+    });
   });
-
-
-
   // todo more tests
 });

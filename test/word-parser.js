@@ -8,10 +8,22 @@ describe("word parser", () => {
     expect(words).to.deep.equal([ { word: 'word', index: 0 }]);
   });
 
+  it("should be able to find a cyrillic word", () => {
+    const words = wordParser([{ text: "монгол", index: 0 }]);
+
+    expect(words).to.deep.equal([ { word: 'монгол', index: 0 }]);
+  });
+
   it("should be able to find multiple words", () => {
     const words = wordParser([{ text: "a word", index: 0 }]);
 
     expect(words).to.deep.equal([ { word: 'a', index: 0 }, { word: 'word', index: 2 }]);
+  });
+
+  it("should be able to find multiple words from mixed string with latin & cyrillic", () => {
+    const words = wordParser([{ text: "Mongolia монгол", index: 0 }]);
+
+    expect(words).to.deep.equal([ { word: 'Mongolia', index: 0 }, { word: 'монгол', index: 9 }]);
   });
 
   it("should ignore punctuation", () => {

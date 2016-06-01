@@ -91,7 +91,7 @@ function incorrectWordChoices(word, message, filename, options, done) {
     message: message,
     choices: choices,
     default: defaultAction
-  }], function (answer) {
+  }]).then(function (answer) {
     switch (answer.action) {
       case ACTION_ADD:
         word = word.toLowerCase();
@@ -132,7 +132,7 @@ function getCorrectWord(word, filename, options, done) {
     name: "word",
     message: "correct word >",
     default: word
-  }], function (answer) {
+  }]).then(function (answer) {
     var newWords = answer.word.split(/\s/g);
     var hasMistake = false;
 
