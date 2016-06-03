@@ -1,3 +1,9 @@
+v0.11.0
+
+03-06-2016
+
+ * Support for cryllic characters
+
 v0.10.0
 
 17-03-2016
