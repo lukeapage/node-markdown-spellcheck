@@ -28,7 +28,8 @@ export function generateFileReport(file, spellingInfo) {
 
     const lineNumber = String(displayBlock.lineNumber);
     const lineNumberPadding = Array(10 - lineNumber.length).join(' ');
-    const linePrefix = `${lineNumberPadding}${lineNumber} |`;
+    const errorIndex = String(error.index);
+    const linePrefix = `${lineNumberPadding}${lineNumber}:${errorIndex} |`;
     report += `${linePrefix} ${displayBlock.info} \n`;
   }
   return report;

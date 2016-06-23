@@ -44,7 +44,8 @@ function generateFileReport(file, spellingInfo) {
 
     var lineNumber = String(displayBlock.lineNumber);
     var lineNumberPadding = Array(10 - lineNumber.length).join(' ');
-    var linePrefix = '' + lineNumberPadding + lineNumber + ' |';
+    var errorIndex = String(error.index);
+    var linePrefix = '' + lineNumberPadding + lineNumber + ':' + errorIndex + ' |';
     report += linePrefix + ' ' + displayBlock.info + ' \n';
   }
   return report;
