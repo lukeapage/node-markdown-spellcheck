@@ -52,6 +52,6 @@
     "gulp-mocha": "^3.0.0",
     "proxyquire": "^1.7.0",
     "run-sequence": "^1.1.2",
-    "sinon": "^1.15.4"
+    "sinon": "^1.17.5"
   }
 }
