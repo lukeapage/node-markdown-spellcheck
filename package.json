@@ -30,7 +30,7 @@
     "url": "https://github.com/lukeapage/node-markdown-spellcheck/issues"
   },
   "dependencies": {
-    "async": "^1.4.2",
+    "async": "^2.1.0",
     "chalk": "^1.1.2",
     "commander": "^2.8.1",
     "globby": "^6.0.0",
