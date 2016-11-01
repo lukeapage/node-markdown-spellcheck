@@ -11,7 +11,7 @@
   ],
   "engines": {
     "iojs": ">= 1.0.0",
-    "node": ">=0.10.0"
+    "node": ">= 4"
   },
   "main": "es5/index.js",
   "bin": {
