@@ -34,7 +34,7 @@
     "async": "^2.1.2",
     "chalk": "^1.1.2",
     "commander": "^2.8.1",
-    "globby": "^6.0.0",
+    "globby": "^6.1.0",
     "hunspell-spellchecker": "^1.0.2",
     "inquirer": "^1.0.0",
     "marked": "^0.3.5",
