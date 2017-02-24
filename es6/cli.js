@@ -34,7 +34,7 @@ if (program.enUs) {
 else if (program.enGb) {
   language = "en-gb";
 }
-else if (program.enAU) {
+else if (program.enAu) {
   language = "en-au";
 }
 else if (program.esEs) {

@@ -49,7 +49,7 @@ if (_commander2.default.enUs) {
   language = "en-us";
 } else if (_commander2.default.enGb) {
   language = "en-gb";
-} else if (_commander2.default.enAU) {
+} else if (_commander2.default.enAu) {
   language = "en-au";
 } else if (_commander2.default.esEs) {
   language = "es-es";
