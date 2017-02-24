@@ -17,8 +17,9 @@ program
   // options to replace etc.
   .option('-r, --report', 'Outputs a full report which details the unique spelling errors found.')
   .option('-n, --ignore-numbers', 'Ignores numbers.')
-  .option('--en-us', 'American english dictionary.')
-  .option('--en-gb', 'British english dictionary.')
+  .option('--en-us', 'American English dictionary.')
+  .option('--en-gb', 'British English dictionary.')
+  .option('--en-au', 'Australian English dictionary.')
   .option('--es-es', 'Spanish dictionary.')
   .option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.')
   .option('-a, --ignore-acronyms', 'Ignores acronyms.')
@@ -32,6 +33,9 @@ if (program.enUs) {
 }
 else if (program.enGb) {
   language = "en-gb";
+}
+else if (program.enAU) {
+  language = "en-au";
 }
 else if (program.esEs) {
   language = "es-es";

@@ -42,13 +42,15 @@ var buildVersion = JSON.parse(packageConfig).version;
 _commander2.default.version(buildVersion)
 // default cli behaviour will be an interactive walkthrough each error, with suggestions,
 // options to replace etc.
-.option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.').option('--en-us', 'American english dictionary.').option('--en-gb', 'British english dictionary.').option('--es-es', 'Spanish dictionary.').option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.').option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').usage("[options] source-file source-file").parse(process.argv);
+.option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.').option('--en-us', 'American English dictionary.').option('--en-gb', 'British English dictionary.').option('--en-au', 'Australian English dictionary.').option('--es-es', 'Spanish dictionary.').option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.').option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').usage("[options] source-file source-file").parse(process.argv);
 
 var language = void 0;
 if (_commander2.default.enUs) {
   language = "en-us";
 } else if (_commander2.default.enGb) {
   language = "en-gb";
+} else if (_commander2.default.enAU) {
+  language = "en-au";
 } else if (_commander2.default.esEs) {
   language = "es-es";
 }

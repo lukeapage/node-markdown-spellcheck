@@ -1,3 +1,10 @@
+Unreleased
+
+24-02-2017
+
+ * Added support for Australian English
+ * Added `yarn` lock file
+
 v0.11.0
 
 03-06-2016
