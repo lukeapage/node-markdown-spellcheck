@@ -47,13 +47,17 @@ Use the American English dictionary. We default to British English but will chan
 
 Use the British English dictionary. We default default to British English but will change in the next major to American.
 
+#### Australian English (`--en-au`)
+
+Use the Australian English dictionary.
+
 #### Spanish (`--es-es`)
 
 Use the Spanish dictionary.
 
 #### Dictionary (`-d`, `--dictionary`)
 
-Specify a custom Hunspell dictionary to load. The passed filename should not include a file extension and `markdown-spellcheck` will attempt to load the file with `.aif` and `.dic` extensions. 
+Specify a custom Hunspell dictionary to load. The passed filename should not include a file extension and `markdown-spellcheck` will attempt to load the file with `.aff` and `.dic` extensions.
 
 ### Interactive Mode
 
@@ -135,7 +139,7 @@ See [https://github.com/marcoagpinto/aoo-mozilla-en-dict](https://github.com/mar
 
 Missing word? Raise it at [https://github.com/marcoagpinto/aoo-mozilla-en-dict/issues](https://github.com/marcoagpinto/aoo-mozilla-en-dict/issues).
 
-#### English-US
+#### English-US and English-AU
 
 See [http://wordlist.aspell.net/dicts/](http://wordlist.aspell.net/dicts/).
 
