@@ -1,9 +1,10 @@
-Unreleased
+v1.0.0
 
-24-02-2017
+05-08-2017
 
  * Added support for Australian English
- * Added `yarn` lock file
+ * Upgraded packages
+ * Dropped support for node < 4
 
 v0.11.0
 
