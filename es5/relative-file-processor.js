@@ -41,7 +41,6 @@ exports.default = function (inputPatterns, options, fileCallback, resultCallback
 
       fileCallback(file, src, function (err, result) {
         _spellcheck2.default.resetTemporaryCustomDictionary();
-        _spellcheck2.default.resetDictionary();
         fileProcessed(err, result);
       });
     });

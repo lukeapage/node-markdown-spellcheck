@@ -42,7 +42,6 @@ export default function(inputPatterns, options, fileCallback, resultCallback) {
 
       fileCallback(file, src, (err, result) => {
         spellcheck.resetTemporaryCustomDictionary();
-        spellcheck.resetDictionary();
         fileProcessed(err, result);
       });
     });
