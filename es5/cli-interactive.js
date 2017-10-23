@@ -67,10 +67,9 @@ var previousChoices = Object.create(null);
 function incorrectWordChoices(word, message, filename, options, done) {
   var suggestions = options.suggestions ? _spellcheck2.default.suggest(word) : [];
 
-  var choices = [CHOICE_IGNORE, CHOICE_FILE_IGNORE, CHOICE_ADD, CHOICE_CORRECT];
+  var choices = [CHOICE_IGNORE, options.relativeSpellingFiles ? CHOICE_FILE_IGNORE_RELATIVE : CHOICE_FILE_IGNORE, CHOICE_ADD, CHOICE_CORRECT];
 
   if (options.relativeSpellingFiles) {
-    choices.splice(2, 0, CHOICE_FILE_IGNORE_RELATIVE);
     choices.splice(4, 0, CHOICE_ADD_RELATIVE);
   }
 

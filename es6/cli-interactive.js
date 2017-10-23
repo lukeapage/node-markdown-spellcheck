@@ -32,13 +32,12 @@ function incorrectWordChoices(word, message, filename, options, done) {
 
   const choices = [
     CHOICE_IGNORE,
-    CHOICE_FILE_IGNORE,
+    options.relativeSpellingFiles ? CHOICE_FILE_IGNORE_RELATIVE : CHOICE_FILE_IGNORE,
     CHOICE_ADD,
     CHOICE_CORRECT
   ];
 
   if (options.relativeSpellingFiles) {
-    choices.splice(2, 0, CHOICE_FILE_IGNORE_RELATIVE);
     choices.splice(4, 0, CHOICE_ADD_RELATIVE);
   }
 
