@@ -1,5 +1,5 @@
 {
-  "name": "@jburton/markdown-spellcheck",
+  "name": "markdown-relative-file-spellcheck",
   "version": "1.0.0",
   "description": "Spell-checks markdown files with an interactive CLI allowing automated spell checking.",
   "keywords": [
