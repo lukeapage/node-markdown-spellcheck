@@ -1,5 +1,5 @@
 {
-  "name": "markdown-relative-file-spellcheck",
+  "name": "markdown-spellcheck",
   "version": "1.0.0",
   "description": "Spell-checks markdown files with an interactive CLI allowing automated spell checking.",
   "keywords": [
@@ -24,10 +24,10 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jacoburton104/node-markdown-spellcheck.git"
+    "url": "https://github.com/lukeapage/node-markdown-spellcheck.git"
   },
   "bugs": {
-    "url": "https://github.com/jacoburton104/node-markdown-spellcheck/issues"
+    "url": "https://github.com/lukeapage/node-markdown-spellcheck/issues"
   },
   "dependencies": {
     "async": "^2.1.4",
