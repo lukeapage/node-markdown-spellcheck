@@ -57,7 +57,7 @@ function spellCallback(src, options, callback, done) {
 
   _async2.default.eachSeries(words, function (wordInfo, onWordProcessed) {
     if (!_spellcheck2.default.checkWord(wordInfo.word)) {
-      callback(wordInfo, onWordProcessed);
+      _async2.default.setImmediate(callback(wordInfo, onWordProcessed));
     } else {
       onWordProcessed();
     }
