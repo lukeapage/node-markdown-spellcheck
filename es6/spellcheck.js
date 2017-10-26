@@ -80,7 +80,7 @@ function checkWords(words, options) {
   const mistakes = [];
   for (let i = 0; i < words.length; i++) {
     const wordInfo = words[i];
-    if (!checkWord(wordInfo.word)) {
+    if (!checkWord(wordInfo.word, options)) {
       mistakes.push(wordInfo);
     }
   }
