@@ -1,3 +1,9 @@
+v1.2.0
+
+12-11-2017
+
+* Only ignore test between two horizontal rules if it looks like Jekyll front matter
+
 v1.1.0
 
 12-11-2017
