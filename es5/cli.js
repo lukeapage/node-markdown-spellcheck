@@ -28,6 +28,10 @@ var _multiFileProcessor = require('./multi-file-processor');
 
 var _multiFileProcessor2 = _interopRequireDefault(_multiFileProcessor);
 
+var _relativeFileProcessor = require('./relative-file-processor');
+
+var _relativeFileProcessor2 = _interopRequireDefault(_relativeFileProcessor);
+
 var _spellcheck = require('./spellcheck');
 
 var _spellcheck2 = _interopRequireDefault(_spellcheck);
@@ -42,7 +46,7 @@ var buildVersion = JSON.parse(packageConfig).version;
 _commander2.default.version(buildVersion)
 // default cli behaviour will be an interactive walkthrough each error, with suggestions,
 // options to replace etc.
-.option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.').option('--en-us', 'American English dictionary.').option('--en-gb', 'British English dictionary.').option('--en-au', 'Australian English dictionary.').option('--es-es', 'Spanish dictionary.').option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.').option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').usage("[options] source-file source-file").parse(process.argv);
+.option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.').option('--en-us', 'American English dictionary.').option('--en-gb', 'British English dictionary.').option('--en-au', 'Australian English dictionary.').option('--es-es', 'Spanish dictionary.').option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.').option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').option('-t, --target-relative', 'Uses ".spelling" files relative to the target.').usage("[options] source-file source-file").parse(process.argv);
 
 var language = void 0;
 if (_commander2.default.enUs) {
@@ -59,6 +63,7 @@ var options = {
   ignoreAcronyms: _commander2.default.ignoreAcronyms,
   ignoreNumbers: _commander2.default.ignoreNumbers,
   suggestions: _commander2.default.suggestions,
+  relativeSpellingFiles: _commander2.default.targetRelative,
   dictionary: {
     language: language,
     file: _commander2.default.dictionary
@@ -73,7 +78,8 @@ if (!_commander2.default.args.length) {
   _spellcheck2.default.initialise(options);
 
   var inputPatterns = _commander2.default.args;
-  (0, _multiFileProcessor2.default)(inputPatterns, options, function (filename, src, fileProcessed) {
+  var processor = options.relativeSpellingFiles ? _relativeFileProcessor2.default : _multiFileProcessor2.default;
+  processor(inputPatterns, options, function (filename, src, fileProcessed) {
 
     if (_commander2.default.report) {
       var errors = _index2.default.spell(src, options);

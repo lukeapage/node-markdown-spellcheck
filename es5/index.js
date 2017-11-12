@@ -55,13 +55,13 @@ function spellFile(filename, options) {
 function spellCallback(src, options, callback, done) {
   var words = getWords(src, options);
 
-  _async2.default.eachSeries(words, function (wordInfo, onWordProcessed) {
+  _async2.default.eachSeries(words, _async2.default.ensureAsync(function (wordInfo, onWordProcessed) {
     if (!_spellcheck2.default.checkWord(wordInfo.word)) {
       callback(wordInfo, onWordProcessed);
     } else {
       onWordProcessed();
     }
-  }, done);
+  }), done);
 }
 
 exports.default = { spell: spell, spellFile: spellFile, spellCallback: spellCallback, spellcheck: _spellcheck2.default, generateSummaryReport: _reportGenerator.generateSummaryReport, generateFileReport: _reportGenerator.generateFileReport };

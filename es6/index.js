@@ -31,14 +31,14 @@ function spellFile(filename, options) {
 function spellCallback(src, options, callback, done) {
   const words = getWords(src, options);
 
-  async.eachSeries(words, function(wordInfo, onWordProcessed) {
+  async.eachSeries(words, async.ensureAsync(function(wordInfo, onWordProcessed) {
     if (!spellcheck.checkWord(wordInfo.word)) {
       callback(wordInfo, onWordProcessed);
     }
     else {
       onWordProcessed();
     }
-  }, done);
+  }), done);
 }
 
 export default { spell, spellFile, spellCallback, spellcheck, generateSummaryReport, generateFileReport };

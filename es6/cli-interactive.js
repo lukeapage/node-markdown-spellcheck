@@ -8,14 +8,20 @@ import writeCorrections from './write-corrections';
 
 const ACTION_IGNORE = "ignore";
 const ACTION_FILE_IGNORE = "fileignore";
+const ACTION_FILE_IGNORE_RELATIVE = "fileignore-relative";
 const ACTION_ADD = "add";
 const ACTION_ADD_CASED = "add-cased";
+const ACTION_ADD_RELATIVE = "add-relative";
+const ACTION_ADD_CASED_RELATIVE = "add-cased-relative";
 const ACTION_CORRECT = "enter";
 
 const CHOICE_IGNORE = { name: "Ignore", value: ACTION_IGNORE };
 const CHOICE_FILE_IGNORE = { name: "Add to file ignores", value: ACTION_FILE_IGNORE };
+const CHOICE_FILE_IGNORE_RELATIVE = { name: "[Relative] Add to file ignores", value: ACTION_FILE_IGNORE_RELATIVE };
 const CHOICE_ADD = { name: "Add to dictionary - case insensitive", value: ACTION_ADD };
 const CHOICE_ADD_CASED = { name: "Add to dictionary - case sensitive", value: ACTION_ADD_CASED };
+const CHOICE_ADD_RELATIVE = { name: "[Relative] Add to dictionary - case insensitive", value: ACTION_ADD_RELATIVE };
+const CHOICE_ADD_CASED_RELATIVE = { name: "[Relative] Add to dictionary - case sensitive", value: ACTION_ADD_CASED_RELATIVE };
 const CHOICE_CORRECT = { name: "Enter correct spelling", value: ACTION_CORRECT };
 
 const previousChoices = Object.create(null);
@@ -26,13 +32,20 @@ function incorrectWordChoices(word, message, filename, options, done) {
 
   const choices = [
     CHOICE_IGNORE,
-    CHOICE_FILE_IGNORE,
+    options.relativeSpellingFiles ? CHOICE_FILE_IGNORE_RELATIVE : CHOICE_FILE_IGNORE,
     CHOICE_ADD,
     CHOICE_CORRECT
   ];
 
+  if (options.relativeSpellingFiles) {
+    choices.splice(4, 0, CHOICE_ADD_RELATIVE);
+  }
+
   if (word.match(/[A-Z]/)) {
     choices.splice(3, 0, CHOICE_ADD_CASED);
+    if (options.relativeSpellingFiles) {
+      choices.splice(5, 0, CHOICE_ADD_CASED_RELATIVE);
+    }
   }
 
   let defaultAction = ACTION_CORRECT;
@@ -77,12 +90,26 @@ function incorrectWordChoices(word, message, filename, options, done) {
         spellConfig.addToGlobalDictionary(word);
         done();
         break;
+      case ACTION_ADD_RELATIVE:
+        word = word.toLowerCase();
+      /* fallthrough */
+      case ACTION_ADD_CASED_RELATIVE:
+        spellcheck.addWord(word);
+        spellConfig.addToGlobalDictionary(word, true);
+        done();
+        break;
       case ACTION_CORRECT:
         getCorrectWord(word, filename, options, done);
         break;
       case ACTION_FILE_IGNORE:
         spellcheck.addWord(word, true);
         spellConfig.addToFileDictionary(filename, word);
+        previousChoices[word] = answer;
+        done();
+        break;
+      case ACTION_FILE_IGNORE_RELATIVE:
+        spellcheck.addWord(word, true);
+        spellConfig.addToFileDictionary(filename, word, true);
         previousChoices[word] = answer;
         done();
         break;
@@ -163,6 +190,12 @@ function spellAndFixFile(filename, src, options, onFinishedFile) {
 
 export default function(file, src, options, fileProcessed) {
   spellAndFixFile(file, src, options, () => {
-    spellConfig.writeFile(fileProcessed);
+    spellConfig.writeFile(() => {
+      if (options.relativeSpellingFiles) {
+        spellConfig.writeFile(fileProcessed, true);
+      } else {
+        fileProcessed();
+      }
+    });
   });
 }

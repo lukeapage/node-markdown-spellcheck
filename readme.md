@@ -87,6 +87,14 @@ Where `speling` will be highlighted in red.
  
 All exclusions will be stored in a `.spelling` file in the directory from which you run the command.
 
+### Target Relative Mode
+
+Using the `--target-relative` (`-t`) option will augment the shared `.spelling` file with a relative `.spelling` file (sibling of the `.md` file) and give you the additional options with the interactive mode: 
+
+* "Add to file ignores" will be replaced with "[Relative] Add to file ignores". There is no need to add file ignores into the shared `.spelling` file.
+* "[Relative] Add to dictionary - case insensitive" will add to the dictionary for all files within the current `.md` file and match any case.
+* "[Relative] Add to dictionary - case sensitive" will add to the dictionary for all files within the folder of the current `.md` file.
+
 ### Report Mode
 
 Using the `--report` (`-r`) option will show a report of all the spelling mistakes that have been found. This mode is useful for CI build reports. 

@@ -4,7 +4,13 @@ exports.__esModule = true;
 
 exports.default = function (file, src, options, fileProcessed) {
   spellAndFixFile(file, src, options, function () {
-    _spellConfig2.default.writeFile(fileProcessed);
+    _spellConfig2.default.writeFile(function () {
+      if (options.relativeSpellingFiles) {
+        _spellConfig2.default.writeFile(fileProcessed, true);
+      } else {
+        fileProcessed();
+      }
+    });
   });
 };
 
@@ -40,14 +46,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ACTION_IGNORE = "ignore";
 var ACTION_FILE_IGNORE = "fileignore";
+var ACTION_FILE_IGNORE_RELATIVE = "fileignore-relative";
 var ACTION_ADD = "add";
 var ACTION_ADD_CASED = "add-cased";
+var ACTION_ADD_RELATIVE = "add-relative";
+var ACTION_ADD_CASED_RELATIVE = "add-cased-relative";
 var ACTION_CORRECT = "enter";
 
 var CHOICE_IGNORE = { name: "Ignore", value: ACTION_IGNORE };
 var CHOICE_FILE_IGNORE = { name: "Add to file ignores", value: ACTION_FILE_IGNORE };
+var CHOICE_FILE_IGNORE_RELATIVE = { name: "[Relative] Add to file ignores", value: ACTION_FILE_IGNORE_RELATIVE };
 var CHOICE_ADD = { name: "Add to dictionary - case insensitive", value: ACTION_ADD };
 var CHOICE_ADD_CASED = { name: "Add to dictionary - case sensitive", value: ACTION_ADD_CASED };
+var CHOICE_ADD_RELATIVE = { name: "[Relative] Add to dictionary - case insensitive", value: ACTION_ADD_RELATIVE };
+var CHOICE_ADD_CASED_RELATIVE = { name: "[Relative] Add to dictionary - case sensitive", value: ACTION_ADD_CASED_RELATIVE };
 var CHOICE_CORRECT = { name: "Enter correct spelling", value: ACTION_CORRECT };
 
 var previousChoices = Object.create(null);
@@ -55,10 +67,17 @@ var previousChoices = Object.create(null);
 function incorrectWordChoices(word, message, filename, options, done) {
   var suggestions = options.suggestions ? _spellcheck2.default.suggest(word) : [];
 
-  var choices = [CHOICE_IGNORE, CHOICE_FILE_IGNORE, CHOICE_ADD, CHOICE_CORRECT];
+  var choices = [CHOICE_IGNORE, options.relativeSpellingFiles ? CHOICE_FILE_IGNORE_RELATIVE : CHOICE_FILE_IGNORE, CHOICE_ADD, CHOICE_CORRECT];
+
+  if (options.relativeSpellingFiles) {
+    choices.splice(4, 0, CHOICE_ADD_RELATIVE);
+  }
 
   if (word.match(/[A-Z]/)) {
     choices.splice(3, 0, CHOICE_ADD_CASED);
+    if (options.relativeSpellingFiles) {
+      choices.splice(5, 0, CHOICE_ADD_CASED_RELATIVE);
+    }
   }
 
   var defaultAction = ACTION_CORRECT;
@@ -101,12 +120,26 @@ function incorrectWordChoices(word, message, filename, options, done) {
         _spellConfig2.default.addToGlobalDictionary(word);
         done();
         break;
+      case ACTION_ADD_RELATIVE:
+        word = word.toLowerCase();
+      /* fallthrough */
+      case ACTION_ADD_CASED_RELATIVE:
+        _spellcheck2.default.addWord(word);
+        _spellConfig2.default.addToGlobalDictionary(word, true);
+        done();
+        break;
       case ACTION_CORRECT:
         getCorrectWord(word, filename, options, done);
         break;
       case ACTION_FILE_IGNORE:
         _spellcheck2.default.addWord(word, true);
         _spellConfig2.default.addToFileDictionary(filename, word);
+        previousChoices[word] = answer;
+        done();
+        break;
+      case ACTION_FILE_IGNORE_RELATIVE:
+        _spellcheck2.default.addWord(word, true);
+        _spellConfig2.default.addToFileDictionary(filename, word, true);
         previousChoices[word] = answer;
         done();
         break;
