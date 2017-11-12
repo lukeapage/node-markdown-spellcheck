@@ -1,3 +1,9 @@
+v1.1.0
+
+12-11-2017
+
+ * Allow markdown relative spelling files
+
 v1.0.0
 
 05-08-2017
