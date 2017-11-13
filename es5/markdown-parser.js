@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 exports.default = function (src) {
   var textTokens = [];
   var currentIndex = 0;
@@ -10,7 +12,12 @@ exports.default = function (src) {
 
   // remove things we won't process so we can use simple next matching word logic
   // to calculate the index
-  tracker.replaceAll(/\---\r?\n[\w\W]*?\r?\n---/, " "); // remove header
+
+  var jekyllFrontMatter = getJekyllFrontMatter(src);
+  if (jekyllFrontMatter) {
+    tracker.replaceAll(jekyllFrontMatter, " ");
+  }
+
   tracker.removeAll(/```[\w\W]*?```/);
   tracker.removeAll(/~~~[\w\W]*?~~~/);
   tracker.removeAll(/``[\w\W]*?``/);
@@ -72,8 +79,28 @@ var _marked = require("marked");
 
 var _marked2 = _interopRequireDefault(_marked);
 
+var _jsYaml = require("js-yaml");
+
+var _jsYaml2 = _interopRequireDefault(_jsYaml);
+
 var _trackingReplacement = require("./tracking-replacement");
 
 var _trackingReplacement2 = _interopRequireDefault(_trackingReplacement);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function getJekyllFrontMatter(src) {
+  var matches = src.match(/^\r?\n?---\r?\n([\w\W]+)\r?\n---\r?\n/);
+
+  if (matches) {
+    var fencedContent = matches[1];
+
+    try {
+      var parsed = _jsYaml2.default.safeLoad(fencedContent);
+
+      return (typeof parsed === "undefined" ? "undefined" : _typeof(parsed)) === "object" ? matches[0] : undefined;
+    } catch (e) {
+      // not valid yaml
+    }
+  }
+}

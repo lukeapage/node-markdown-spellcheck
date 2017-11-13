@@ -84,6 +84,49 @@ This is a \`var\` inline.
       {text: 'inline.', index: 17}]);
   });
 
+  it("should be able to ignore jekyll front matter", () => {
+    const tokens = markdownParser(`
+---
+title: Post title
+---
+Hello
+    `);
+
+    expect(tokens).to.deep.equal([
+      {text: 'Hello', index: 27}
+    ]);
+  });
+
+  it("doesn't ignore text between two horizontal rules at the beginning of the content", () => {
+    const tokens = markdownParser(`
+---
+Apple
+---
+Banana
+    `);
+
+    expect(tokens).to.deep.equal([
+      {text: 'Apple', index: 5},
+      {text: 'Banana', index: 15}
+    ]);
+  });
+
+  it("doesn't ignore text between two horizontal rules in the middle of the content", () => {
+    const tokens = markdownParser(`
+Apple
+---
+Banana
+---
+Orange
+    `);
+
+    expect(tokens).to.deep.equal([
+      {text: 'Apple', index: 1},
+      {text: 'Banana', index: 11},
+      {text: 'Orange', index: 22}
+    ]);
+  });
+
   it("should be able to cope with double back-tick", () => {
     const tokens = markdownParser(`
 This is a \`\`var\` with backtick\`\` inline.

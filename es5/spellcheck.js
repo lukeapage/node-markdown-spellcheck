@@ -96,7 +96,7 @@ function checkWords(words, options) {
   var mistakes = [];
   for (var i = 0; i < words.length; i++) {
     var wordInfo = words[i];
-    if (!checkWord(wordInfo.word)) {
+    if (!checkWord(wordInfo.word, options)) {
       mistakes.push(wordInfo);
     }
   }

@@ -1,3 +1,15 @@
+v1.2.0
+
+12-11-2017
+
+* Only ignore test between two horizontal rules if it looks like Jekyll front matter
+
+v1.1.0
+
+12-11-2017
+
+ * Allow markdown relative spelling files
+
 v1.0.0
 
 05-08-2017

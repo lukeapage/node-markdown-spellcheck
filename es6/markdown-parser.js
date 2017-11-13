@@ -1,4 +1,5 @@
 import marked from "marked";
+import yaml from "js-yaml";
 import trackingReplacer from "./tracking-replacement";
 
 export default function(src) {
@@ -9,7 +10,12 @@ export default function(src) {
 
   // remove things we won't process so we can use simple next matching word logic
   // to calculate the index
-  tracker.replaceAll(/\---\r?\n[\w\W]*?\r?\n---/, " "); // remove header
+
+  const jekyllFrontMatter = getJekyllFrontMatter(src);
+  if (jekyllFrontMatter) {
+    tracker.replaceAll(jekyllFrontMatter, " ");
+  }
+
   tracker.removeAll(/```[\w\W]*?```/);
   tracker.removeAll(/~~~[\w\W]*?~~~/);
   tracker.removeAll(/``[\w\W]*?``/);
@@ -72,4 +78,21 @@ export default function(src) {
   }
 
   return textTokens;
+}
+
+function getJekyllFrontMatter(src) {
+  const matches = src.match(/^\r?\n?---\r?\n([\w\W]+)\r?\n---\r?\n/);
+
+  if (matches) {
+    const fencedContent = matches[1];
+
+    try {
+      const parsed = yaml.safeLoad(fencedContent);
+
+      return typeof parsed === "object" ? matches[0] : undefined;
+    }
+    catch (e) {
+      // not valid yaml
+    }
+  }
 }

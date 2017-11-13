@@ -1,6 +1,6 @@
 {
   "name": "markdown-spellcheck",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Spell-checks markdown files with an interactive CLI allowing automated spell checking.",
   "keywords": [
     "markdown",
@@ -36,6 +36,7 @@
     "globby": "^6.1.0",
     "hunspell-spellchecker": "^1.0.2",
     "inquirer": "^1.0.0",
+    "js-yaml": "^3.10.0",
     "marked": "^0.3.5",
     "sinon-as-promised": "^4.0.0"
   },
