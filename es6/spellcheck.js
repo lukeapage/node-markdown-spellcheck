@@ -43,9 +43,9 @@ function normaliseApos(word) {
   return word.replace(/\u2019/, "'");
 }
 
-function checkWord(word) {
+function checkWord(word, options) {
   if (!spellchecker) {
-    initialise();
+    initialise(options);
   }
   word = normaliseApos(word);
   if (spellchecker.check(word)) {
@@ -76,11 +76,11 @@ function checkWord(word) {
   return false;
 }
 
-function checkWords(words) {
+function checkWords(words, options) {
   const mistakes = [];
   for (let i = 0; i < words.length; i++) {
     const wordInfo = words[i];
-    if (!checkWord(wordInfo.word)) {
+    if (!checkWord(wordInfo.word, options)) {
       mistakes.push(wordInfo);
     }
   }

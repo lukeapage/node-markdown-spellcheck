@@ -17,7 +17,7 @@ function spell(src, options) {
     throw new Error("spell takes a string");
   }
   const words = getWords(src, options);
-  return spellcheck.checkWords(words);
+  return spellcheck.checkWords(words, options);
 }
 
 function spellFile(filename, options) {
@@ -32,7 +32,7 @@ function spellCallback(src, options, callback, done) {
   const words = getWords(src, options);
 
   async.eachSeries(words, async.ensureAsync(function(wordInfo, onWordProcessed) {
-    if (!spellcheck.checkWord(wordInfo.word)) {
+    if (!spellcheck.checkWord(wordInfo.word, options)) {
       callback(wordInfo, onWordProcessed);
     }
     else {

@@ -41,7 +41,7 @@ function spell(src, options) {
     throw new Error("spell takes a string");
   }
   var words = getWords(src, options);
-  return _spellcheck2.default.checkWords(words);
+  return _spellcheck2.default.checkWords(words, options);
 }
 
 function spellFile(filename, options) {
@@ -56,7 +56,7 @@ function spellCallback(src, options, callback, done) {
   var words = getWords(src, options);
 
   _async2.default.eachSeries(words, _async2.default.ensureAsync(function (wordInfo, onWordProcessed) {
-    if (!_spellcheck2.default.checkWord(wordInfo.word)) {
+    if (!_spellcheck2.default.checkWord(wordInfo.word, options)) {
       callback(wordInfo, onWordProcessed);
     } else {
       onWordProcessed();
