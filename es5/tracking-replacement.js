@@ -19,13 +19,24 @@ exports.default = function (src) {
     }
     return newIndex;
   }
-  function replaceAll(regex, replacement) {
+  function replaceAll(target, replacement) {
     while (true) {
       // eslint-disable-line no-constant-condition
-      var match = src.match(regex);
-      if (!match) {
+      var match = void 0;
+
+      if (target instanceof RegExp) {
+        match = src.match(target);
+      } else {
+        match = {
+          index: src.indexOf(target),
+          0: target
+        };
+      }
+
+      if (!match || match.index === -1) {
         break;
       }
+
       var cutTo = match.index + match[0].length;
       var originalIndex = getOriginalIndex(cutTo);
       var changeInLength = match[0].length - replacement.length;
@@ -52,8 +63,8 @@ exports.default = function (src) {
   }
 
   return {
-    removeAll: function removeAll(regex) {
-      return replaceAll(regex, "");
+    removeAll: function removeAll(target) {
+      return replaceAll(target, "");
     },
 
     replaceAll: replaceAll,
