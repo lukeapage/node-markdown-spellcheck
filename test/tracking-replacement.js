@@ -59,4 +59,13 @@ describe("tracking replacement", () => {
     expect(replacer.getOriginalIndex(3)).to.equal(6);
   });
 
+  it("tracks a single replaceAll with string not regex", () => {
+    const frontMatter = "---author:tester---";
+    const replacer = trackingReplacement(`${frontMatter} content`);
+    const replaced = replacer.removeAll(frontMatter);
+    expect(replaced).to.equal(" content");
+    expect(replacer.getOriginalIndex(2)).to.equal(21);
+    expect(replacer.getOriginalIndex(3)).to.equal(22); 
+  });
+
 });
