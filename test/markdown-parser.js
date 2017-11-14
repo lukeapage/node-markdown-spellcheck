@@ -127,6 +127,23 @@ Orange
     ]);
   });
 
+  it("doesn't ignore text between jekyll front matter and a horizontal rule in the content", () => {
+    const tokens = markdownParser(`
+---
+author: test
+---
+This should be spell checked
+---
+`);
+    console.log(tokens);
+    expect(tokens).to.deep.equal([ 
+      { text: 'This', index: 22 },
+      { text: 'should', index: 27 },
+      { text: 'be', index: 34 },
+      { text: 'spell', index: 37 },
+      { text: 'checked', index: 43 }]);
+  });
+
   it("should be able to cope with double back-tick", () => {
     const tokens = markdownParser(`
 This is a \`\`var\` with backtick\`\` inline.
