@@ -90,7 +90,7 @@ var _trackingReplacement2 = _interopRequireDefault(_trackingReplacement);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getJekyllFrontMatter(src) {
-  var matches = src.match(/^\r?\n?---\r?\n([\w\W]+)\r?\n---\r?\n/);
+  var matches = src.match(/^\r?\n?---\r?\n([\w\W]+?)\r?\n---\r?\n/);
 
   if (matches) {
     var fencedContent = matches[1];
