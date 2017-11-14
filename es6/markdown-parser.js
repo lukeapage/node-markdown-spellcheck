@@ -81,7 +81,7 @@ export default function(src) {
 }
 
 function getJekyllFrontMatter(src) {
-  const matches = src.match(/^\r?\n?---\r?\n([\w\W]+)\r?\n---\r?\n/);
+  const matches = src.match(/^\r?\n?---\r?\n([\w\W]+?)\r?\n---\r?\n/);
 
   if (matches) {
     const fencedContent = matches[1];
