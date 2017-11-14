@@ -15,12 +15,23 @@ export default function(src) {
     }
     return newIndex;
   }
-  function replaceAll(regex, replacement) {
+  function replaceAll(target, replacement) {
     while (true) { // eslint-disable-line no-constant-condition
-      const match = src.match(regex);
-      if (!match) {
+      let match;
+
+      if (target instanceof RegExp) {
+        match = src.match(target);
+      } else {
+        match = {
+          index: src.indexOf(target),
+          0: target
+        };
+      }
+
+      if (!match || match.index === -1) {
         break;
       }
+
       const cutTo = match.index + match[0].length;
       const originalIndex = getOriginalIndex(cutTo);
       const changeInLength = match[0].length - replacement.length;
@@ -48,8 +59,8 @@ export default function(src) {
   }
 
   return {
-    removeAll(regex) {
-      return replaceAll(regex, "");
+    removeAll(target) {
+      return replaceAll(target, "");
     },
     replaceAll,
     getOriginalIndex

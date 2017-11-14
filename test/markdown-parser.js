@@ -127,6 +127,23 @@ Orange
     ]);
   });
 
+  it("doesn't ignore text between jekyll front matter and a horizontal rule in the content", () => {
+    const tokens = markdownParser(`
+---
+author: test
+---
+This should be spell checked
+---
+`);
+    console.log(tokens);
+    expect(tokens).to.deep.equal([ 
+      { text: 'This', index: 22 },
+      { text: 'should', index: 27 },
+      { text: 'be', index: 34 },
+      { text: 'spell', index: 37 },
+      { text: 'checked', index: 43 }]);
+  });
+
   it("should be able to cope with double back-tick", () => {
     const tokens = markdownParser(`
 This is a \`\`var\` with backtick\`\` inline.
@@ -229,4 +246,43 @@ code
 
     expect(tokens).to.deep.equal([]);
   });
+
+
+  it("should ignore jekyll front matter and not content in horizontal lines ", () => {
+    const tokens = markdownParser(`
+---
+author: test
+---
+
+---
+This should be spell checked
+---
+`);
+    expect(tokens).to.deep.equal([
+      { text: 'This', index: 27 },
+      { text: 'should', index: 32 },
+      { text: 'be', index: 39 },
+      { text: 'spell', index: 42 },
+      { text: 'checked', index: 48 }]);
+  });
+
+  it("should ignore top jekyll front matter and not front matter within the content ", () => {
+    const tokens = markdownParser(`
+---
+author: test
+---
+
+---
+author: This should be spell checked
+---
+`);
+    expect(tokens).to.deep.equal([
+      { text: 'author:', index: 27 },
+      { text: 'This', index: 35 },
+      { text: 'should', index: 40 },
+      { text: 'be', index: 47 },
+      { text: 'spell', index: 50 },
+      { text: 'checked', index: 56 }]);
+  });
+
 });
