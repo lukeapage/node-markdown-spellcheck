@@ -229,4 +229,43 @@ code
 
     expect(tokens).to.deep.equal([]);
   });
+
+
+  it("should ignore jekyll front matter and not content in horizontal lines ", () => {
+    const tokens = markdownParser(`
+---
+author: test
+---
+
+---
+This should be spell checked
+---
+`);
+    expect(tokens).to.deep.equal([
+      { text: 'This', index: 27 },
+      { text: 'should', index: 32 },
+      { text: 'be', index: 39 },
+      { text: 'spell', index: 42 },
+      { text: 'checked', index: 48 }]);
+  });
+
+  it("should ignore top jekyll front matter and not front matter within the content ", () => {
+    const tokens = markdownParser(`
+---
+author: test
+---
+
+---
+author: This should be spell checked
+---
+`);
+    expect(tokens).to.deep.equal([
+      { text: 'author:', index: 27 },
+      { text: 'This', index: 35 },
+      { text: 'should', index: 40 },
+      { text: 'be', index: 47 },
+      { text: 'spell', index: 50 },
+      { text: 'checked', index: 56 }]);
+  });
+
 });
