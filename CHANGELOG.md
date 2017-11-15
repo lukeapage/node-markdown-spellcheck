@@ -2,7 +2,7 @@ v1.3.0
 
 15-11-2017
 
-* Spellcheck will now always initialise with options from the CLI
+* Pass options from index.js to the spellChecker
 * Fix Jekyll front matter being spellchecked if it contained a regular expression (#107)
 * Fix content between Jekyll front matter and in-content headings not being spellchecked
 
