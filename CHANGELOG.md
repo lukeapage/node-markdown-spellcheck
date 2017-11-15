@@ -1,3 +1,8 @@
+v1.2.1
+
+* Change to tracking replacement so it accepts strings or regular expression as a matching condition.
+* Modified Jekyll Front Matter regular expression to only capture first front matter block.
+
 v1.2.0
 
 12-11-2017
