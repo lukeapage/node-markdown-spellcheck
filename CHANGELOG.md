@@ -1,7 +1,7 @@
 v1.2.1
 
-* Change to tracking replacement so it accepts strings or regular expression as a matching condition.
-* Modified Jekyll Front Matter regular expression to only capture first front matter block.
+* Fix Jekyll front matter being spellchecked if it contained a regex (#107)
+* Fix content between Jekyll front matter and in-content headings not being spellchecked
 
 v1.2.0
 
