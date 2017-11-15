@@ -1,3 +1,8 @@
+v1.2.1
+
+* Fix Jekyll front matter being spellchecked if it contained a regex (#107)
+* Fix content between Jekyll front matter and in-content headings not being spellchecked
+
 v1.2.0
 
 12-11-2017
