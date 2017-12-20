@@ -45,7 +45,7 @@ Use the American English dictionary. We default to British English but will chan
 
 #### British English (`--en-gb`)
 
-Use the British English dictionary. We default default to British English but will change in the next major to American.
+Use the British English dictionary. We default to British English but will change in the next major to American.
 
 #### Australian English (`--en-au`)
 
