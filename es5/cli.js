@@ -84,14 +84,15 @@ var options = {
   }
 };
 
-if ( ! options.color ) {
-  _chalk2.default.enabled = false;
-}
 
 if (!_commander2.default.args.length) {
   _commander2.default.outputHelp();
   process.exit();
 } else {
+
+  if ( ! options.color ) {
+    _chalk2.default.enabled = false;
+  }
 
   _spellcheck2.default.initialise(options);
 
