@@ -78,9 +78,9 @@ exports.default = {
     }
 
     var info =  lineInfo.line.substring(lineStart, lineInfo.column) +
-                ( options.color ? "" : "[[[") +
+                ( options.colour ? "" : "[[[") +
                 _chalk2.default.red(lineInfo.line.substr(lineInfo.column, length)) +
-                ( options.color ? "" : "]]]") +
+                ( options.colour ? "" : "]]]") +
                 lineInfo.line.substring(lineInfo.column + length, lineEnd);
 
     return {

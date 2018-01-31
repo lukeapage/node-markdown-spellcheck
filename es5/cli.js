@@ -56,7 +56,7 @@ _commander2.default.version(buildVersion)
   .option('-a, --ignore-acronyms', 'Ignores acronyms')
   .option('-x, --no-suggestions', 'Do not suggest words (can be slow)')
   .option('-t, --target-relative', 'Uses ".spelling" files relative to the target')
-  .option('-z, --no-color','No color output in report')
+  .option('-z, --no-colour','No colour output in report')
   .usage("[options] source-file source-file").parse(process.argv)
 ;
 
@@ -77,7 +77,7 @@ var options = {
   ignoreNumbers: _commander2.default.ignoreNumbers,
   suggestions: _commander2.default.suggestions,
   relativeSpellingFiles: _commander2.default.targetRelative,
-  color: _commander2.default.color,
+  colour: _commander2.default.colour,
   dictionary: {
     language: language,
     file: _commander2.default.dictionary
@@ -90,7 +90,7 @@ if (!_commander2.default.args.length) {
   process.exit();
 } else {
 
-  if ( ! options.color ) {
+  if ( ! options.colour ) {
     _chalk2.default.enabled = false;
   }
 

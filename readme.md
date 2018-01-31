@@ -99,9 +99,9 @@ Using the `--target-relative` (`-t`) option will augment the shared `.spelling` 
 
 Using the `--report` (`-r`) option will show a report of all the spelling mistakes that have been found. This mode is useful for CI build reports.
 
-### No Color Mode
+### No Colour Mode
 
-For situations where the report colors do not show up and you can't identify the failing words, the `--no-color` (`-z`) will turn off color and surround the spelling mistakes with square brackets, such as `[[[mistaek]]]`.
+For situations where the report colours do not show up and you can't identify the failing words, the `--no-colour` (`-z`) will turn off colour and surround the spelling mistakes with square brackets, such as `[[[mistake]]]`.
 
 
 ## `.spelling` files
@@ -110,7 +110,7 @@ The `.spelling` file is self documenting as it includes...
 
 ```
 # markdown-spellcheck spelling configuration file
-# Format - lines begining # are comments
+# Format - lines beginning # are comments
 # global dictionary is at the start, file overrides afterwards
 # one word per line, to define a file override use ' - filename'
 # where filename is relative to this configuration file
