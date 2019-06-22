@@ -37,8 +37,7 @@
     "hunspell-spellchecker": "^1.0.2",
     "inquirer": "^1.0.0",
     "js-yaml": "^3.10.0",
-    "marked": "^0.3.5",
-    "sinon-as-promised": "^4.0.0"
+    "marked": "^0.3.5"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
@@ -54,6 +53,7 @@
     "gulp-mocha": "^3.0.0",
     "proxyquire": "^1.7.0",
     "run-sequence": "^1.1.2",
-    "sinon": "^1.17.5"
+    "sinon": "^1.17.5",
+    "sinon-as-promised": "^4.0.0"
   }
 }
