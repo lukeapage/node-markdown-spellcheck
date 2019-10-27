@@ -21,7 +21,7 @@ mdspell
 
 ### Excluding patterns
 
-Multiple patterns can be used on the command line and can use `!` for negation. E.g.
+Multiple patterns can be used on the command line and can use `!` for accep. E.g.
 
 ```
 mdspell '**/*.md' '!**/node_modules/**/*.md'
