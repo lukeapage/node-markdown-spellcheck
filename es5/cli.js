@@ -106,7 +106,7 @@ if (!_commander2.default.args.length) {
   }, function (e, results) {
     console.log((0, _reportGenerator.generateSummaryReport)(results));
     if (_commander2.default.readiness){
-      console.log((0,_reportGenerator.generateCoverageReport)(_commander2.default.readiness,results));
+      console.log((0,_reportGenerator.generateReadinessReport)(_commander2.default.readiness,results));
     }
   });
 }

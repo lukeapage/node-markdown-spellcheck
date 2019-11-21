@@ -3,7 +3,7 @@
 exports.__esModule = true;
 exports.generateSummaryReport = generateSummaryReport;
 exports.generateFileReport = generateFileReport;
-exports.generateCoverageReport = generateCoverageReport;
+exports.generateReadinessReport = generateReadinessReport;
 
 var _chalk = require('chalk');
 
@@ -36,7 +36,7 @@ function generateSummaryReport(results) {
   return _chalk2.default.green('>>') + ' ' + results.length + ' ' + filePlural + ' ' + areOrIs + ' free from spelling errors';
 }
 
-function generateCoverageReport(readiness,results){
+function generateReadinessReport(readiness,results){
   var stats = new function(){
     this.values = {
       'v0':0,

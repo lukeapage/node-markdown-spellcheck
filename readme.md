@@ -114,7 +114,7 @@ Using the `--readiness` (`-y`) option will do two things:
 
         Readiness indicator: 90%
 ```
-* Allow to pass a readiness acceptance value which will determine if the tools throws an error or not.  For example, passing a `-y 90` would allow the current state of the files to pass teh CI build without throwing an error (defaults to 100, no errors).
+* Allow to pass a readiness threshold value which will determine if the tool throws an error or not.  For example, passing a `-y 90` would allow the current state of the files to pass the CI build without throwing an error (defaults to 100, no errors).
 
 ## `.spelling` files
 
