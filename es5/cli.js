@@ -46,7 +46,18 @@ var buildVersion = JSON.parse(packageConfig).version;
 _commander2.default.version(buildVersion)
 // default cli behaviour will be an interactive walkthrough each error, with suggestions,
 // options to replace etc.
-.option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.').option('--en-us', 'American English dictionary.').option('--en-gb', 'British English dictionary.').option('--en-au', 'Australian English dictionary.').option('--es-es', 'Spanish dictionary.').option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.').option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').option('-t, --target-relative', 'Uses ".spelling" files relative to the target.').usage("[options] source-file source-file").parse(process.argv);
+.option('-r, --report', 'Outputs a full report which details the unique spelling errors found.')
+.option('-n, --ignore-numbers', 'Ignores numbers.')
+.option('--en-us', 'American English dictionary.')
+.option('--en-gb', 'British English dictionary.')
+.option('--en-au', 'Australian English dictionary.')
+.option('--es-es', 'Spanish dictionary.')
+.option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.')
+.option('-a, --ignore-acronyms', 'Ignores acronyms.')
+.option('-x, --no-suggestions', 'Do not suggest words (can be slow)')
+.option('-t, --target-relative', 'Uses ".spelling" files relative to the target.')
+.option('-y, --readiness [100]','Allows for a percentage readiness setting - default is set to 100 for no errors allowed')
+.usage("[options] source-file source-file").parse(process.argv);
 
 var language = void 0;
 if (_commander2.default.enUs) {
@@ -94,5 +105,8 @@ if (!_commander2.default.args.length) {
     }
   }, function (e, results) {
     console.log((0, _reportGenerator.generateSummaryReport)(results));
+    if (_commander2.default.readiness){
+      console.log((0,_reportGenerator.generateCoverageReport)(_commander2.default.readiness,results));
+    }
   });
 }

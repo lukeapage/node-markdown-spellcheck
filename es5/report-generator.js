@@ -3,6 +3,7 @@
 exports.__esModule = true;
 exports.generateSummaryReport = generateSummaryReport;
 exports.generateFileReport = generateFileReport;
+exports.generateCoverageReport = generateCoverageReport;
 
 var _chalk = require('chalk');
 
@@ -28,12 +29,65 @@ function generateSummaryReport(results) {
   var errorPlural = 'error' + (errorCount > 1 ? 's' : '');
   var areOrIs = results.length > 1 ? 'are' : 'is';
 
+  //console.log(results.map(i=>{return i.length;}));
   if (errorCount > 0) {
     return _chalk2.default.red('>>') + ' ' + errorCount + ' spelling ' + errorPlural + ' found in ' + results.length + ' ' + filePlural;
   }
   return _chalk2.default.green('>>') + ' ' + results.length + ' ' + filePlural + ' ' + areOrIs + ' free from spelling errors';
 }
 
+function generateCoverageReport(readiness,results){
+  var stats = new function(){
+    this.values = {
+      'v0':0,
+      'v1':0,
+      'v10':0,
+      'v50':0,
+      'v100':0,
+      'Total':0
+    };
+    this.classify=val=>{
+      //console.log(val);
+      if (val>100){
+        this.values.v100++;
+      } else if (val>50){
+        this.values.v50++;
+      } else if (val>10){
+        this.values.v10++;
+      } else if (val>1){
+        this.values.v1++;
+      } else {
+        this.values.v0++;
+      }
+      this.values.Total++;
+    };
+    this.readiness=()=>{
+      var score = (this.values.v1) +
+      (this.values.v10*5) +
+      (this.values.v50*10) +
+      (this.values.v100*15);
+      return 100 - (score>this.values.Total?100:score);
+    };
+    this.toString=()=>{
+      return `
+        ${this.values.v0} files with 0 errors
+        ${this.values.v1} files with at least 1 error
+        ${this.values.v10} files with at least 10 errors
+        ${this.values.v50} files with at least 50 errors
+        ${this.values.v100} files with at least 100 errors
+
+        Readiness indicator: ${this.readiness()}%
+      `;
+    };
+  };
+  results.forEach(line=>{
+    stats.classify(line.length);
+  });
+  if (stats.readiness()>=(isNaN(readiness)?100:parseInt(readiness))){
+    process.exitCode = 0;
+  }
+  return stats.toString();
+}
 // Generates a report for the errors found in a single markdown file.
 function generateFileReport(file, spellingInfo) {
   var report = '    ' + _chalk2.default.bold(file) + '\n';
