@@ -29,7 +29,6 @@ function generateSummaryReport(results) {
   var errorPlural = 'error' + (errorCount > 1 ? 's' : '');
   var areOrIs = results.length > 1 ? 'are' : 'is';
 
-  //console.log(results.map(i=>{return i.length;}));
   if (errorCount > 0) {
     return _chalk2.default.red('>>') + ' ' + errorCount + ' spelling ' + errorPlural + ' found in ' + results.length + ' ' + filePlural;
   }
