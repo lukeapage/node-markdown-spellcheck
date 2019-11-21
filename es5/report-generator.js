@@ -2,8 +2,8 @@
 
 exports.__esModule = true;
 exports.generateSummaryReport = generateSummaryReport;
-exports.generateFileReport = generateFileReport;
 exports.generateReadinessReport = generateReadinessReport;
+exports.generateFileReport = generateFileReport;
 
 var _chalk = require('chalk');
 
@@ -14,6 +14,8 @@ var _context = require('./context');
 var _context2 = _interopRequireDefault(_context);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // Generates a report that summarises the spelling errors found across multiple
 // markdown files.
@@ -35,58 +37,57 @@ function generateSummaryReport(results) {
   return _chalk2.default.green('>>') + ' ' + results.length + ' ' + filePlural + ' ' + areOrIs + ' free from spelling errors';
 }
 
-function generateReadinessReport(readiness,results){
-  var stats = new function(){
-    this.values = {
-      'v0':0,
-      'v1':0,
-      'v10':0,
-      'v50':0,
-      'v100':0,
-      'Total':0
-    };
-    this.classify=val=>{
-      //console.log(val);
-      if (val>100){
-        this.values.v100++;
-      } else if (val>50){
-        this.values.v50++;
-      } else if (val>10){
-        this.values.v10++;
-      } else if (val>1){
-        this.values.v1++;
-      } else {
-        this.values.v0++;
-      }
-      this.values.Total++;
-    };
-    this.readiness=()=>{
-      var score = (this.values.v1) +
-      (this.values.v10*5) +
-      (this.values.v50*10) +
-      (this.values.v100*15);
-      return 100 - (score>this.values.Total?100:score);
-    };
-    this.toString=()=>{
-      return `
-        ${this.values.v0} files with 0 errors
-        ${this.values.v1} files with at least 1 error
-        ${this.values.v10} files with at least 10 errors
-        ${this.values.v50} files with at least 50 errors
-        ${this.values.v100} files with at least 100 errors
+var Stats = function Stats() {
+  var _this = this;
 
-        Readiness indicator: ${this.readiness()}%
-      `;
-    };
+  _classCallCheck(this, Stats);
+
+  this.values = {
+    'v0': 0,
+    'v1': 0,
+    'v10': 0,
+    'v50': 0,
+    'v100': 0,
+    'Total': 0
   };
-  results.forEach(line=>{
+  this.classify = function (val) {
+    //console.log(val);
+    if (val > 100) {
+      _this.values.v100++;
+    } else if (val > 50) {
+      _this.values.v50++;
+    } else if (val > 10) {
+      _this.values.v10++;
+    } else if (val > 1) {
+      _this.values.v1++;
+    } else {
+      _this.values.v0++;
+    }
+    _this.values.Total++;
+  };
+  this.readiness = function () {
+    var score = _this.values.v1 + _this.values.v10 * 5 + _this.values.v50 * 10 + _this.values.v100 * 15;
+    return 100 - (score > _this.values.Total ? 100 : score);
+  };
+  this.toString = function () {
+    return '\n      ' + _this.values.v0 + ' files with 0 errors\n      ' + _this.values.v1 + ' files with at least 1 error\n      ' + _this.values.v10 + ' files with at least 10 errors\n      ' + _this.values.v50 + ' files with at least 50 errors\n      ' + _this.values.v100 + ' files with at least 100 errors\n\n      Readiness indicator: ' + _this.readiness() + '%\n    ';
+  };
+};
+
+// Generate a readiness report based on weighted values on errors per file
+
+
+function generateReadinessReport(readiness, results) {
+  var stats = new Stats();
+  results.forEach(function (line) {
     stats.classify(line.length);
   });
-  if (stats.readiness()>=(isNaN(readiness)?100:parseInt(readiness))){
+  if (stats.readiness() >= (isNaN(readiness) ? 100 : parseInt(readiness))) {
     process.exitCode = 0;
   }
   return stats.toString();
 }
+
 // Generates a report for the errors found in a single markdown file.
 function generateFileReport(file, spellingInfo) {
   var report = '    ' + _chalk2.default.bold(file) + '\n';
