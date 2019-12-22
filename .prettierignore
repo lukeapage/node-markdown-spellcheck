@@ -1,0 +1,6 @@
+test/fixture/**/*
+lib/**/**
+
+
+# Ignore CHANGELOG.md files to avoid issues with automated release job
+CHANGELOG.md

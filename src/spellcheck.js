@@ -1,18 +1,16 @@
-import SpellChecker from "hunspell-spellchecker";
+import SpellChecker from 'hunspell-spellchecker';
 import fs from 'fs';
 import path from 'path';
 
 let spellchecker, dict;
 
 function initialise(options) {
-
   const dictionaryOptions = options && options.dictionary;
 
   let baseFile = path.join(__dirname, '../data/en-GB');
   if (dictionaryOptions && dictionaryOptions.file) {
     baseFile = dictionaryOptions.file;
-  }
-  else if (dictionaryOptions && dictionaryOptions.language) {
+  } else if (dictionaryOptions && dictionaryOptions.language) {
     switch (dictionaryOptions.language) {
       case 'en-us':
         baseFile = path.join(__dirname, '../data/en_US-large');
@@ -27,7 +25,7 @@ function initialise(options) {
         baseFile = path.join(__dirname, '../data/es_ANY');
         break;
       default:
-        throw new Error("unsupported language:" + dictionaryOptions.language);
+        throw new Error('unsupported language:' + dictionaryOptions.language);
     }
   }
 
@@ -60,7 +58,7 @@ function checkWord(word, options) {
   }
 
   // for etc. as we cannot tell if it ends in "." as that is stripped
-  const wordWithDot = word + ".";
+  const wordWithDot = word + '.';
   if (spellchecker.check(wordWithDot)) {
     return true;
   }
@@ -68,7 +66,7 @@ function checkWord(word, options) {
   if (word.indexOf('-')) {
     const subWords = word.split('-');
 
-    if (subWords.every((subWord) => spellchecker.check(subWord))) {
+    if (subWords.every(subWord => spellchecker.check(subWord))) {
       return true;
     }
   }
@@ -102,8 +100,7 @@ function addWord(word, temporary) {
 
   if (!temporary) {
     customDictionary.push(word);
-  }
-  else {
+  } else {
     needsReset = true;
   }
   _addWord(word);
@@ -114,7 +111,7 @@ function resetTemporaryCustomDictionary() {
     if (!spellchecker) {
       initialise();
     }
-    customDictionary.forEach((word) => _addWord(word));
+    customDictionary.forEach(word => _addWord(word));
   }
 }
 

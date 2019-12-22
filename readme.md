@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/lukeapage/node-markdown-spellcheck.svg?branch=master)](https://travis-ci.org/lukeapage/node-markdown-spellcheck) [![Build status](https://ci.appveyor.com/api/projects/status/o0ypaoe7tbm31nkd/branch/master?svg=true)](https://ci.appveyor.com/project/lukeapage/node-markdown-spellcheck/branch/master) [![npm version](https://badge.fury.io/js/markdown-spellcheck.svg)](http://badge.fury.io/js/markdown-spellcheck)  [![Dependencies](https://david-dm.org/lukeapage/node-markdown-spellcheck.svg)](https://david-dm.org/lukeapage/node-markdown-spellcheck) [![devDependency Status](https://david-dm.org/lukeapage/node-markdown-spellcheck/dev-status.svg)](https://david-dm.org/lukeapage/node-markdown-spellcheck#info=devDependencies)
+[![Build Status](https://travis-ci.org/lukeapage/node-markdown-spellcheck.svg?branch=master)](https://travis-ci.org/lukeapage/node-markdown-spellcheck) [![Build status](https://ci.appveyor.com/api/projects/status/o0ypaoe7tbm31nkd/branch/master?svg=true)](https://ci.appveyor.com/project/lukeapage/node-markdown-spellcheck/branch/master) [![npm version](https://badge.fury.io/js/markdown-spellcheck.svg)](http://badge.fury.io/js/markdown-spellcheck) [![Dependencies](https://david-dm.org/lukeapage/node-markdown-spellcheck.svg)](https://david-dm.org/lukeapage/node-markdown-spellcheck) [![devDependency Status](https://david-dm.org/lukeapage/node-markdown-spellcheck/dev-status.svg)](https://david-dm.org/lukeapage/node-markdown-spellcheck#info=devDependencies)
 
 Reads markdown files and spellchecks them, using [open source Hunspell dictionary files](#dictionaries-being-used).
 
@@ -80,24 +80,24 @@ Spelling - readme.md
 
 Where `speling` will be highlighted in red.
 
- * "Ignore" will ignore that word and not ask about it again in the current run. If you re-run the command again though, it will appear.
- * "Add to file ignores" will ignore the word in this file only.
- * "Add to dictionary - case insensitive" will add to the dictionary for all files and match any case. E.g. with the word `Microsoft` both `Microsoft` and `microsoft` would match.
- * "Add to dictionary - case sensitive" will add to the dictionary for all files and match the case that has been used. E.g. with the word `Microsoft`, the word `microsoft` will not match.
- 
+- "Ignore" will ignore that word and not ask about it again in the current run. If you re-run the command again though, it will appear.
+- "Add to file ignores" will ignore the word in this file only.
+- "Add to dictionary - case insensitive" will add to the dictionary for all files and match any case. E.g. with the word `Microsoft` both `Microsoft` and `microsoft` would match.
+- "Add to dictionary - case sensitive" will add to the dictionary for all files and match the case that has been used. E.g. with the word `Microsoft`, the word `microsoft` will not match.
+
 All exclusions will be stored in a `.spelling` file in the directory from which you run the command.
 
 ### Target Relative Mode
 
-Using the `--target-relative` (`-t`) option will augment the shared `.spelling` file with a relative `.spelling` file (sibling of the `.md` file) and give you the additional options with the interactive mode: 
+Using the `--target-relative` (`-t`) option will augment the shared `.spelling` file with a relative `.spelling` file (sibling of the `.md` file) and give you the additional options with the interactive mode:
 
-* "Add to file ignores" will be replaced with "[Relative] Add to file ignores". There is no need to add file ignores into the shared `.spelling` file.
-* "[Relative] Add to dictionary - case insensitive" will add to the dictionary for all files within the current `.md` file and match any case.
-* "[Relative] Add to dictionary - case sensitive" will add to the dictionary for all files within the folder of the current `.md` file.
+- "Add to file ignores" will be replaced with "[Relative] Add to file ignores". There is no need to add file ignores into the shared `.spelling` file.
+- "[Relative] Add to dictionary - case insensitive" will add to the dictionary for all files within the current `.md` file and match any case.
+- "[Relative] Add to dictionary - case sensitive" will add to the dictionary for all files within the folder of the current `.md` file.
 
 ### Report Mode
 
-Using the `--report` (`-r`) option will show a report of all the spelling mistakes that have been found. This mode is useful for CI build reports. 
+Using the `--report` (`-r`) option will show a report of all the spelling mistakes that have been found. This mode is useful for CI build reports.
 
 ## `.spelling` files
 

@@ -1,5 +1,7 @@
 .idea
+lib
 node_modules
 .DS_Store
 __docs
 package-lock.json
+yarn.lock

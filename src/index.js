@@ -13,8 +13,8 @@ function getWords(src, options) {
 }
 
 function spell(src, options) {
-  if (typeof src !== "string") {
-    throw new Error("spell takes a string");
+  if (typeof src !== 'string') {
+    throw new Error('spell takes a string');
   }
   const words = getWords(src, options);
   return spellcheck.checkWords(words, options);
@@ -31,14 +31,24 @@ function spellFile(filename, options) {
 function spellCallback(src, options, callback, done) {
   const words = getWords(src, options);
 
-  async.eachSeries(words, async.ensureAsync(function(wordInfo, onWordProcessed) {
-    if (!spellcheck.checkWord(wordInfo.word, options)) {
-      callback(wordInfo, onWordProcessed);
-    }
-    else {
-      onWordProcessed();
-    }
-  }), done);
+  async.eachSeries(
+    words,
+    async.ensureAsync(function(wordInfo, onWordProcessed) {
+      if (!spellcheck.checkWord(wordInfo.word, options)) {
+        callback(wordInfo, onWordProcessed);
+      } else {
+        onWordProcessed();
+      }
+    }),
+    done
+  );
 }
 
-export default { spell, spellFile, spellCallback, spellcheck, generateSummaryReport, generateFileReport };
+export default {
+  spell,
+  spellFile,
+  spellCallback,
+  spellcheck,
+  generateSummaryReport,
+  generateFileReport
+};

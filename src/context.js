@@ -3,9 +3,7 @@ import chalk from 'chalk';
 function getLines(src, index, noBefore, noAfter) {
   const beforeLines = [];
   const afterLines = [];
-  let thisLineStart,
-    line,
-    column;
+  let thisLineStart, line, column;
   let lastCutIndex = index;
 
   for (let i = index - 1; i >= 0; i--) {
@@ -13,8 +11,7 @@ function getLines(src, index, noBefore, noAfter) {
       if (thisLineStart === undefined) {
         thisLineStart = i + 1;
         column = index - (i + 1);
-      }
-      else {
+      } else {
         beforeLines.push(src.substr(i, lastCutIndex - i));
       }
       lastCutIndex = i;
@@ -31,8 +28,7 @@ function getLines(src, index, noBefore, noAfter) {
     if (src[i] === '\n') {
       if (line === undefined) {
         line = src.substr(thisLineStart, i - thisLineStart);
-      }
-      else {
+      } else {
         afterLines.push(src.substr(lastCutIndex, i - lastCutIndex));
       }
       lastCutIndex = i;
@@ -67,10 +63,11 @@ export default {
     if (lineInfo.column > 30) {
       lineStart = lineInfo.column - 30;
     }
-    if ((lineEnd - (lineInfo.column + length)) > 30) {
+    if (lineEnd - (lineInfo.column + length) > 30) {
       lineEnd = lineInfo.column + length + 30;
     }
-    let info = lineInfo.line.substring(lineStart, lineInfo.column) +
+    let info =
+      lineInfo.line.substring(lineStart, lineInfo.column) +
       chalk.red(lineInfo.line.substr(lineInfo.column, length)) +
       lineInfo.line.substring(lineInfo.column + length, lineEnd);
     return {

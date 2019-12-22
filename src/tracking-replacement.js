@@ -16,7 +16,8 @@ export default function(src) {
     return newIndex;
   }
   function replaceAll(target, replacement) {
-    while (true) { // eslint-disable-line no-constant-condition
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
       let match;
 
       if (target instanceof RegExp) {
@@ -41,26 +42,31 @@ export default function(src) {
         if (map.newIndex >= match.index) {
           if (map.newIndex < cutTo) {
             maps.splice(i, 1);
-          }
-          else {
+          } else {
             map.newIndex -= changeInLength;
           }
         }
       }
 
-      maps.push({ newIndex: match.index + replacement.length, index: originalIndex });
+      maps.push({
+        newIndex: match.index + replacement.length,
+        index: originalIndex
+      });
       if (replacement.length) {
         maps.push({ newIndex: match.index, index: NaN });
       }
 
-      src = src.substring(0, match.index) + replacement + src.slice(match.index + match[0].length);
+      src =
+        src.substring(0, match.index) +
+        replacement +
+        src.slice(match.index + match[0].length);
     }
     return src;
   }
 
   return {
     removeAll(target) {
-      return replaceAll(target, "");
+      return replaceAll(target, '');
     },
     replaceAll,
     getOriginalIndex
