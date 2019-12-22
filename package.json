@@ -37,11 +37,15 @@
     "async": "^3.1.0",
     "chalk": "^3.0.0",
     "commander": "^4.0.1",
+    "dictionary-en-au": "^2.1.1",
+    "dictionary-en-gb": "^2.1.1",
+    "dictionary-en-us": "^2.1.1",
+    "dictionary-es": "^1.2.3",
     "globby": "^10.0.1",
-    "hunspell-spellchecker": "^1.0.2",
     "inquirer": "^7.0.1",
     "js-yaml": "^3.13.1",
-    "marked": "^0.8.0"
+    "marked": "^0.8.0",
+    "nodehun": "^3.0.1"
   },
   "devDependencies": {
     "bdd-stdin": "^0.2.0",
