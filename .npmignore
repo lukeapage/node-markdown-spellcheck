@@ -3,4 +3,7 @@ test
 .appveyor.yml
 .spelling
 .gitignore
-.eslintrc
+.eslintignore
+.eslintrc.js
+.prettierignore
+.editorconfig

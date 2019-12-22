@@ -1,6 +1,6 @@
-import { expect } from 'chai';
-import markdownSpellcheck from '../src/index';
-import path from 'path';
+const { expect } = require('chai');
+const markdownSpellcheck = require('../lib/index');
+const path = require('path');
 
 describe('package', () => {
   it('test1', () => {

@@ -1,5 +1,5 @@
-import { expect } from 'chai';
-import spellcheck from '../src/spellcheck';
+const { expect } = require('chai');
+const spellcheck = require('../lib/spellcheck');
 
 describe('spell checker', () => {
   it('should detect bad spelling', () => {

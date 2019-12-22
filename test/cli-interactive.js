@@ -1,18 +1,18 @@
-import { expect } from 'chai';
-import proxyquire from 'proxyquire';
-import sinon from 'sinon';
-import bddStdin from 'bdd-stdin';
+const { expect } = require('chai');
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
+const bddStdin = require('bdd-stdin');
 
 function getCliInteractive(spellConfig, spellcheck, writeCorrections, index) {
   return proxyquire('../lib/cli-interactive', {
-    './write-corrections': { default: writeCorrections },
-    './spell-config': { default: spellConfig },
-    './spellcheck': { default: spellcheck },
-    './index': { default: index }
-  }).default;
+    './write-corrections': writeCorrections,
+    './spell-config': spellConfig,
+    './spellcheck': spellcheck,
+    './index': index
+  });
 }
 
-function mockSpellConfig(globalWords, fileWords) {
+function mockSpellConfig() {
   return {
     addToGlobalDictionary: sinon.stub(),
     addToFileDictionary: sinon.stub(),

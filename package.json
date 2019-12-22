@@ -13,7 +13,7 @@
     "node": ">= 8"
   },
   "main": "lib/index.js",
-  "module": "src/index.js",
+  "module": "lib/index.js",
   "bin": {
     "mdspell": "./bin/mdspell"
   },
@@ -22,7 +22,6 @@
     "lint-fix": "eslint . --fix",
     "format": "prettier --write \"./**/*.{js,json,md}\"",
     "format-check": "prettier --list-different \"./**/*.{js,json,md}\"",
-    "build": "babel src --out-dir lib",
     "test": "mocha"
   },
   "author": "Luke Page",
@@ -45,10 +44,6 @@
     "marked": "^0.8.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.7",
-    "@babel/core": "^7.7.7",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/register": "^7.7.7",
     "bdd-stdin": "^0.2.0",
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
@@ -57,7 +52,6 @@
     "mocha": "^6.2.2",
     "prettier": "^1.19.1",
     "proxyquire": "^2.1.3",
-    "run-sequence": "^2.2.1",
     "sinon": "^7.5.0"
   }
 }

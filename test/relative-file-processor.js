@@ -1,27 +1,27 @@
-import { expect } from 'chai';
-import proxyquire from 'proxyquire';
-import sinon from 'sinon';
-import async from 'async';
+const { expect } = require('chai');
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
+const async = require('async');
 
 function getRelativeFileProcessor(globby, spellConfig, spellcheck) {
   return proxyquire('../lib/relative-file-processor', {
     globby: globby,
-    './spell-config': { default: spellConfig },
-    './spellcheck': { default: spellcheck },
+    './spell-config': spellConfig,
+    './spellcheck': spellcheck,
     fs: {
       readFile: sinon.stub().callsArg(2)
     }
-  }).default;
+  });
 }
 
 function mockGlobby(files) {
-  return function(patterns) {
+  return function() {
     return {
-      then: function(cb) {
+      then(cb) {
         cb(files);
         return this;
       },
-      catch: function() {
+      catch() {
         return this;
       }
     };
@@ -29,7 +29,7 @@ function mockGlobby(files) {
 }
 
 function mockSpellConfig(globalWords, fileWords) {
-  var mockedSpellConfig = {
+  const mockedSpellConfig = {
     initialise: sinon.stub(),
     getGlobalWords: sinon.stub().returns(globalWords || []),
     getFileWords: sinon.stub()
@@ -127,7 +127,7 @@ describe('relative-file-processor', () => {
     expect(finishedSpy.calledOnce).to.equal(true);
     expect(spellConfig.initialise.called).to.equal(true);
 
-    //1 global word for each file, then 1 word for file 1, 2 words for file 2 and 1 word for file 4.
+    // One global word for each file, then 1 word for file 1, 2 words for file 2 and 1 word for file 4.
     expect(spellcheck.addWord.callCount).to.equal(8);
     expect(spellcheck.resetTemporaryCustomDictionary.callCount).to.equal(4);
   });

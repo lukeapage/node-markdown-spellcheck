@@ -1,5 +1,5 @@
-import { expect } from 'chai';
-import filters from '../src/filters';
+const { expect } = require('chai');
+const filters = require('../lib/filters');
 
 describe('filters', () => {
   it('should remove acronyms', () => {

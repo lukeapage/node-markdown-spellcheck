@@ -1,5 +1,5 @@
-import { expect } from 'chai';
-import wordParser from '../src/word-parser';
+const { expect } = require('chai');
+const wordParser = require('../lib/word-parser');
 
 describe('word parser', () => {
   it('should be able to find a word', () => {

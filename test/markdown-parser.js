@@ -1,5 +1,5 @@
-import { expect } from 'chai';
-import markdownParser from '../src/markdown-parser';
+const { expect } = require('chai');
+const markdownParser = require('../lib/markdown-parser');
 
 describe('basic markdown parsing', () => {
   it('should be able to parse text', () => {

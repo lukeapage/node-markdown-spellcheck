@@ -1,27 +1,27 @@
-import { expect } from 'chai';
-import proxyquire from 'proxyquire';
-import sinon from 'sinon';
-import async from 'async';
+const { expect } = require('chai');
+const proxyquire = require('proxyquire');
+const sinon = require('sinon');
+const async = require('async');
 
 function getMultiFileProcessor(globby, spellConfig, spellcheck) {
   return proxyquire('../lib/multi-file-processor', {
     globby: globby,
-    './spell-config': { default: spellConfig },
-    './spellcheck': { default: spellcheck },
+    './spell-config': spellConfig,
+    './spellcheck': spellcheck,
     fs: {
       readFile: sinon.stub().callsArg(2)
     }
-  }).default;
+  });
 }
 
 function mockGlobby(files) {
-  return function(patterns) {
+  return function() {
     return {
-      then: function(cb) {
+      then(cb) {
         cb(files);
         return this;
       },
-      catch: function() {
+      catch() {
         return this;
       }
     };
@@ -29,7 +29,7 @@ function mockGlobby(files) {
 }
 
 function mockSpellConfig(globalWords, fileWords) {
-  var mockedSpellConfig = {
+  const mockedSpellConfig = {
     initialise: sinon.stub(),
     getGlobalWords: sinon.stub().returns(globalWords || []),
     getFileWords: sinon.stub()

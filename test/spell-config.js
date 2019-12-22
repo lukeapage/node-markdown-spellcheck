@@ -1,6 +1,6 @@
-import { expect } from 'chai';
-import sinon from 'sinon';
-import proxyquire from 'proxyquire';
+const { expect } = require('chai');
+const sinon = require('sinon');
+const proxyquire = require('proxyquire');
 
 function getSpellConfig() {
   return proxyquire('../lib/spell-config', {
@@ -8,7 +8,7 @@ function getSpellConfig() {
       readFile: sinon.stub().callsArgWith(2, null, ''),
       writeFile: sinon.stub().callsArgWith(2, null)
     }
-  }).default;
+  });
 }
 
 describe('Spell-Config', () => {
