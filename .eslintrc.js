@@ -11,7 +11,7 @@ module.exports = {
   plugins: ['mocha'],
   extends: ['eslint:recommended', 'plugin:node/recommended'],
   rules: {
-    'no-prototype-builtins': ['off'],
+    'no-prototype-builtins': ['off']
   },
   overrides: [
     {
