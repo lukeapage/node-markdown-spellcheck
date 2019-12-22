@@ -12,8 +12,8 @@ module.exports = {
   extends: ['eslint:recommended', 'plugin:node/recommended'],
   rules: {
     'no-prototype-builtins': ['off'],
-    "node/no-callback-literal": "error",
-    "node/prefer-global/process": ["error", "always"],
+    'node/no-callback-literal': 'error',
+    'node/prefer-global/process': ['error', 'always'],
     'node/exports-style': ['error', 'module.exports']
   },
   overrides: [
