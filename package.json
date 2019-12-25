@@ -34,7 +34,6 @@
     "url": "https://github.com/lukeapage/node-markdown-spellcheck/issues"
   },
   "dependencies": {
-    "async": "^3.1.0",
     "chalk": "^3.0.0",
     "commander": "^4.0.1",
     "dictionary-en-au": "^2.1.1",

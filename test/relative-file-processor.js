@@ -1,31 +1,25 @@
 const { expect } = require('chai');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
-const async = require('async');
 
 function getRelativeFileProcessor(globby, spellConfig, spellcheck) {
-  return proxyquire('../lib/relative-file-processor', {
+  return proxyquire('../lib/file-processor', {
     globby: globby,
     './spell-config': spellConfig,
     './spellcheck': spellcheck,
     fs: {
+      readFileSync: () => {
+        return Promise.resolve();
+      },
       readFile: sinon.stub().callsArg(2)
     }
-  });
+  }).relativeFileProcessor;
 }
 
 function mockGlobby(files) {
   return function() {
-    return {
-      then(cb) {
-        cb(files);
-        return this;
-      },
-      catch() {
-        return this;
-      }
-    };
-  };
+    return Promise.resolve(files);
+  }
 }
 
 function mockSpellConfig(globalWords, fileWords) {
@@ -43,8 +37,6 @@ function mockSpellConfig(globalWords, fileWords) {
     mockedSpellConfig.getFileWords.returns([]);
   }
 
-  mockedSpellConfig.initialise.callsArg(1);
-
   return mockedSpellConfig;
 }
 
@@ -57,16 +49,7 @@ function mockSpellcheck() {
 }
 
 describe('relative-file-processor', () => {
-  beforeEach(() => {
-    sinon.stub(async, 'setImmediate').callsArg(0);
-    sinon.stub(async, 'nextTick').callsArg(0);
-  });
-  afterEach(() => {
-    async.setImmediate.restore();
-    async.nextTick.restore();
-  });
-
-  it('should work with empty patterns', () => {
+  it('should work with empty patterns', async () => {
     const spellConfig = mockSpellConfig();
     const relativeFileProcessor = getRelativeFileProcessor(
       mockGlobby([]),
@@ -77,14 +60,14 @@ describe('relative-file-processor', () => {
     fileCallSpy.callsArg(1);
     const finishedSpy = sinon.spy();
 
-    relativeFileProcessor([], {}, fileCallSpy, finishedSpy);
+    await relativeFileProcessor([], {}, fileCallSpy, finishedSpy);
 
     expect(fileCallSpy.notCalled).to.equal(true);
     expect(finishedSpy.calledOnce).to.equal(true);
     expect(spellConfig.initialise.calledOnce).to.equal(false);
   });
 
-  it('should work with single pattern', () => {
+  it('should work with single pattern', async () => {
     const spellConfig = mockSpellConfig();
     const relativeFileProcessor = getRelativeFileProcessor(
       mockGlobby(['1']),
@@ -95,14 +78,14 @@ describe('relative-file-processor', () => {
     fileCallSpy.callsArg(2);
     const finishedSpy = sinon.spy();
 
-    relativeFileProcessor(['1'], {}, fileCallSpy, finishedSpy);
+    await relativeFileProcessor(['1'], {}, fileCallSpy, finishedSpy);
 
     expect(fileCallSpy.notCalled).to.equal(false);
     expect(finishedSpy.calledOnce).to.equal(true);
     expect(spellConfig.initialise.calledOnce).to.equal(true);
   });
 
-  it('should work with multiple patterns', () => {
+  it('should work with multiple patterns', async () => {
     const spellConfig = mockSpellConfig(
       ['global-word'],
       [['word-1'], ['word-2-a', 'word-2-b'], [], ['word-4']]
@@ -117,7 +100,7 @@ describe('relative-file-processor', () => {
     fileCallSpy.callsArg(2);
     const finishedSpy = sinon.spy();
 
-    relativeFileProcessor(['1', '2'], {}, fileCallSpy, finishedSpy);
+    await relativeFileProcessor(['1', '2'], {}, fileCallSpy, finishedSpy);
 
     expect(fileCallSpy.callCount).to.equal(4);
     expect(fileCallSpy.getCall(0).args[0]).to.equal('1');

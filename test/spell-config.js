@@ -11,28 +11,28 @@ function getSpellConfig() {
   });
 }
 
-describe('Spell-Config', () => {
-  it('should initialise correctly and call done', () => {
+describe('Spell-Config', async () => {
+  it('should initialise correctly and call done', async () => {
     const spellConfig = getSpellConfig();
     const initDone = sinon.stub();
-    spellConfig.initialise('./.spelling', initDone);
+    await spellConfig.initialise('./.spelling', initDone);
     expect(initDone.calledOnce).to.equal(true);
   });
 
-  it('should add global words into array', () => {
+  it('should add global words into array', async () => {
     const spellConfig = getSpellConfig();
     const initDone = sinon.stub();
-    spellConfig.initialise('./.spelling', initDone);
+    await spellConfig.initialise('./.spelling', initDone);
     spellConfig.addToGlobalDictionary('aaaaa');
     expect(spellConfig.getGlobalWords().length).to.equal(1);
     expect(spellConfig.getGlobalWords()[0]).to.equal('aaaaa');
     expect(initDone.calledOnce).to.equal(true);
   });
 
-  it('should add global words from relative or shared into array', () => {
+  it('should add global words from relative or shared into array', async () => {
     const spellConfig = getSpellConfig();
     const initDone = sinon.stub();
-    spellConfig.initialise('/relative/.spelling', initDone);
+    await spellConfig.initialise('/relative/.spelling', initDone);
     spellConfig.addToGlobalDictionary('aaaaa', false);
     spellConfig.addToGlobalDictionary('bbbbb', true);
     expect(spellConfig.getGlobalWords().length).to.equal(2);
@@ -40,31 +40,31 @@ describe('Spell-Config', () => {
     expect(initDone.calledOnce).to.equal(true);
   });
 
-  it('should add file words into array', () => {
+  it('should add file words into array', async () => {
     const FILE = '/relative/blog.md';
     const initDone = sinon.stub();
     const spellConfig = getSpellConfig();
-    spellConfig.initialise('./.spelling', initDone);
+    await spellConfig.initialise('./.spelling', initDone);
     spellConfig.addToFileDictionary(FILE, 'aaaaa', false);
     expect(spellConfig.getFileWords(FILE).length).to.equal(1);
     expect(initDone.calledOnce).to.equal(true);
   });
 
-  it('should add file words from relative or shared into array', () => {
+  it('should add file words from relative or shared into array', async() => {
     const FILE = '/relative/blog.md';
     const initDone = sinon.stub();
     const spellConfig = getSpellConfig();
-    spellConfig.initialise('/relative/.spelling', initDone);
+    await spellConfig.initialise('/relative/.spelling', initDone);
     spellConfig.addToFileDictionary(FILE, 'aaaaa', false);
     spellConfig.addToFileDictionary(FILE, 'bbbbb', true);
     expect(spellConfig.getFileWords(FILE).length).to.equal(2);
     expect(initDone.calledOnce).to.equal(true);
   });
 
-  it('should call done after writeFile when spelling file is dirty or clean', () => {
+  it('should call done after writeFile when spelling file is dirty or clean', async () => {
     const spellConfig = getSpellConfig();
     const initDone = sinon.stub();
-    spellConfig.initialise('./.spelling', initDone);
+    await spellConfig.initialise('./.spelling', initDone);
     expect(initDone.calledOnce).to.equal(true);
 
     const writeCleanFileDone = sinon.stub();
