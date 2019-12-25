@@ -1,27 +1,28 @@
+const fs = require('fs');
 const { expect } = require('chai');
-const sinon = require('sinon');
-const proxyquire = require('proxyquire');
+const sandbox = require('sinon').createSandbox();
 
-function getSpellConfig() {
-  return proxyquire('../lib/spell-config', {
-    fs: {
-      readFile: sinon.stub().callsArgWith(2, null, ''),
-      writeFile: sinon.stub().callsArgWith(2, null)
-    }
-  });
-}
+const spellConfig = require('../lib/spell-config');
 
 describe('spell config', () => {
+  beforeEach(() => {
+    // Do not write files to drive
+    sandbox.stub(fs, 'writeFile').callsArgWith(2, null);
+    sandbox.stub(fs, 'readFile').callsArgWith(2, null, '');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('should initialise correctly and call done', async () => {
-    const spellConfig = getSpellConfig();
-    const initDone = sinon.stub();
+    const initDone = sandbox.stub();
     await spellConfig.initialise('./.spelling', initDone);
     expect(initDone.calledOnce).to.equal(true);
   });
 
   it('should add global words into array', async () => {
-    const spellConfig = getSpellConfig();
-    const initDone = sinon.stub();
+    const initDone = sandbox.stub();
     await spellConfig.initialise('./.spelling', initDone);
     spellConfig.addToGlobalDictionary('aaaaa');
     expect(spellConfig.getGlobalWords().length).to.equal(1);
@@ -30,8 +31,7 @@ describe('spell config', () => {
   });
 
   it('should add global words from relative or shared into array', async () => {
-    const spellConfig = getSpellConfig();
-    const initDone = sinon.stub();
+    const initDone = sandbox.stub();
     await spellConfig.initialise('/relative/.spelling', initDone);
     spellConfig.addToGlobalDictionary('aaaaa', false);
     spellConfig.addToGlobalDictionary('bbbbb', true);
@@ -42,8 +42,7 @@ describe('spell config', () => {
 
   it('should add file words into array', async () => {
     const FILE = '/relative/blog.md';
-    const initDone = sinon.stub();
-    const spellConfig = getSpellConfig();
+    const initDone = sandbox.stub();
     await spellConfig.initialise('./.spelling', initDone);
     spellConfig.addToFileDictionary(FILE, 'aaaaa', false);
     expect(spellConfig.getFileWords(FILE).length).to.equal(1);
@@ -52,8 +51,7 @@ describe('spell config', () => {
 
   it('should add file words from relative or shared into array', async () => {
     const FILE = '/relative/blog.md';
-    const initDone = sinon.stub();
-    const spellConfig = getSpellConfig();
+    const initDone = sandbox.stub();
     await spellConfig.initialise('/relative/.spelling', initDone);
     spellConfig.addToFileDictionary(FILE, 'aaaaa', false);
     spellConfig.addToFileDictionary(FILE, 'bbbbb', true);
@@ -62,16 +60,15 @@ describe('spell config', () => {
   });
 
   it('should call done after writeFile when spelling file is dirty or clean', async () => {
-    const spellConfig = getSpellConfig();
-    const initDone = sinon.stub();
+    const initDone = sandbox.stub();
     await spellConfig.initialise('./.spelling', initDone);
     expect(initDone.calledOnce).to.equal(true);
 
-    const writeCleanFileDone = sinon.stub();
+    const writeCleanFileDone = sandbox.stub();
     spellConfig.writeFile(writeCleanFileDone);
     expect(writeCleanFileDone.calledOnce).to.equal(true);
 
-    const writeDirtyFileDone = sinon.stub();
+    const writeDirtyFileDone = sandbox.stub();
     spellConfig.addToGlobalDictionary('aaaaa', false);
     spellConfig.writeFile(writeDirtyFileDone);
     expect(writeDirtyFileDone.calledOnce).to.equal(true);

@@ -1,63 +1,39 @@
 const { PassThrough } = require('stream');
+const fs = require('fs');
+
 const { expect } = require('chai');
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
+const inquirer = require('inquirer');
+const sandbox = require('sinon').createSandbox();
 const bddStdin = require('bdd-stdin');
 
-function getCliInteractive(spellConfig, spellcheck, writeCorrections, index) {
-  return proxyquire('../lib/cli-interactive', {
-    './write-corrections': writeCorrections,
-    './spell-config': spellConfig,
-    './spellcheck': spellcheck,
-    './index': index,
-    inquirer: {
-      prompt: require('inquirer').createPromptModule({
-        output: new PassThrough() // do nothing with console output
-      })
-    }
-  });
-}
+const index = require('../lib');
+const spellcheck = require('../lib/spellcheck');
+const spellConfig = require('../lib/spell-config');
+const writeCorrections = require('../lib/write-corrections');
+const cliInteractive = require('../lib/cli-interactive');
 
-function mockSpellConfig() {
-  return {
-    addToGlobalDictionary: sinon.stub(),
-    addToFileDictionary: sinon.stub(),
-    writeFile: sinon.stub().callsArg(0)
-  };
-}
-
-function mockSpellcheck() {
-  return {
-    addWord: sinon.stub(),
-    checkWord: sinon.stub()
-  };
-}
-
-function mockWriteCorrections() {
-  return sinon.stub().callsArg(3);
-}
-
-function mockIndex(mistakes) {
-  return {
-    spellCallback(ignore, ignore2, perMistake, endOfFile) {
+function applyMocks(mistakes) {
+  // Mock mistakes
+  sandbox
+    .stub(index, 'spellCallback')
+    .callsFake(function(src, file, callback, done) {
       if (mistakes) {
         const next = () => {
           if (mistakes.length) {
             const wordInfo = { word: mistakes.pop(), index: 0 };
-            perMistake(wordInfo, next);
+            callback(wordInfo, next);
           } else {
-            endOfFile();
+            done();
           }
         };
         next();
       } else {
-        endOfFile();
+        done();
       }
-    }
-  };
+    });
 }
 
-async function makeAsyncCLI(cliInteractive, cb, options = {}) {
+async function makeAsyncCLI(cb, options = {}) {
   await new Promise(fileProcessed => {
     cliInteractive('myfile', '', options, () => {
       cb();
@@ -67,56 +43,68 @@ async function makeAsyncCLI(cliInteractive, cb, options = {}) {
 }
 
 describe('cli interactive', () => {
-  it('should work with no mistakes', () => {
-    const cliInteractive = getCliInteractive(
-      mockSpellConfig(),
-      mockSpellcheck(),
-      mockWriteCorrections(),
-      mockIndex()
+  beforeEach(() => {
+    // Spy on writeCorrections
+    sandbox.spy(writeCorrections, 'writeCorrections');
+
+    // Spy on spellcheck
+    sandbox.stub(spellcheck, 'addWord');
+    sandbox.spy(spellcheck, 'checkWord');
+
+    // Override default config to disable console output, this is not affecting errors
+    // You can disable it while modifying tests
+    sandbox.stub(inquirer, 'prompt').get(() =>
+      inquirer.createPromptModule({
+        output: new PassThrough()
+      })
     );
-    const fileProcessed = sinon.spy();
+
+    // spellConfig override
+    sandbox.stub(spellConfig, 'addToGlobalDictionary');
+    sandbox.stub(spellConfig, 'addToFileDictionary');
+
+    // Do not write files to drive
+    sandbox.stub(fs, 'writeFile').callsArgWith(2, null);
+    sandbox.stub(fs, 'readFile').callsArgWith(2, null, '');
+  });
+
+  afterEach(() => {
+    writeCorrections.writeCorrections.restore();
+    spellcheck.checkWord.restore();
+    sandbox.restore();
+  });
+
+  it('should work with no mistakes', () => {
+    applyMocks();
+    const fileProcessed = sandbox.spy();
     cliInteractive('myfile', '', {}, fileProcessed);
 
     expect(fileProcessed.calledOnce).to.equal(true);
   });
 
   it('should work with a single ignore', async () => {
-    const spellcheck = mockSpellcheck();
-    const cliInteractive = getCliInteractive(
-      mockSpellConfig(),
-      spellcheck,
-      mockWriteCorrections(),
-      mockIndex(['mispelt'])
-    );
-    const fileProcessed = sinon.spy();
+    applyMocks(['mispelt']);
+    const fileProcessed = sandbox.spy();
 
     bddStdin(bddStdin.keys.down, '\n');
-    await makeAsyncCLI(cliInteractive, fileProcessed);
+    await makeAsyncCLI(fileProcessed);
 
     expect(fileProcessed.calledOnce).to.equal(true);
     expect(spellcheck.addWord.calledOnce).to.equal(true);
   });
 
   it('correct word with 2 words', async () => {
-    const spellcheck = mockSpellcheck();
-    const writeCorrections = mockWriteCorrections();
-    const cliInteractive = getCliInteractive(
-      mockSpellConfig(),
-      spellcheck,
-      writeCorrections,
-      mockIndex(['twowords'])
-    );
-    const fileProcessed = sinon.spy();
+    applyMocks(['twowords']);
+
+    const fileProcessed = sandbox.spy();
 
     bddStdin('\n', 'two words', '\n');
-    spellcheck.checkWord.onCall(0).returns(Promise.resolve(true));
-    spellcheck.checkWord.onCall(1).returns(Promise.resolve(true));
-    await makeAsyncCLI(cliInteractive, fileProcessed);
+    await makeAsyncCLI(fileProcessed);
 
     expect(spellcheck.checkWord.calledTwice).to.equal(true);
 
-    expect(writeCorrections.calledOnce).to.equal(true);
-    expect(writeCorrections.firstCall.args[2]).to.deep.equal([
+    expect(writeCorrections.writeCorrections.calledOnce).to.equal(true);
+    expect(writeCorrections.writeCorrections.firstCall.args[2]).to.deep.equal([
       {
         newWord: 'two words',
         wordInfo: {
@@ -129,23 +117,14 @@ describe('cli interactive', () => {
   });
 
   it('correct word with incorrect word', async () => {
-    const spellcheck = mockSpellcheck();
-    const writeCorrections = mockWriteCorrections();
-    const cliInteractive = getCliInteractive(
-      mockSpellConfig(),
-      spellcheck,
-      writeCorrections,
-      mockIndex(['incorect'])
-    );
-    const fileProcessed = sinon.spy();
+    applyMocks(['incorect']);
+    const fileProcessed = sandbox.spy();
 
     bddStdin('\n', 'incorret', '\n', '\n', 'incorrect', '\n');
-    spellcheck.checkWord.onCall(0).returns(Promise.resolve(false));
-    spellcheck.checkWord.onCall(1).returns(Promise.resolve(true));
-    await makeAsyncCLI(cliInteractive, fileProcessed);
+    await makeAsyncCLI(fileProcessed);
 
-    expect(writeCorrections.calledOnce).to.equal(true);
-    expect(writeCorrections.firstCall.args[2]).to.deep.equal([
+    expect(writeCorrections.writeCorrections.calledOnce).to.equal(true);
+    expect(writeCorrections.writeCorrections.firstCall.args[2]).to.deep.equal([
       {
         newWord: 'incorrect',
         wordInfo: {
@@ -157,27 +136,19 @@ describe('cli interactive', () => {
   });
 
   it('correct word with filtered word', async () => {
-    const spellcheck = mockSpellcheck();
-    const writeCorrections = mockWriteCorrections();
-    const cliInteractive = getCliInteractive(
-      mockSpellConfig(),
-      spellcheck,
-      writeCorrections,
-      mockIndex(['incorect'])
-    );
-    const fileProcessed = sinon.spy();
+    applyMocks(['dadadsasd']);
+    const fileProcessed = sandbox.spy();
 
     bddStdin('\n', 'ABS', '\n');
-    spellcheck.checkWord.onCall(0).returns(Promise.resolve(false));
-    await makeAsyncCLI(cliInteractive, fileProcessed, { ignoreAcronyms: true });
+    await makeAsyncCLI(fileProcessed, { ignoreAcronyms: true });
 
-    expect(writeCorrections.calledOnce).to.equal(true);
-    expect(writeCorrections.firstCall.args[2]).to.deep.equal([
+    expect(writeCorrections.writeCorrections.calledOnce).to.equal(true);
+    expect(writeCorrections.writeCorrections.firstCall.args[2]).to.deep.equal([
       {
         newWord: 'ABS',
         wordInfo: {
           index: 0,
-          word: 'incorect'
+          word: 'dadadsasd'
         }
       }
     ]);
