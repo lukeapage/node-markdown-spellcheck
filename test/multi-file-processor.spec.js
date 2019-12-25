@@ -19,7 +19,7 @@ function getMultiFileProcessor(globby, spellConfig, spellcheck) {
 function mockGlobby(files) {
   return function() {
     return Promise.resolve(files);
-  }
+  };
 }
 
 function mockSpellConfig(globalWords, fileWords) {

@@ -50,7 +50,7 @@ describe('spell config', () => {
     expect(initDone.calledOnce).to.equal(true);
   });
 
-  it('should add file words from relative or shared into array', async() => {
+  it('should add file words from relative or shared into array', async () => {
     const FILE = '/relative/blog.md';
     const initDone = sinon.stub();
     const spellConfig = getSpellConfig();
