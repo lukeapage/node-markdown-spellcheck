@@ -10,7 +10,7 @@ function getCliInteractive(spellConfig, spellcheck, writeCorrections, index) {
     './spell-config': spellConfig,
     './spellcheck': spellcheck,
     './index': index,
-    'inquirer': {
+    inquirer: {
       prompt: require('inquirer').createPromptModule({
         output: new PassThrough() // do nothing with console output
       })
