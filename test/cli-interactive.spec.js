@@ -1,3 +1,4 @@
+const { PassThrough } = require('stream');
 const { expect } = require('chai');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
@@ -8,7 +9,12 @@ function getCliInteractive(spellConfig, spellcheck, writeCorrections, index) {
     './write-corrections': writeCorrections,
     './spell-config': spellConfig,
     './spellcheck': spellcheck,
-    './index': index
+    './index': index,
+    'inquirer': {
+      prompt: require('inquirer').createPromptModule({
+        output: new PassThrough() // do nothing with console output
+      })
+    }
   });
 }
 
