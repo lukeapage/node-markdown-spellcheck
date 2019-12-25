@@ -103,8 +103,8 @@ describe('cli interactive', () => {
     const fileProcessed = sinon.spy();
 
     bddStdin('\n', 'two words', '\n');
-    spellcheck.checkWord.onCall(0).returns(true);
-    spellcheck.checkWord.onCall(1).returns(true);
+    spellcheck.checkWord.onCall(0).returns(Promise.resolve(true));
+    spellcheck.checkWord.onCall(1).returns(Promise.resolve(true));
     await makeAsyncCLI(cliInteractive, fileProcessed);
 
     expect(spellcheck.checkWord.calledTwice).to.equal(true);
@@ -134,8 +134,8 @@ describe('cli interactive', () => {
     const fileProcessed = sinon.spy();
 
     bddStdin('\n', 'incorret', '\n', '\n', 'incorrect', '\n');
-    spellcheck.checkWord.onCall(0).returns(false);
-    spellcheck.checkWord.onCall(1).returns(true);
+    spellcheck.checkWord.onCall(0).returns(Promise.resolve(false));
+    spellcheck.checkWord.onCall(1).returns(Promise.resolve(true));
     await makeAsyncCLI(cliInteractive, fileProcessed);
 
     expect(writeCorrections.calledOnce).to.equal(true);
@@ -162,7 +162,7 @@ describe('cli interactive', () => {
     const fileProcessed = sinon.spy();
 
     bddStdin('\n', 'ABS', '\n');
-    spellcheck.checkWord.onCall(0).returns(false);
+    spellcheck.checkWord.onCall(0).returns(Promise.resolve(false));
     await makeAsyncCLI(cliInteractive, fileProcessed, { ignoreAcronyms: true });
 
     expect(writeCorrections.calledOnce).to.equal(true);
