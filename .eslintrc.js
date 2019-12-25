@@ -18,9 +18,10 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['test/**/*.ts'],
+      files: ['test/**/*.js'],
       extends: ['plugin:mocha/recommended'],
       rules: {
+        'node/no-unpublished-require': ['off'],
         'mocha/no-mocha-arrows': ['off']
       }
     }

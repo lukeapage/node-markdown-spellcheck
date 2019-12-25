@@ -11,7 +11,7 @@ function getSpellConfig() {
   });
 }
 
-describe('Spell-Config', async () => {
+describe('spell config', () => {
   it('should initialise correctly and call done', async () => {
     const spellConfig = getSpellConfig();
     const initDone = sinon.stub();
