@@ -1,72 +1,10 @@
 const fs = require('fs');
-const inquirer = require('inquirer');
+const mockUtils = require('./utils/mock');
 
-const index = require('../lib');
 const spellcheck = require('../lib/spellcheck');
 const spellConfig = require('../lib/spell-config');
 const writeCorrections = require('../lib/write-corrections');
 const cliInteractive = require('../lib/cli-interactive');
-
-function applyMocks(mistakes) {
-  // Mock mistakes
-  jest
-    .spyOn(index, 'spellCallback')
-    .mockImplementation(function(src, file, callback, done) {
-      if (mistakes) {
-        const next = () => {
-          if (mistakes.length) {
-            const wordInfo = { word: mistakes.pop(), index: 0 };
-            callback(wordInfo, next);
-          } else {
-            done();
-          }
-        };
-        next();
-      } else {
-        done();
-      }
-    });
-}
-
-/**
- * @param {Record<string, any>[]} fills
- */
-function mockPrompt(fills = []) {
-  jest.spyOn(inquirer, 'prompt').mockImplementation(fields => {
-    let mocks = fills.shift() || {};
-    let answers = {};
-
-    for (const field of fields) {
-      // Uncomment this if you want to see ~console
-      // console.log(
-      //   `name: ${field.name}\n` +
-      //     `response: ${mocks[field.name]}\n` +
-      //     (field.choices || [])
-      //       .map(choice => `- ${choice.name} (${choice.value})`)
-      //       .join('\n')
-      // );
-      if (
-        field.when === undefined ||
-        (field.when &&
-          (typeof field.when !== 'function' || field.when(answers)))
-      ) {
-        if (field.validate && typeof field.validate === 'function') {
-          if (field.validate(mocks[field.name]) !== true) {
-            throw new Error(`Validation failed for field ${field.name}`);
-          }
-        }
-
-        if (mocks.hasOwnProperty(field.name)) {
-          answers[field.name] = mocks[field.name];
-        } else {
-          throw new Error(`Missing response for ${field.message}`);
-        }
-      }
-    }
-
-    return Promise.resolve(answers);
-  });
-}
 
 async function makeAsyncCLI(cb, options = {}) {
   await new Promise(fileProcessed => {
@@ -108,8 +46,8 @@ describe('cli interactive', () => {
   });
 
   it('should work with no mistakes', async () => {
-    applyMocks();
-    mockPrompt();
+    mockUtils.mockSpellCallback();
+    mockUtils.mockPrompt();
     const fileProcessed = jest.fn();
     await makeAsyncCLI(fileProcessed);
 
@@ -117,8 +55,8 @@ describe('cli interactive', () => {
   });
 
   it('should work with a single ignore', async () => {
-    applyMocks(['mispelt']);
-    mockPrompt([{ action: 'ignore' }]);
+    mockUtils.mockSpellCallback(['mispelt']);
+    mockUtils.mockPrompt([{ action: 'ignore' }]);
 
     const fileProcessed = jest.fn();
     await makeAsyncCLI(fileProcessed);
@@ -129,8 +67,8 @@ describe('cli interactive', () => {
   });
 
   it('correct word with 2 words', async () => {
-    applyMocks(['twowords']);
-    mockPrompt([{ action: 'enter' }, { word: 'two words' }]);
+    mockUtils.mockSpellCallback(['twowords']);
+    mockUtils.mockPrompt([{ action: 'enter' }, { word: 'two words' }]);
 
     const fileProcessed = jest.fn();
     await makeAsyncCLI(fileProcessed);
@@ -150,15 +88,15 @@ describe('cli interactive', () => {
   });
 
   it('correct word with incorrect word', async () => {
-    applyMocks(['incorect']);
-    const fileProcessed = jest.fn();
-
-    mockPrompt([
+    mockUtils.mockSpellCallback(['incorect']);
+    mockUtils.mockPrompt([
       { action: 'enter' },
       { word: 'incorret' },
       { action: 'enter' },
       { word: 'incorrect' }
     ]);
+
+    const fileProcessed = jest.fn();
     await makeAsyncCLI(fileProcessed);
 
     expect(writeCorrections.writeCorrections).toBeCalledTimes(1);
@@ -174,10 +112,10 @@ describe('cli interactive', () => {
   });
 
   it('correct word with filtered word', async () => {
-    applyMocks(['incorect']);
-    const fileProcessed = jest.fn();
+    mockUtils.mockSpellCallback(['incorect']);
+    mockUtils.mockPrompt([{ action: 'enter' }, { word: 'ABS' }]);
 
-    mockPrompt([{ action: 'enter' }, { word: 'ABS' }]);
+    const fileProcessed = jest.fn();
     await makeAsyncCLI(fileProcessed, { ignoreAcronyms: true });
 
     expect(writeCorrections.writeCorrections).toBeCalledTimes(1);

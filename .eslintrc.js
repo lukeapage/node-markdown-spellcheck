@@ -11,7 +11,7 @@ module.exports = {
   plugins: ['jest'],
   extends: ['eslint:recommended', 'plugin:node/recommended'],
   rules: {
-    'no-prototype-builtins': ['off'],
+    'no-prototype-builtins': 'off',
     'node/no-callback-literal': 'error',
     'node/prefer-global/process': ['error', 'always'],
     'node/exports-style': ['error', 'module.exports']
@@ -21,7 +21,8 @@ module.exports = {
       files: ['test/**/*.js'],
       extends: ['plugin:jest/recommended'],
       rules: {
-        'node/no-unpublished-require': ['off']
+        'node/prefer-global/process': 'error',
+        'node/exports-style': ['error', 'module.exports']
       }
     }
   ]

@@ -4,7 +4,7 @@ module.exports = {
   testEnvironment: 'node',
   testRegex: './test/.+\\.spec.js$',
   collectCoverage: false,
-  collectCoverageFrom: ['src/**/*.js'],
+  collectCoverageFrom: ['lib/**/*.js'],
   moduleFileExtensions: ['js', 'json', 'node'],
-  coverageReporters: ['text-summary', 'lcov']
+  coverageReporters: ['text', 'lcovonly']
 };

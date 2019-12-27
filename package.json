@@ -23,7 +23,7 @@
     "lint-fix": "eslint . --fix",
     "format": "prettier --write \"./**/*.{js,json,md}\"",
     "format-check": "prettier --list-different \"./**/*.{js,json,md}\"",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "author": "Luke Page",
   "license": "ISC",

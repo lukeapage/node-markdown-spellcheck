@@ -8,5 +8,6 @@ test
 .prettierignore
 .editorconfig
 .github
+coverage
 yarn.lock
 jest.config.js
