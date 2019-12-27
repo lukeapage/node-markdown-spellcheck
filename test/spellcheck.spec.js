@@ -1,4 +1,3 @@
-const { expect } = require('chai');
 const spellcheck = require('../lib/spellcheck');
 
 describe('spell checker', () => {
@@ -7,7 +6,7 @@ describe('spell checker', () => {
       { word: 'notreal', index: 0 }
     ]);
 
-    expect(badWords).to.deep.equal([{ word: 'notreal', index: 0 }]);
+    expect(badWords).toEqual([{ word: 'notreal', index: 0 }]);
   });
 
   it('should detect good spelling', async () => {
@@ -16,13 +15,13 @@ describe('spell checker', () => {
       { word: 'sentence', index: 5 }
     ]);
 
-    expect(badWords).to.deep.equal([]);
+    expect(badWords).toEqual([]);
   });
 
   it("should allow words needing '.'", async () => {
     const badWords = await spellcheck.checkWords([{ word: 'etc', index: 0 }]);
 
-    expect(badWords).to.deep.equal([]);
+    expect(badWords).toEqual([]);
   });
 
   it('should allow words dashed', async () => {
@@ -30,7 +29,7 @@ describe('spell checker', () => {
       { word: 'real-world', index: 0 }
     ]);
 
-    expect(badWords).to.deep.equal([]);
+    expect(badWords).toEqual([]);
   });
 
   it('should allow plural on anything', async () => {
@@ -38,7 +37,7 @@ describe('spell checker', () => {
       { word: "safety's", index: 0 }
     ]);
 
-    expect(badWords).to.deep.equal([]);
+    expect(badWords).toEqual([]);
   });
 
   it('should allow plural with utf apos on anything', async () => {
@@ -46,7 +45,7 @@ describe('spell checker', () => {
       { word: 'safety’s', index: 0 }
     ]);
 
-    expect(badWords).to.deep.equal([]);
+    expect(badWords).toEqual([]);
   });
 
   it('should utf apos when adding words', async () => {
@@ -55,6 +54,6 @@ describe('spell checker', () => {
       { word: 'badwordspelling’s', index: 0 }
     ]);
 
-    expect(badWords).to.deep.equal([]);
+    expect(badWords).toEqual([]);
   });
 });

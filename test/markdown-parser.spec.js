@@ -1,4 +1,3 @@
-const { expect } = require('chai');
 const markdownParser = require('../lib/markdown-parser');
 
 describe('basic markdown parsing', () => {
@@ -7,7 +6,7 @@ describe('basic markdown parsing', () => {
 hey
 Paragraph`);
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'hey', index: 1 },
       { text: 'Paragraph', index: 5 }
     ]);
@@ -21,7 +20,7 @@ Heading
 -------
 `);
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'hey', index: 1 },
       { text: 'Heading', index: 9 }
     ]);
@@ -35,7 +34,7 @@ text
    - list2
 `);
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'List', index: 4 },
       { text: 'item', index: 9 },
       { text: 'text', index: 14 },
@@ -49,7 +48,7 @@ text
 _underlined text_
 `);
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'underlined', index: 2 },
       { text: 'text', index: 13 }
     ]);
@@ -60,7 +59,7 @@ _underlined text_
 [De Link!](http://link.com/ha)
 `);
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'De', index: 2 },
       { text: 'Link', index: 5 },
       { text: '!', index: 9 }
@@ -74,7 +73,7 @@ var code = 3;
 \`\`\`
 `);
 
-    expect(tokens).to.deep.equal([]);
+    expect(tokens).toEqual([]);
   });
 
   it('should be able to ignore inline code blocks', () => {
@@ -82,7 +81,7 @@ var code = 3;
 This is a \`var\` inline.
 `);
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'This', index: 1 },
       { text: 'is', index: 6 },
       { text: 'a', index: 9 },
@@ -98,7 +97,7 @@ title: Post title
 Hello
     `);
 
-    expect(tokens).to.deep.equal([{ text: 'Hello', index: 27 }]);
+    expect(tokens).toEqual([{ text: 'Hello', index: 27 }]);
   });
 
   it("doesn't ignore text between two horizontal rules at the beginning of the content", () => {
@@ -109,7 +108,7 @@ Apple
 Banana
     `);
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'Apple', index: 5 },
       { text: 'Banana', index: 15 }
     ]);
@@ -124,7 +123,7 @@ Banana
 Orange
     `);
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'Apple', index: 1 },
       { text: 'Banana', index: 11 },
       { text: 'Orange', index: 22 }
@@ -139,7 +138,7 @@ author: test
 This should be spell checked
 ---
 `);
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'This', index: 22 },
       { text: 'should', index: 27 },
       { text: 'be', index: 34 },
@@ -153,7 +152,7 @@ This should be spell checked
 This is a \`\`var\` with backtick\`\` inline.
 `);
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'This', index: 1 },
       { text: 'is', index: 6 },
       { text: 'a', index: 9 },
@@ -167,7 +166,7 @@ This is a \`\`var\` with backtick\`\` inline.
 <p>p<em>inner</em></p>
 `);
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'H1.', index: 5 },
       { text: 'p', index: 17 },
       { text: 'inner', index: 22 }
@@ -177,7 +176,7 @@ This is a \`\`var\` with backtick\`\` inline.
   it("doesn't confuse repeating words", () => {
     const tokens = markdownParser('code code');
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'code', index: 0 },
       { text: 'code', index: 5 }
     ]);
@@ -186,31 +185,31 @@ This is a \`\`var\` with backtick\`\` inline.
   it('copes with html entities', () => {
     const tokens = markdownParser('&quot;code&quot;');
 
-    expect(tokens).to.deep.equal([{ text: 'code', index: 6 }]);
+    expect(tokens).toEqual([{ text: 'code', index: 6 }]);
   });
 
   it('copes with html entities with the same code as later text', () => {
     const tokens = markdownParser('&quot;quot');
 
-    expect(tokens).to.deep.equal([{ text: 'quot', index: 6 }]);
+    expect(tokens).toEqual([{ text: 'quot', index: 6 }]);
   });
 
   it('copes with quotes followed by text matching the entity name', () => {
     const tokens = markdownParser('"quot');
 
-    expect(tokens).to.deep.equal([{ text: 'quot', index: 1 }]);
+    expect(tokens).toEqual([{ text: 'quot', index: 1 }]);
   });
 
   it('copes with quote marks', () => {
     const tokens = markdownParser('"code"');
 
-    expect(tokens).to.deep.equal([{ text: 'code', index: 1 }]);
+    expect(tokens).toEqual([{ text: 'code', index: 1 }]);
   });
 
   it("doesn't confuse tags", () => {
     const tokens = markdownParser('<code>code</code>code');
 
-    expect(tokens).to.deep.equal([
+    expect(tokens).toEqual([
       { text: 'code', index: 6 },
       { text: 'code', index: 17 }
     ]);
@@ -224,13 +223,13 @@ code
 code
     `);
 
-    expect(tokens).to.deep.equal([{ text: 'code', index: 14 }]);
+    expect(tokens).toEqual([{ text: 'code', index: 14 }]);
   });
 
   it("doesn't confuse inline code", () => {
     const tokens = markdownParser('`code` code');
 
-    expect(tokens).to.deep.equal([{ text: 'code', index: 7 }]);
+    expect(tokens).toEqual([{ text: 'code', index: 7 }]);
   });
 
   it('handles code blocks that are spaced', () => {
@@ -238,6 +237,6 @@ code
     $('#upload-form').transloadit({
     `);
 
-    expect(tokens).to.deep.equal([]);
+    expect(tokens).toEqual([]);
   });
 });

@@ -7,3 +7,6 @@ test
 .eslintrc.js
 .prettierignore
 .editorconfig
+.github
+yarn.lock
+jest.config.js

@@ -9,13 +9,14 @@ environment:
 
 install:
   - ps: Install-Product node $env:nodejs_version
-  - npm ci
+  - yarn --ignore-engines --frozen-lockfile
 
 build: off
 
 test_script:
-  - node --version && npm --version
-  - npm test
+  - node --version && yarn --version
+  - yarn spell-check
+  - yarn test
 
 cache:
   - node_modules            # local npm modules

@@ -1,76 +1,76 @@
 const fs = require('fs');
-const { expect } = require('chai');
-const sandbox = require('sinon').createSandbox();
 
 const spellConfig = require('../lib/spell-config');
 
 describe('spell config', () => {
   beforeEach(() => {
     // Do not write files to drive
-    sandbox.stub(fs, 'writeFile').callsArgWith(2, null);
-    sandbox.stub(fs, 'readFile').callsArgWith(2, null, '');
+    jest.spyOn(fs, 'writeFile').mockImplementation((name, options, cb) => {
+      cb();
+    });
+    jest.spyOn(fs, 'readFile').mockImplementation((name, options, cb) => {
+      cb(null, '');
+    });
   });
 
   afterEach(() => {
-    sandbox.restore();
+    jest.restoreAllMocks();
   });
 
   it('should initialise correctly and call done', async () => {
-    const initDone = sandbox.stub();
-    await spellConfig.initialise('./.spelling', initDone);
-    expect(initDone.calledOnce).to.equal(true);
+    const promise = await spellConfig.initialise('./.spelling');
+    expect(promise).toEqual(true);
   });
 
   it('should add global words into array', async () => {
-    const initDone = sandbox.stub();
-    await spellConfig.initialise('./.spelling', initDone);
+    const promise = await spellConfig.initialise('./.spelling');
+    expect(promise).toEqual(true);
+
     spellConfig.addToGlobalDictionary('aaaaa');
-    expect(spellConfig.getGlobalWords().length).to.equal(1);
-    expect(spellConfig.getGlobalWords()[0]).to.equal('aaaaa');
-    expect(initDone.calledOnce).to.equal(true);
+    expect(spellConfig.getGlobalWords().length).toEqual(1);
+    expect(spellConfig.getGlobalWords()).toEqual(['aaaaa']);
   });
 
   it('should add global words from relative or shared into array', async () => {
-    const initDone = sandbox.stub();
-    await spellConfig.initialise('/relative/.spelling', initDone);
+    const promise = await spellConfig.initialise('/relative/.spelling');
+    expect(promise).toEqual(true);
+
     spellConfig.addToGlobalDictionary('aaaaa', false);
     spellConfig.addToGlobalDictionary('bbbbb', true);
-    expect(spellConfig.getGlobalWords().length).to.equal(2);
-    expect(spellConfig.getGlobalWords()[1]).to.equal('bbbbb');
-    expect(initDone.calledOnce).to.equal(true);
+    expect(spellConfig.getGlobalWords().length).toEqual(2);
+    expect(spellConfig.getGlobalWords()).toEqual(['aaaaa', 'bbbbb']);
   });
 
   it('should add file words into array', async () => {
     const FILE = '/relative/blog.md';
-    const initDone = sandbox.stub();
-    await spellConfig.initialise('./.spelling', initDone);
+    const promise = await spellConfig.initialise('./.spelling');
+    expect(promise).toEqual(true);
+
     spellConfig.addToFileDictionary(FILE, 'aaaaa', false);
-    expect(spellConfig.getFileWords(FILE).length).to.equal(1);
-    expect(initDone.calledOnce).to.equal(true);
+    expect(spellConfig.getFileWords(FILE).length).toEqual(1);
   });
 
   it('should add file words from relative or shared into array', async () => {
     const FILE = '/relative/blog.md';
-    const initDone = sandbox.stub();
-    await spellConfig.initialise('/relative/.spelling', initDone);
+    const promise = await spellConfig.initialise('/relative/.spelling');
+    expect(promise).toEqual(true);
+
     spellConfig.addToFileDictionary(FILE, 'aaaaa', false);
     spellConfig.addToFileDictionary(FILE, 'bbbbb', true);
-    expect(spellConfig.getFileWords(FILE).length).to.equal(2);
-    expect(initDone.calledOnce).to.equal(true);
+    expect(spellConfig.getFileWords(FILE).length).toEqual(2);
   });
 
   it('should call done after writeFile when spelling file is dirty or clean', async () => {
-    const initDone = sandbox.stub();
-    await spellConfig.initialise('./.spelling', initDone);
-    expect(initDone.calledOnce).to.equal(true);
+    const promise = await spellConfig.initialise('./.spelling');
+    expect(promise).toEqual(true);
 
-    const writeCleanFileDone = sandbox.stub();
+    const writeCleanFileDone = jest.fn();
     spellConfig.writeFile(writeCleanFileDone);
-    expect(writeCleanFileDone.calledOnce).to.equal(true);
+    expect(writeCleanFileDone).toBeCalledTimes(1);
 
-    const writeDirtyFileDone = sandbox.stub();
+    const writeDirtyFileDone = jest.fn();
     spellConfig.addToGlobalDictionary('aaaaa', false);
     spellConfig.writeFile(writeDirtyFileDone);
-    expect(writeDirtyFileDone.calledOnce).to.equal(true);
+    expect(writeDirtyFileDone).toBeCalledTimes(1);
   });
 });

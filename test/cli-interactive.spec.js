@@ -1,10 +1,5 @@
-const { PassThrough } = require('stream');
 const fs = require('fs');
-
-const { expect } = require('chai');
 const inquirer = require('inquirer');
-const sandbox = require('sinon').createSandbox();
-const bddStdin = require('bdd-stdin');
 
 const index = require('../lib');
 const spellcheck = require('../lib/spellcheck');
@@ -14,9 +9,9 @@ const cliInteractive = require('../lib/cli-interactive');
 
 function applyMocks(mistakes) {
   // Mock mistakes
-  sandbox
-    .stub(index, 'spellCallback')
-    .callsFake(function(src, file, callback, done) {
+  jest
+    .spyOn(index, 'spellCallback')
+    .mockImplementation(function(src, file, callback, done) {
       if (mistakes) {
         const next = () => {
           if (mistakes.length) {
@@ -33,6 +28,46 @@ function applyMocks(mistakes) {
     });
 }
 
+/**
+ * @param {Record<string, any>[]} fills
+ */
+function mockPrompt(fills = []) {
+  jest.spyOn(inquirer, 'prompt').mockImplementation(fields => {
+    let mocks = fills.shift() || {};
+    let answers = {};
+
+    for (const field of fields) {
+      // Uncomment this if you want to see ~console
+      // console.log(
+      //   `name: ${field.name}\n` +
+      //     `response: ${mocks[field.name]}\n` +
+      //     (field.choices || [])
+      //       .map(choice => `- ${choice.name} (${choice.value})`)
+      //       .join('\n')
+      // );
+      if (
+        field.when === undefined ||
+        (field.when &&
+          (typeof field.when !== 'function' || field.when(answers)))
+      ) {
+        if (field.validate && typeof field.validate === 'function') {
+          if (field.validate(mocks[field.name]) !== true) {
+            throw new Error(`Validation failed for field ${field.name}`);
+          }
+        }
+
+        if (mocks.hasOwnProperty(field.name)) {
+          answers[field.name] = mocks[field.name];
+        } else {
+          throw new Error(`Missing response for ${field.message}`);
+        }
+      }
+    }
+
+    return Promise.resolve(answers);
+  });
+}
+
 async function makeAsyncCLI(cb, options = {}) {
   await new Promise(fileProcessed => {
     cliInteractive('myfile', '', options, () => {
@@ -45,66 +80,64 @@ async function makeAsyncCLI(cb, options = {}) {
 describe('cli interactive', () => {
   beforeEach(() => {
     // Spy on writeCorrections
-    sandbox.spy(writeCorrections, 'writeCorrections');
+    jest.spyOn(writeCorrections, 'writeCorrections');
 
     // Spy on spellcheck
-    sandbox.stub(spellcheck, 'addWord');
-    sandbox.spy(spellcheck, 'checkWord');
-
-    // Override default config to disable console output, this is not affecting errors
-    // You can disable it while modifying tests
-    sandbox.stub(inquirer, 'prompt').get(() =>
-      inquirer.createPromptModule({
-        output: new PassThrough()
-      })
-    );
+    jest.spyOn(spellcheck, 'addWord').mockReturnValue(() => jest.fn());
+    jest.spyOn(spellcheck, 'checkWord');
 
     // spellConfig override
-    sandbox.stub(spellConfig, 'addToGlobalDictionary');
-    sandbox.stub(spellConfig, 'addToFileDictionary');
+    jest
+      .spyOn(spellConfig, 'addToGlobalDictionary')
+      .mockReturnValue(() => jest.fn());
+    jest
+      .spyOn(spellConfig, 'addToFileDictionary')
+      .mockReturnValue(() => jest.fn());
 
     // Do not write files to drive
-    sandbox.stub(fs, 'writeFile').callsArgWith(2, null);
-    sandbox.stub(fs, 'readFile').callsArgWith(2, null, '');
+    jest.spyOn(fs, 'writeFile').mockImplementation((name, options, cb) => {
+      cb();
+    });
+    jest.spyOn(fs, 'readFile').mockImplementation((name, options, cb) => {
+      cb(null, '');
+    });
   });
 
   afterEach(() => {
-    writeCorrections.writeCorrections.restore();
-    spellcheck.checkWord.restore();
-    sandbox.restore();
+    jest.restoreAllMocks();
   });
 
-  it('should work with no mistakes', () => {
+  it('should work with no mistakes', async () => {
     applyMocks();
-    const fileProcessed = sandbox.spy();
-    cliInteractive('myfile', '', {}, fileProcessed);
+    mockPrompt();
+    const fileProcessed = jest.fn();
+    await makeAsyncCLI(fileProcessed);
 
-    expect(fileProcessed.calledOnce).to.equal(true);
+    expect(fileProcessed).toBeCalledTimes(1);
   });
 
   it('should work with a single ignore', async () => {
     applyMocks(['mispelt']);
-    const fileProcessed = sandbox.spy();
+    mockPrompt([{ action: 'ignore' }]);
 
-    bddStdin(bddStdin.keys.down, '\n');
+    const fileProcessed = jest.fn();
     await makeAsyncCLI(fileProcessed);
 
-    expect(fileProcessed.calledOnce).to.equal(true);
-    expect(spellcheck.addWord.calledOnce).to.equal(true);
+    expect(fileProcessed).toBeCalledTimes(1);
+    expect(spellcheck.checkWord).toBeCalledTimes(0);
+    expect(spellcheck.addWord).toBeCalledTimes(1);
   });
 
   it('correct word with 2 words', async () => {
     applyMocks(['twowords']);
+    mockPrompt([{ action: 'enter' }, { word: 'two words' }]);
 
-    const fileProcessed = sandbox.spy();
-
-    bddStdin('\n', 'two words', '\n');
+    const fileProcessed = jest.fn();
     await makeAsyncCLI(fileProcessed);
 
-    expect(spellcheck.checkWord.calledTwice).to.equal(true);
-
-    expect(writeCorrections.writeCorrections.calledOnce).to.equal(true);
-    expect(writeCorrections.writeCorrections.firstCall.args[2]).to.deep.equal([
+    expect(spellcheck.checkWord).toBeCalledTimes(2);
+    expect(writeCorrections.writeCorrections).toBeCalledTimes(1);
+    expect(writeCorrections.writeCorrections.mock.calls[0][2]).toEqual([
       {
         newWord: 'two words',
         wordInfo: {
@@ -113,18 +146,23 @@ describe('cli interactive', () => {
         }
       }
     ]);
-    expect(fileProcessed.calledOnce).to.equal(true);
+    expect(fileProcessed).toBeCalledTimes(1);
   });
 
   it('correct word with incorrect word', async () => {
     applyMocks(['incorect']);
-    const fileProcessed = sandbox.spy();
+    const fileProcessed = jest.fn();
 
-    bddStdin('\n', 'incorret', '\n', '\n', 'incorrect', '\n');
+    mockPrompt([
+      { action: 'enter' },
+      { word: 'incorret' },
+      { action: 'enter' },
+      { word: 'incorrect' }
+    ]);
     await makeAsyncCLI(fileProcessed);
 
-    expect(writeCorrections.writeCorrections.calledOnce).to.equal(true);
-    expect(writeCorrections.writeCorrections.firstCall.args[2]).to.deep.equal([
+    expect(writeCorrections.writeCorrections).toBeCalledTimes(1);
+    expect(writeCorrections.writeCorrections.mock.calls[0][2]).toEqual([
       {
         newWord: 'incorrect',
         wordInfo: {
@@ -136,23 +174,23 @@ describe('cli interactive', () => {
   });
 
   it('correct word with filtered word', async () => {
-    applyMocks(['dadadsasd']);
-    const fileProcessed = sandbox.spy();
+    applyMocks(['incorect']);
+    const fileProcessed = jest.fn();
 
-    bddStdin('\n', 'ABS', '\n');
+    mockPrompt([{ action: 'enter' }, { word: 'ABS' }]);
     await makeAsyncCLI(fileProcessed, { ignoreAcronyms: true });
 
-    expect(writeCorrections.writeCorrections.calledOnce).to.equal(true);
-    expect(writeCorrections.writeCorrections.firstCall.args[2]).to.deep.equal([
+    expect(writeCorrections.writeCorrections).toBeCalledTimes(1);
+    expect(writeCorrections.writeCorrections.mock.calls[0][2]).toEqual([
       {
         newWord: 'ABS',
         wordInfo: {
           index: 0,
-          word: 'dadadsasd'
+          word: 'incorect'
         }
       }
     ]);
-    expect(fileProcessed.calledOnce).to.equal(true);
+    expect(fileProcessed).toBeCalledTimes(1);
   });
   // todo more tests
 });

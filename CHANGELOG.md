@@ -2,7 +2,7 @@ v1.3.1
 
 21-11-2017
 
-* Rereleased the package with unix lines endings (LF)
+* Re-released the package with Unix lines endings (LF)
 
 v1.3.0
 

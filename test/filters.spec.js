@@ -1,4 +1,3 @@
-const { expect } = require('chai');
 const filters = require('../lib/filters');
 
 describe('filters', () => {
@@ -12,7 +11,7 @@ describe('filters', () => {
       { word: 'A1', index: 0 }
     ]);
 
-    expect(filteredList).to.deep.equal([
+    expect(filteredList).toEqual([
       { word: 'AIs', index: 0 },
       { word: 'COntains', index: 0 },
       { word: 'contaiNS', index: 0 }
@@ -30,7 +29,7 @@ describe('filters', () => {
       { word: '1A', index: 0 }
     ]);
 
-    expect(filteredList).to.deep.equal([
+    expect(filteredList).toEqual([
       { word: 'A1', index: 0 },
       { word: '1A', index: 0 }
     ]);

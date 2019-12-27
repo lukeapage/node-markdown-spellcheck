@@ -1,98 +1,87 @@
-const { expect } = require('chai');
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
-
-function getMultiFileProcessor(globby, spellConfig, spellcheck) {
-  return proxyquire('../lib/file-processor', {
-    globby: globby,
-    './spell-config': spellConfig,
-    './spellcheck': spellcheck,
-    fs: {
-      readFileSync: () => {
-        return Promise.resolve();
-      },
-      readFile: sinon.stub().callsArg(2)
-    }
-  }).multiFileProcessor;
-}
-
-function mockGlobby(files) {
-  return function() {
-    return Promise.resolve(files);
-  };
-}
+const fs = require('fs');
+const fileProcessor = require('../lib/file-processor');
+const spellcheck = require('../lib/spellcheck');
+const spellConfig = require('../lib/spell-config');
+const utils = require('../lib/utils');
 
 function mockSpellConfig(globalWords, fileWords) {
-  const mockedSpellConfig = {
-    initialise: sinon.stub(),
-    getGlobalWords: sinon.stub().returns(globalWords || []),
-    getFileWords: sinon.stub()
-  };
-
-  if (fileWords) {
-    fileWords.forEach((fileWord, index) => {
-      mockedSpellConfig.getFileWords.onCall(index).returns(fileWord);
-    });
-  } else {
-    mockedSpellConfig.getFileWords.returns([]);
-  }
-
-  return mockedSpellConfig;
-}
-
-function mockSpellcheck() {
-  return {
-    addWord: sinon.stub(),
-    resetTemporaryCustomDictionary: sinon.stub(),
-    resetDictionary: sinon.stub()
-  };
-}
-
-describe('multi-file-processor', () => {
-  it('should work with empty patterns', async () => {
-    const spellConfig = mockSpellConfig();
-    const multiFileProcessor = getMultiFileProcessor(
-      mockGlobby([]),
-      spellConfig,
-      mockSpellcheck()
+  jest
+    .spyOn(spellConfig, 'getGlobalWords')
+    .mockImplementation(() => globalWords || []);
+  jest
+    .spyOn(spellConfig, 'getFileWords')
+    .mockImplementation(() =>
+      fileWords && fileWords.length > 0 ? fileWords.shift() : []
     );
-    const fileCallSpy = sinon.stub();
-    fileCallSpy.callsArg(1);
-    const finishedSpy = sinon.spy();
+}
 
-    await multiFileProcessor([], {}, fileCallSpy, finishedSpy);
+describe('multi-file processor', () => {
+  beforeEach(() => {
+    // Spy on spellcheck
+    jest.spyOn(spellcheck, 'addWord').mockImplementation(() => jest.fn());
+    jest
+      .spyOn(spellcheck, 'resetTemporaryCustomDictionary')
+      .mockImplementation(() => jest.fn());
 
-    expect(fileCallSpy.notCalled).to.equal(true);
-    expect(finishedSpy.calledOnce).to.equal(true);
-    expect(spellConfig.initialise.calledOnce).to.equal(true);
+    // spellConfig override
+    jest.spyOn(spellConfig, 'initialise').mockReturnValue(() => jest.fn());
+
+    // Do not write files to drive
+    jest.spyOn(fs, 'writeFile').mockImplementation((name, options, cb) => {
+      cb();
+    });
+    jest.spyOn(fs, 'readFile').mockImplementation((name, options, cb) => {
+      cb(null, '');
+    });
+    jest.spyOn(fs, 'readFileSync').mockImplementation(() => '');
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('should work with empty patterns', async () => {
+    jest.spyOn(utils, 'getFiles').mockImplementation(() => Promise.resolve([]));
+    mockSpellConfig();
+
+    const fileCallSpy = jest.fn().mockImplementation((file, src, cb) => cb());
+    const finishedSpy = jest.fn();
+
+    await fileProcessor.multiFileProcessor([], {}, fileCallSpy, finishedSpy);
+
+    expect(fileCallSpy).not.toHaveBeenCalled();
+    expect(finishedSpy).toBeCalledTimes(1);
+    expect(spellConfig.initialise).toBeCalledTimes(1);
   });
 
   it('should work with multiple patterns', async () => {
-    const spellConfig = mockSpellConfig(
+    jest
+      .spyOn(utils, 'getFiles')
+      .mockImplementation(() => Promise.resolve(['1', '2', '3', '4']));
+    mockSpellConfig(
       ['global-word'],
       [['word-1'], ['word-2-a', 'word-2-b'], [], ['word-4']]
     );
-    const spellcheck = mockSpellcheck();
-    const multiFileProcessor = getMultiFileProcessor(
-      mockGlobby(['1', '2', '3', '4']),
-      spellConfig,
-      spellcheck
+
+    const fileCallSpy = jest.fn().mockImplementation((file, src, cb) => cb());
+    const finishedSpy = jest.fn();
+
+    await fileProcessor.multiFileProcessor(
+      ['a', 'b'],
+      {},
+      fileCallSpy,
+      finishedSpy
     );
-    const fileCallSpy = sinon.stub();
-    fileCallSpy.callsArg(2);
-    const finishedSpy = sinon.spy();
 
-    await multiFileProcessor(['a', 'b'], {}, fileCallSpy, finishedSpy);
+    expect(fileCallSpy).toBeCalledTimes(4);
+    expect(fileCallSpy.mock.calls[0][0]).toEqual('1');
+    expect(fileCallSpy.mock.calls[1][0]).toEqual('2');
+    expect(fileCallSpy.mock.calls[2][0]).toEqual('3');
+    expect(fileCallSpy.mock.calls[3][0]).toEqual('4');
+    expect(finishedSpy).toBeCalledTimes(1);
+    expect(spellConfig.initialise).toBeCalledTimes(1);
 
-    expect(fileCallSpy.callCount).to.equal(4);
-    expect(fileCallSpy.getCall(0).args[0]).to.equal('1');
-    expect(fileCallSpy.getCall(1).args[0]).to.equal('2');
-    expect(fileCallSpy.getCall(2).args[0]).to.equal('3');
-    expect(fileCallSpy.getCall(3).args[0]).to.equal('4');
-    expect(finishedSpy.calledOnce).to.equal(true);
-    expect(spellConfig.initialise.calledOnce).to.equal(true);
-
-    expect(spellcheck.addWord.callCount).to.equal(5);
-    expect(spellcheck.resetTemporaryCustomDictionary.callCount).to.equal(4);
+    expect(spellcheck.addWord).toBeCalledTimes(5);
+    expect(spellcheck.resetTemporaryCustomDictionary).toBeCalledTimes(4);
   });
 });

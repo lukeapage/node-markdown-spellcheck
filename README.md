@@ -21,7 +21,7 @@ mdspell
 
 ### Excluding patterns
 
-Multiple patterns can be used on the command line and can use `!` for negation. E.g.
+Multiple patterns can be used on the command line and can use `!` for negation. e.g.
 
 ```
 mdspell '**/*.md' '!**/node_modules/**/*.md'
@@ -82,8 +82,8 @@ Where `speling` will be highlighted in red.
 
 - "Ignore" will ignore that word and not ask about it again in the current run. If you re-run the command again though, it will appear.
 - "Add to file ignores" will ignore the word in this file only.
-- "Add to dictionary - case insensitive" will add to the dictionary for all files and match any case. E.g. with the word `Microsoft` both `Microsoft` and `microsoft` would match.
-- "Add to dictionary - case sensitive" will add to the dictionary for all files and match the case that has been used. E.g. with the word `Microsoft`, the word `microsoft` will not match.
+- "Add to dictionary - case insensitive" will add to the dictionary for all files and match any case. e.g. with the word `Microsoft` both `Microsoft` and `microsoft` would match.
+- "Add to dictionary - case sensitive" will add to the dictionary for all files and match the case that has been used. e.g. with the word `Microsoft`, the word `microsoft` will not match.
 
 All exclusions will be stored in a `.spelling` file in the directory from which you run the command.
 

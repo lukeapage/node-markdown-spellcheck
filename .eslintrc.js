@@ -3,12 +3,12 @@ module.exports = {
   env: {
     es6: true,
     node: true,
-    mocha: true
+    jest: true
   },
   parserOptions: {
     sourceType: 'module'
   },
-  plugins: ['mocha'],
+  plugins: ['jest'],
   extends: ['eslint:recommended', 'plugin:node/recommended'],
   rules: {
     'no-prototype-builtins': ['off'],
@@ -19,10 +19,9 @@ module.exports = {
   overrides: [
     {
       files: ['test/**/*.js'],
-      extends: ['plugin:mocha/recommended'],
+      extends: ['plugin:jest/recommended'],
       rules: {
-        'node/no-unpublished-require': ['off'],
-        'mocha/no-mocha-arrows': ['off']
+        'node/no-unpublished-require': ['off']
       }
     }
   ]
