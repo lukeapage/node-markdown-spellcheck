@@ -1,0 +1,1808 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`package should detect correctly text from fixtures 1`] = `
+Array [
+  Object {
+    "index": 128,
+    "word": "Header",
+  },
+  Object {
+    "index": 135,
+    "word": "1",
+  },
+  Object {
+    "index": 140,
+    "word": "Header",
+  },
+  Object {
+    "index": 147,
+    "word": "2",
+  },
+  Object {
+    "index": 153,
+    "word": "Header",
+  },
+  Object {
+    "index": 160,
+    "word": "3",
+  },
+  Object {
+    "index": 167,
+    "word": "Header",
+  },
+  Object {
+    "index": 174,
+    "word": "4",
+  },
+  Object {
+    "index": 182,
+    "word": "Header",
+  },
+  Object {
+    "index": 189,
+    "word": "5",
+  },
+  Object {
+    "index": 198,
+    "word": "Header",
+  },
+  Object {
+    "index": 205,
+    "word": "6",
+  },
+  Object {
+    "index": 208,
+    "word": "Alternatively",
+  },
+  Object {
+    "index": 223,
+    "word": "for",
+  },
+  Object {
+    "index": 227,
+    "word": "Header",
+  },
+  Object {
+    "index": 234,
+    "word": "1",
+  },
+  Object {
+    "index": 236,
+    "word": "and",
+  },
+  Object {
+    "index": 240,
+    "word": "Header",
+  },
+  Object {
+    "index": 247,
+    "word": "2",
+  },
+  Object {
+    "index": 250,
+    "word": "an",
+  },
+  Object {
+    "index": 253,
+    "word": "underline",
+  },
+  Object {
+    "index": 263,
+    "word": "style",
+  },
+  Object {
+    "index": 271,
+    "word": "Header",
+  },
+  Object {
+    "index": 278,
+    "word": "1",
+  },
+  Object {
+    "index": 288,
+    "word": "Header",
+  },
+  Object {
+    "index": 295,
+    "word": "2",
+  },
+  Object {
+    "index": 305,
+    "word": "Emphasis",
+  },
+  Object {
+    "index": 315,
+    "word": "aka",
+  },
+  Object {
+    "index": 319,
+    "word": "italics",
+  },
+  Object {
+    "index": 328,
+    "word": "with",
+  },
+  Object {
+    "index": 334,
+    "word": "asterisks",
+  },
+  Object {
+    "index": 345,
+    "word": "or",
+  },
+  Object {
+    "index": 349,
+    "word": "underscores",
+  },
+  Object {
+    "index": 364,
+    "word": "Strong",
+  },
+  Object {
+    "index": 371,
+    "word": "emphasis",
+  },
+  Object {
+    "index": 381,
+    "word": "aka",
+  },
+  Object {
+    "index": 385,
+    "word": "bold",
+  },
+  Object {
+    "index": 391,
+    "word": "with",
+  },
+  Object {
+    "index": 398,
+    "word": "asterisks",
+  },
+  Object {
+    "index": 410,
+    "word": "or",
+  },
+  Object {
+    "index": 415,
+    "word": "underscores",
+  },
+  Object {
+    "index": 431,
+    "word": "Combined",
+  },
+  Object {
+    "index": 440,
+    "word": "emphasis",
+  },
+  Object {
+    "index": 449,
+    "word": "with",
+  },
+  Object {
+    "index": 456,
+    "word": "asterisks",
+  },
+  Object {
+    "index": 466,
+    "word": "and",
+  },
+  Object {
+    "index": 471,
+    "word": "underscores",
+  },
+  Object {
+    "index": 488,
+    "word": "Strikethrough",
+  },
+  Object {
+    "index": 502,
+    "word": "uses",
+  },
+  Object {
+    "index": 507,
+    "word": "two",
+  },
+  Object {
+    "index": 511,
+    "word": "tildes",
+  },
+  Object {
+    "index": 521,
+    "word": "Scratch",
+  },
+  Object {
+    "index": 529,
+    "word": "this",
+  },
+  Object {
+    "index": 541,
+    "word": "First",
+  },
+  Object {
+    "index": 547,
+    "word": "ordered",
+  },
+  Object {
+    "index": 555,
+    "word": "list",
+  },
+  Object {
+    "index": 560,
+    "word": "item",
+  },
+  Object {
+    "index": 568,
+    "word": "Another",
+  },
+  Object {
+    "index": 576,
+    "word": "item",
+  },
+  Object {
+    "index": 587,
+    "word": "Unordered",
+  },
+  Object {
+    "index": 597,
+    "word": "sub-list",
+  },
+  Object {
+    "index": 610,
+    "word": "Actual",
+  },
+  Object {
+    "index": 617,
+    "word": "numbers",
+  },
+  Object {
+    "index": 625,
+    "word": "don't",
+  },
+  Object {
+    "index": 631,
+    "word": "matter",
+  },
+  Object {
+    "index": 639,
+    "word": "just",
+  },
+  Object {
+    "index": 644,
+    "word": "that",
+  },
+  Object {
+    "index": 649,
+    "word": "it's",
+  },
+  Object {
+    "index": 654,
+    "word": "a",
+  },
+  Object {
+    "index": 656,
+    "word": "number",
+  },
+  Object {
+    "index": 670,
+    "word": "Ordered",
+  },
+  Object {
+    "index": 678,
+    "word": "sub-list",
+  },
+  Object {
+    "index": 690,
+    "word": "And",
+  },
+  Object {
+    "index": 694,
+    "word": "another",
+  },
+  Object {
+    "index": 702,
+    "word": "item",
+  },
+  Object {
+    "index": 713,
+    "word": "You",
+  },
+  Object {
+    "index": 717,
+    "word": "can",
+  },
+  Object {
+    "index": 721,
+    "word": "have",
+  },
+  Object {
+    "index": 726,
+    "word": "properly",
+  },
+  Object {
+    "index": 735,
+    "word": "indented",
+  },
+  Object {
+    "index": 744,
+    "word": "paragraphs",
+  },
+  Object {
+    "index": 755,
+    "word": "within",
+  },
+  Object {
+    "index": 762,
+    "word": "list",
+  },
+  Object {
+    "index": 767,
+    "word": "items",
+  },
+  Object {
+    "index": 774,
+    "word": "Notice",
+  },
+  Object {
+    "index": 781,
+    "word": "the",
+  },
+  Object {
+    "index": 785,
+    "word": "blank",
+  },
+  Object {
+    "index": 791,
+    "word": "line",
+  },
+  Object {
+    "index": 796,
+    "word": "above",
+  },
+  Object {
+    "index": 803,
+    "word": "and",
+  },
+  Object {
+    "index": 807,
+    "word": "the",
+  },
+  Object {
+    "index": 811,
+    "word": "leading",
+  },
+  Object {
+    "index": 819,
+    "word": "spaces",
+  },
+  Object {
+    "index": 827,
+    "word": "at",
+  },
+  Object {
+    "index": 830,
+    "word": "least",
+  },
+  Object {
+    "index": 836,
+    "word": "one",
+  },
+  Object {
+    "index": 841,
+    "word": "but",
+  },
+  Object {
+    "index": 845,
+    "word": "we'll",
+  },
+  Object {
+    "index": 851,
+    "word": "use",
+  },
+  Object {
+    "index": 855,
+    "word": "three",
+  },
+  Object {
+    "index": 861,
+    "word": "here",
+  },
+  Object {
+    "index": 866,
+    "word": "to",
+  },
+  Object {
+    "index": 869,
+    "word": "also",
+  },
+  Object {
+    "index": 874,
+    "word": "align",
+  },
+  Object {
+    "index": 880,
+    "word": "the",
+  },
+  Object {
+    "index": 884,
+    "word": "raw",
+  },
+  Object {
+    "index": 888,
+    "word": "Markdown",
+  },
+  Object {
+    "index": 904,
+    "word": "To",
+  },
+  Object {
+    "index": 907,
+    "word": "have",
+  },
+  Object {
+    "index": 912,
+    "word": "a",
+  },
+  Object {
+    "index": 914,
+    "word": "line",
+  },
+  Object {
+    "index": 919,
+    "word": "break",
+  },
+  Object {
+    "index": 925,
+    "word": "without",
+  },
+  Object {
+    "index": 933,
+    "word": "a",
+  },
+  Object {
+    "index": 935,
+    "word": "paragraph",
+  },
+  Object {
+    "index": 946,
+    "word": "you",
+  },
+  Object {
+    "index": 950,
+    "word": "will",
+  },
+  Object {
+    "index": 955,
+    "word": "need",
+  },
+  Object {
+    "index": 960,
+    "word": "to",
+  },
+  Object {
+    "index": 963,
+    "word": "use",
+  },
+  Object {
+    "index": 967,
+    "word": "two",
+  },
+  Object {
+    "index": 971,
+    "word": "trailing",
+  },
+  Object {
+    "index": 980,
+    "word": "spaces",
+  },
+  Object {
+    "index": 992,
+    "word": "Note",
+  },
+  Object {
+    "index": 997,
+    "word": "that",
+  },
+  Object {
+    "index": 1002,
+    "word": "this",
+  },
+  Object {
+    "index": 1007,
+    "word": "line",
+  },
+  Object {
+    "index": 1012,
+    "word": "is",
+  },
+  Object {
+    "index": 1015,
+    "word": "separate",
+  },
+  Object {
+    "index": 1025,
+    "word": "but",
+  },
+  Object {
+    "index": 1029,
+    "word": "within",
+  },
+  Object {
+    "index": 1036,
+    "word": "the",
+  },
+  Object {
+    "index": 1040,
+    "word": "same",
+  },
+  Object {
+    "index": 1045,
+    "word": "paragraph",
+  },
+  Object {
+    "index": 1061,
+    "word": "This",
+  },
+  Object {
+    "index": 1066,
+    "word": "is",
+  },
+  Object {
+    "index": 1069,
+    "word": "contrary",
+  },
+  Object {
+    "index": 1078,
+    "word": "to",
+  },
+  Object {
+    "index": 1081,
+    "word": "the",
+  },
+  Object {
+    "index": 1085,
+    "word": "typical",
+  },
+  Object {
+    "index": 1093,
+    "word": "line",
+  },
+  Object {
+    "index": 1098,
+    "word": "break",
+  },
+  Object {
+    "index": 1104,
+    "word": "behaviour",
+  },
+  Object {
+    "index": 1115,
+    "word": "where",
+  },
+  Object {
+    "index": 1121,
+    "word": "trailing",
+  },
+  Object {
+    "index": 1130,
+    "word": "spaces",
+  },
+  Object {
+    "index": 1137,
+    "word": "are",
+  },
+  Object {
+    "index": 1141,
+    "word": "not",
+  },
+  Object {
+    "index": 1145,
+    "word": "required",
+  },
+  Object {
+    "index": 1159,
+    "word": "Unordered",
+  },
+  Object {
+    "index": 1169,
+    "word": "list",
+  },
+  Object {
+    "index": 1174,
+    "word": "can",
+  },
+  Object {
+    "index": 1178,
+    "word": "use",
+  },
+  Object {
+    "index": 1182,
+    "word": "asterisks",
+  },
+  Object {
+    "index": 1194,
+    "word": "Or",
+  },
+  Object {
+    "index": 1197,
+    "word": "minuses",
+  },
+  Object {
+    "index": 1207,
+    "word": "Or",
+  },
+  Object {
+    "index": 1210,
+    "word": "pluses",
+  },
+  Object {
+    "index": 1234,
+    "word": "I'm",
+  },
+  Object {
+    "index": 1238,
+    "word": "an",
+  },
+  Object {
+    "index": 1241,
+    "word": "inline-style",
+  },
+  Object {
+    "index": 1254,
+    "word": "link",
+  },
+  Object {
+    "index": 1286,
+    "word": "I'm",
+  },
+  Object {
+    "index": 1290,
+    "word": "an",
+  },
+  Object {
+    "index": 1293,
+    "word": "inline-style",
+  },
+  Object {
+    "index": 1306,
+    "word": "link",
+  },
+  Object {
+    "index": 1311,
+    "word": "with",
+  },
+  Object {
+    "index": 1316,
+    "word": "title",
+  },
+  Object {
+    "index": 1369,
+    "word": "I'm",
+  },
+  Object {
+    "index": 1373,
+    "word": "a",
+  },
+  Object {
+    "index": 1375,
+    "word": "reference-style",
+  },
+  Object {
+    "index": 1391,
+    "word": "link",
+  },
+  Object {
+    "index": 1442,
+    "word": "I'm",
+  },
+  Object {
+    "index": 1446,
+    "word": "a",
+  },
+  Object {
+    "index": 1448,
+    "word": "relative",
+  },
+  Object {
+    "index": 1457,
+    "word": "reference",
+  },
+  Object {
+    "index": 1467,
+    "word": "to",
+  },
+  Object {
+    "index": 1470,
+    "word": "a",
+  },
+  Object {
+    "index": 1472,
+    "word": "repository",
+  },
+  Object {
+    "index": 1483,
+    "word": "file",
+  },
+  Object {
+    "index": 1515,
+    "word": "You",
+  },
+  Object {
+    "index": 1519,
+    "word": "can",
+  },
+  Object {
+    "index": 1523,
+    "word": "use",
+  },
+  Object {
+    "index": 1527,
+    "word": "numbers",
+  },
+  Object {
+    "index": 1535,
+    "word": "for",
+  },
+  Object {
+    "index": 1539,
+    "word": "reference-style",
+  },
+  Object {
+    "index": 1555,
+    "word": "link",
+  },
+  Object {
+    "index": 1560,
+    "word": "definitions",
+  },
+  Object {
+    "index": 1577,
+    "word": "Or",
+  },
+  Object {
+    "index": 1580,
+    "word": "leave",
+  },
+  Object {
+    "index": 1586,
+    "word": "it",
+  },
+  Object {
+    "index": 1589,
+    "word": "empty",
+  },
+  Object {
+    "index": 1595,
+    "word": "and",
+  },
+  Object {
+    "index": 1599,
+    "word": "use",
+  },
+  Object {
+    "index": 1603,
+    "word": "the",
+  },
+  Object {
+    "index": 1608,
+    "word": "link",
+  },
+  Object {
+    "index": 1613,
+    "word": "text",
+  },
+  Object {
+    "index": 1618,
+    "word": "itself",
+  },
+  Object {
+    "index": 1628,
+    "word": "URLs",
+  },
+  Object {
+    "index": 1633,
+    "word": "and",
+  },
+  Object {
+    "index": 1637,
+    "word": "URLs",
+  },
+  Object {
+    "index": 1642,
+    "word": "in",
+  },
+  Object {
+    "index": 1645,
+    "word": "angle",
+  },
+  Object {
+    "index": 1651,
+    "word": "brackets",
+  },
+  Object {
+    "index": 1660,
+    "word": "will",
+  },
+  Object {
+    "index": 1665,
+    "word": "automatically",
+  },
+  Object {
+    "index": 1679,
+    "word": "get",
+  },
+  Object {
+    "index": 1683,
+    "word": "turned",
+  },
+  Object {
+    "index": 1690,
+    "word": "into",
+  },
+  Object {
+    "index": 1695,
+    "word": "links",
+  },
+  Object {
+    "index": 1725,
+    "word": "or",
+  },
+  Object {
+    "index": 1753,
+    "word": "and",
+  },
+  Object {
+    "index": 1757,
+    "word": "sometimes",
+  },
+  Object {
+    "index": 1767,
+    "word": "example.com",
+  },
+  Object {
+    "index": 1780,
+    "word": "but",
+  },
+  Object {
+    "index": 1784,
+    "word": "not",
+  },
+  Object {
+    "index": 1788,
+    "word": "on",
+  },
+  Object {
+    "index": 1791,
+    "word": "Github",
+  },
+  Object {
+    "index": 1799,
+    "word": "for",
+  },
+  Object {
+    "index": 1803,
+    "word": "example",
+  },
+  Object {
+    "index": 1814,
+    "word": "Some",
+  },
+  Object {
+    "index": 1819,
+    "word": "text",
+  },
+  Object {
+    "index": 1824,
+    "word": "to",
+  },
+  Object {
+    "index": 1827,
+    "word": "show",
+  },
+  Object {
+    "index": 1832,
+    "word": "that",
+  },
+  Object {
+    "index": 1837,
+    "word": "the",
+  },
+  Object {
+    "index": 1841,
+    "word": "reference",
+  },
+  Object {
+    "index": 1851,
+    "word": "links",
+  },
+  Object {
+    "index": 1857,
+    "word": "can",
+  },
+  Object {
+    "index": 1861,
+    "word": "follow",
+  },
+  Object {
+    "index": 1868,
+    "word": "later",
+  },
+  Object {
+    "index": 2031,
+    "word": "Here's",
+  },
+  Object {
+    "index": 2038,
+    "word": "our",
+  },
+  Object {
+    "index": 2042,
+    "word": "logo",
+  },
+  Object {
+    "index": 2048,
+    "word": "hover",
+  },
+  Object {
+    "index": 2054,
+    "word": "to",
+  },
+  Object {
+    "index": 2057,
+    "word": "see",
+  },
+  Object {
+    "index": 2061,
+    "word": "the",
+  },
+  Object {
+    "index": 2065,
+    "word": "title",
+  },
+  Object {
+    "index": 2071,
+    "word": "text",
+  },
+  Object {
+    "index": 2079,
+    "word": "Inline-style",
+  },
+  Object {
+    "index": 2207,
+    "word": "Reference-style",
+  },
+  Object {
+    "index": 2365,
+    "word": "Inline",
+  },
+  Object {
+    "index": 2379,
+    "word": "has",
+  },
+  Object {
+    "index": 2403,
+    "word": "it",
+  },
+  Object {
+    "index": 2654,
+    "word": "Colons",
+  },
+  Object {
+    "index": 2661,
+    "word": "can",
+  },
+  Object {
+    "index": 2665,
+    "word": "be",
+  },
+  Object {
+    "index": 2668,
+    "word": "used",
+  },
+  Object {
+    "index": 2673,
+    "word": "to",
+  },
+  Object {
+    "index": 2676,
+    "word": "align",
+  },
+  Object {
+    "index": 2682,
+    "word": "columns",
+  },
+  Object {
+    "index": 2903,
+    "word": "There",
+  },
+  Object {
+    "index": 2909,
+    "word": "must",
+  },
+  Object {
+    "index": 2914,
+    "word": "be",
+  },
+  Object {
+    "index": 2917,
+    "word": "at",
+  },
+  Object {
+    "index": 2920,
+    "word": "least",
+  },
+  Object {
+    "index": 2926,
+    "word": "3",
+  },
+  Object {
+    "index": 2928,
+    "word": "dashes",
+  },
+  Object {
+    "index": 2935,
+    "word": "separating",
+  },
+  Object {
+    "index": 2946,
+    "word": "each",
+  },
+  Object {
+    "index": 2951,
+    "word": "header",
+  },
+  Object {
+    "index": 2958,
+    "word": "cell",
+  },
+  Object {
+    "index": 2964,
+    "word": "The",
+  },
+  Object {
+    "index": 2968,
+    "word": "outer",
+  },
+  Object {
+    "index": 2974,
+    "word": "pipes",
+  },
+  Object {
+    "index": 2984,
+    "word": "are",
+  },
+  Object {
+    "index": 2988,
+    "word": "optional",
+  },
+  Object {
+    "index": 2998,
+    "word": "and",
+  },
+  Object {
+    "index": 3002,
+    "word": "you",
+  },
+  Object {
+    "index": 3006,
+    "word": "don't",
+  },
+  Object {
+    "index": 3012,
+    "word": "need",
+  },
+  Object {
+    "index": 3017,
+    "word": "to",
+  },
+  Object {
+    "index": 3020,
+    "word": "make",
+  },
+  Object {
+    "index": 3025,
+    "word": "the",
+  },
+  Object {
+    "index": 3029,
+    "word": "raw",
+  },
+  Object {
+    "index": 3033,
+    "word": "Markdown",
+  },
+  Object {
+    "index": 3042,
+    "word": "line",
+  },
+  Object {
+    "index": 3047,
+    "word": "up",
+  },
+  Object {
+    "index": 3050,
+    "word": "prettily",
+  },
+  Object {
+    "index": 3060,
+    "word": "You",
+  },
+  Object {
+    "index": 3064,
+    "word": "can",
+  },
+  Object {
+    "index": 3068,
+    "word": "also",
+  },
+  Object {
+    "index": 3073,
+    "word": "use",
+  },
+  Object {
+    "index": 3077,
+    "word": "inline",
+  },
+  Object {
+    "index": 3084,
+    "word": "Markdown",
+  },
+  Object {
+    "index": 3196,
+    "word": "Blockquotes",
+  },
+  Object {
+    "index": 3208,
+    "word": "are",
+  },
+  Object {
+    "index": 3212,
+    "word": "very",
+  },
+  Object {
+    "index": 3217,
+    "word": "handy",
+  },
+  Object {
+    "index": 3223,
+    "word": "in",
+  },
+  Object {
+    "index": 3226,
+    "word": "email",
+  },
+  Object {
+    "index": 3232,
+    "word": "to",
+  },
+  Object {
+    "index": 3235,
+    "word": "emulate",
+  },
+  Object {
+    "index": 3243,
+    "word": "reply",
+  },
+  Object {
+    "index": 3249,
+    "word": "text",
+  },
+  Object {
+    "index": 3257,
+    "word": "This",
+  },
+  Object {
+    "index": 3262,
+    "word": "line",
+  },
+  Object {
+    "index": 3267,
+    "word": "is",
+  },
+  Object {
+    "index": 3270,
+    "word": "part",
+  },
+  Object {
+    "index": 3275,
+    "word": "of",
+  },
+  Object {
+    "index": 3278,
+    "word": "the",
+  },
+  Object {
+    "index": 3282,
+    "word": "same",
+  },
+  Object {
+    "index": 3287,
+    "word": "quote",
+  },
+  Object {
+    "index": 3295,
+    "word": "Quote",
+  },
+  Object {
+    "index": 3301,
+    "word": "break",
+  },
+  Object {
+    "index": 3311,
+    "word": "This",
+  },
+  Object {
+    "index": 3316,
+    "word": "is",
+  },
+  Object {
+    "index": 3319,
+    "word": "a",
+  },
+  Object {
+    "index": 3321,
+    "word": "very",
+  },
+  Object {
+    "index": 3326,
+    "word": "long",
+  },
+  Object {
+    "index": 3331,
+    "word": "line",
+  },
+  Object {
+    "index": 3336,
+    "word": "that",
+  },
+  Object {
+    "index": 3341,
+    "word": "will",
+  },
+  Object {
+    "index": 3346,
+    "word": "still",
+  },
+  Object {
+    "index": 3352,
+    "word": "be",
+  },
+  Object {
+    "index": 3355,
+    "word": "quoted",
+  },
+  Object {
+    "index": 3362,
+    "word": "properly",
+  },
+  Object {
+    "index": 3371,
+    "word": "when",
+  },
+  Object {
+    "index": 3376,
+    "word": "it",
+  },
+  Object {
+    "index": 3379,
+    "word": "wraps",
+  },
+  Object {
+    "index": 3386,
+    "word": "Oh",
+  },
+  Object {
+    "index": 3389,
+    "word": "boy",
+  },
+  Object {
+    "index": 3393,
+    "word": "let's",
+  },
+  Object {
+    "index": 3399,
+    "word": "keep",
+  },
+  Object {
+    "index": 3404,
+    "word": "writing",
+  },
+  Object {
+    "index": 3412,
+    "word": "to",
+  },
+  Object {
+    "index": 3415,
+    "word": "make",
+  },
+  Object {
+    "index": 3420,
+    "word": "sure",
+  },
+  Object {
+    "index": 3425,
+    "word": "this",
+  },
+  Object {
+    "index": 3430,
+    "word": "is",
+  },
+  Object {
+    "index": 3433,
+    "word": "long",
+  },
+  Object {
+    "index": 3438,
+    "word": "enough",
+  },
+  Object {
+    "index": 3445,
+    "word": "to",
+  },
+  Object {
+    "index": 3448,
+    "word": "actually",
+  },
+  Object {
+    "index": 3457,
+    "word": "wrap",
+  },
+  Object {
+    "index": 3462,
+    "word": "for",
+  },
+  Object {
+    "index": 3466,
+    "word": "everyone",
+  },
+  Object {
+    "index": 3476,
+    "word": "Oh",
+  },
+  Object {
+    "index": 3480,
+    "word": "you",
+  },
+  Object {
+    "index": 3484,
+    "word": "can",
+  },
+  Object {
+    "index": 3489,
+    "word": "put",
+  },
+  Object {
+    "index": 3496,
+    "word": "Markdown",
+  },
+  Object {
+    "index": 3507,
+    "word": "into",
+  },
+  Object {
+    "index": 3512,
+    "word": "a",
+  },
+  Object {
+    "index": 3514,
+    "word": "blockquote",
+  },
+  Object {
+    "index": 3538,
+    "word": "Definition",
+  },
+  Object {
+    "index": 3549,
+    "word": "list",
+  },
+  Object {
+    "index": 3565,
+    "word": "Is",
+  },
+  Object {
+    "index": 3568,
+    "word": "something",
+  },
+  Object {
+    "index": 3578,
+    "word": "people",
+  },
+  Object {
+    "index": 3585,
+    "word": "use",
+  },
+  Object {
+    "index": 3589,
+    "word": "sometimes",
+  },
+  Object {
+    "index": 3612,
+    "word": "Markdown",
+  },
+  Object {
+    "index": 3621,
+    "word": "in",
+  },
+  Object {
+    "index": 3624,
+    "word": "HTML",
+  },
+  Object {
+    "index": 3640,
+    "word": "Does",
+  },
+  Object {
+    "index": 3646,
+    "word": "not",
+  },
+  Object {
+    "index": 3651,
+    "word": "work",
+  },
+  Object {
+    "index": 3658,
+    "word": "very",
+  },
+  Object {
+    "index": 3665,
+    "word": "well",
+  },
+  Object {
+    "index": 3671,
+    "word": "Use",
+  },
+  Object {
+    "index": 3675,
+    "word": "HTML",
+  },
+  Object {
+    "index": 3684,
+    "word": "tags",
+  },
+  Object {
+    "index": 3712,
+    "word": "Three",
+  },
+  Object {
+    "index": 3718,
+    "word": "or",
+  },
+  Object {
+    "index": 3721,
+    "word": "more",
+  },
+  Object {
+    "index": 3735,
+    "word": "Hyphens",
+  },
+  Object {
+    "index": 3749,
+    "word": "Asterisks",
+  },
+  Object {
+    "index": 3765,
+    "word": "Underscores",
+  },
+  Object {
+    "index": 3784,
+    "word": "Here's",
+  },
+  Object {
+    "index": 3791,
+    "word": "a",
+  },
+  Object {
+    "index": 3793,
+    "word": "line",
+  },
+  Object {
+    "index": 3798,
+    "word": "for",
+  },
+  Object {
+    "index": 3802,
+    "word": "us",
+  },
+  Object {
+    "index": 3805,
+    "word": "to",
+  },
+  Object {
+    "index": 3808,
+    "word": "start",
+  },
+  Object {
+    "index": 3814,
+    "word": "with",
+  },
+  Object {
+    "index": 3821,
+    "word": "This",
+  },
+  Object {
+    "index": 3826,
+    "word": "line",
+  },
+  Object {
+    "index": 3831,
+    "word": "is",
+  },
+  Object {
+    "index": 3834,
+    "word": "separated",
+  },
+  Object {
+    "index": 3844,
+    "word": "from",
+  },
+  Object {
+    "index": 3849,
+    "word": "the",
+  },
+  Object {
+    "index": 3853,
+    "word": "one",
+  },
+  Object {
+    "index": 3857,
+    "word": "above",
+  },
+  Object {
+    "index": 3863,
+    "word": "by",
+  },
+  Object {
+    "index": 3866,
+    "word": "two",
+  },
+  Object {
+    "index": 3870,
+    "word": "newlines",
+  },
+  Object {
+    "index": 3880,
+    "word": "so",
+  },
+  Object {
+    "index": 3883,
+    "word": "it",
+  },
+  Object {
+    "index": 3886,
+    "word": "will",
+  },
+  Object {
+    "index": 3891,
+    "word": "be",
+  },
+  Object {
+    "index": 3894,
+    "word": "a",
+  },
+  Object {
+    "index": 3897,
+    "word": "separate",
+  },
+  Object {
+    "index": 3906,
+    "word": "paragraph",
+  },
+  Object {
+    "index": 3919,
+    "word": "This",
+  },
+  Object {
+    "index": 3924,
+    "word": "line",
+  },
+  Object {
+    "index": 3929,
+    "word": "is",
+  },
+  Object {
+    "index": 3932,
+    "word": "also",
+  },
+  Object {
+    "index": 3937,
+    "word": "a",
+  },
+  Object {
+    "index": 3939,
+    "word": "separate",
+  },
+  Object {
+    "index": 3948,
+    "word": "paragraph",
+  },
+  Object {
+    "index": 3959,
+    "word": "but",
+  },
+  Object {
+    "index": 3966,
+    "word": "This",
+  },
+  Object {
+    "index": 3971,
+    "word": "line",
+  },
+  Object {
+    "index": 3976,
+    "word": "is",
+  },
+  Object {
+    "index": 3979,
+    "word": "only",
+  },
+  Object {
+    "index": 3984,
+    "word": "separated",
+  },
+  Object {
+    "index": 3994,
+    "word": "by",
+  },
+  Object {
+    "index": 3997,
+    "word": "a",
+  },
+  Object {
+    "index": 3999,
+    "word": "single",
+  },
+  Object {
+    "index": 4006,
+    "word": "newline",
+  },
+  Object {
+    "index": 4015,
+    "word": "so",
+  },
+  Object {
+    "index": 4018,
+    "word": "it's",
+  },
+  Object {
+    "index": 4023,
+    "word": "a",
+  },
+  Object {
+    "index": 4025,
+    "word": "separate",
+  },
+  Object {
+    "index": 4034,
+    "word": "line",
+  },
+  Object {
+    "index": 4039,
+    "word": "in",
+  },
+  Object {
+    "index": 4042,
+    "word": "the",
+  },
+  Object {
+    "index": 4047,
+    "word": "same",
+  },
+  Object {
+    "index": 4052,
+    "word": "paragraph",
+  },
+]
+`;
+
+exports[`package test1 1`] = `
+Array [
+  Object {
+    "index": 2,
+    "word": "File",
+  },
+  Object {
+    "index": 8,
+    "word": "This",
+  },
+  Object {
+    "index": 13,
+    "word": "paragraph",
+  },
+  Object {
+    "index": 23,
+    "word": "contains",
+  },
+  Object {
+    "index": 32,
+    "word": "no",
+  },
+  Object {
+    "index": 35,
+    "word": "spelling",
+  },
+  Object {
+    "index": 44,
+    "word": "mistakes",
+  },
+  Object {
+    "index": 55,
+    "word": "Infact",
+  },
+  Object {
+    "index": 63,
+    "word": "there",
+  },
+  Object {
+    "index": 69,
+    "word": "will",
+  },
+  Object {
+    "index": 74,
+    "word": "just",
+  },
+  Object {
+    "index": 79,
+    "word": "be",
+  },
+  Object {
+    "index": 82,
+    "word": "one",
+  },
+]
+`;
+
+exports[`package test2 1`] = `
+Array [
+  Object {
+    "index": 2,
+    "word": "File",
+  },
+  Object {
+    "index": 8,
+    "word": "This",
+  },
+  Object {
+    "index": 13,
+    "word": "paragraph",
+  },
+  Object {
+    "index": 23,
+    "word": "contains",
+  },
+  Object {
+    "index": 32,
+    "word": "no",
+  },
+  Object {
+    "index": 35,
+    "word": "spelling",
+  },
+  Object {
+    "index": 44,
+    "word": "mistakes",
+  },
+  Object {
+    "index": 55,
+    "word": "Infact",
+  },
+  Object {
+    "index": 63,
+    "word": "there",
+  },
+  Object {
+    "index": 69,
+    "word": "will",
+  },
+  Object {
+    "index": 74,
+    "word": "just",
+  },
+  Object {
+    "index": 79,
+    "word": "be",
+  },
+  Object {
+    "index": 82,
+    "word": "one",
+  },
+]
+`;

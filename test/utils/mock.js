@@ -27,7 +27,7 @@ module.exports = {
       });
   },
   /**
-   * @param {Record<string, any>[]} fills
+   * @param {{ action?: string, text?: string }[]} fills
    * @param {Boolean} debug
    */
   mockPrompt(fills = [], debug = false) {
