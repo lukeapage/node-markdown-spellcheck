@@ -46,7 +46,19 @@ var buildVersion = JSON.parse(packageConfig).version;
 _commander2.default.version(buildVersion)
 // default cli behaviour will be an interactive walkthrough each error, with suggestions,
 // options to replace etc.
-.option('-r, --report', 'Outputs a full report which details the unique spelling errors found.').option('-n, --ignore-numbers', 'Ignores numbers.').option('--en-us', 'American English dictionary.').option('--en-gb', 'British English dictionary.').option('--en-au', 'Australian English dictionary.').option('--es-es', 'Spanish dictionary.').option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.').option('-a, --ignore-acronyms', 'Ignores acronyms.').option('-x, --no-suggestions', 'Do not suggest words (can be slow)').option('-t, --target-relative', 'Uses ".spelling" files relative to the target.').usage("[options] source-file source-file").parse(process.argv);
+  .option('-r, --report', 'Outputs a full report which details the unique spelling errors found')
+  .option('-n, --ignore-numbers', 'Ignores numbers')
+  .option('--en-us', 'American English dictionary')
+  .option('--en-gb', 'British English dictionary')
+  .option('--en-au', 'Australian English dictionary')
+  .option('--es-es', 'Spanish dictionary')
+  .option('-d, --dictionary [file]', 'Specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff')
+  .option('-a, --ignore-acronyms', 'Ignores acronyms')
+  .option('-x, --no-suggestions', 'Do not suggest words (can be slow)')
+  .option('-t, --target-relative', 'Uses ".spelling" files relative to the target')
+  .option('-z, --no-colour','No colour output in report')
+  .usage("[options] source-file source-file").parse(process.argv)
+;
 
 var language = void 0;
 if (_commander2.default.enUs) {
@@ -59,21 +71,28 @@ if (_commander2.default.enUs) {
   language = "es-es";
 }
 
+
 var options = {
   ignoreAcronyms: _commander2.default.ignoreAcronyms,
   ignoreNumbers: _commander2.default.ignoreNumbers,
   suggestions: _commander2.default.suggestions,
   relativeSpellingFiles: _commander2.default.targetRelative,
+  colour: _commander2.default.colour,
   dictionary: {
     language: language,
     file: _commander2.default.dictionary
   }
 };
 
+
 if (!_commander2.default.args.length) {
   _commander2.default.outputHelp();
   process.exit();
 } else {
+
+  if ( ! options.colour ) {
+    _chalk2.default.enabled = false;
+  }
 
   _spellcheck2.default.initialise(options);
 
@@ -84,7 +103,7 @@ if (!_commander2.default.args.length) {
     if (_commander2.default.report) {
       var errors = _index2.default.spell(src, options);
       if (errors.length > 0) {
-        console.log((0, _reportGenerator.generateFileReport)(filename, { errors: errors, src: src }));
+        console.log((0, _reportGenerator.generateFileReport)(filename, { errors: errors, src: src }, options));
         process.exitCode = 1;
       }
       fileProcessed(null, errors);

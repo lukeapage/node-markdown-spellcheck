@@ -84,12 +84,12 @@ Where `speling` will be highlighted in red.
  * "Add to file ignores" will ignore the word in this file only.
  * "Add to dictionary - case insensitive" will add to the dictionary for all files and match any case. E.g. with the word `Microsoft` both `Microsoft` and `microsoft` would match.
  * "Add to dictionary - case sensitive" will add to the dictionary for all files and match the case that has been used. E.g. with the word `Microsoft`, the word `microsoft` will not match.
- 
+
 All exclusions will be stored in a `.spelling` file in the directory from which you run the command.
 
 ### Target Relative Mode
 
-Using the `--target-relative` (`-t`) option will augment the shared `.spelling` file with a relative `.spelling` file (sibling of the `.md` file) and give you the additional options with the interactive mode: 
+Using the `--target-relative` (`-t`) option will augment the shared `.spelling` file with a relative `.spelling` file (sibling of the `.md` file) and give you the additional options with the interactive mode:
 
 * "Add to file ignores" will be replaced with "[Relative] Add to file ignores". There is no need to add file ignores into the shared `.spelling` file.
 * "[Relative] Add to dictionary - case insensitive" will add to the dictionary for all files within the current `.md` file and match any case.
@@ -97,7 +97,12 @@ Using the `--target-relative` (`-t`) option will augment the shared `.spelling` 
 
 ### Report Mode
 
-Using the `--report` (`-r`) option will show a report of all the spelling mistakes that have been found. This mode is useful for CI build reports. 
+Using the `--report` (`-r`) option will show a report of all the spelling mistakes that have been found. This mode is useful for CI build reports.
+
+### No Colour Mode
+
+For situations where the report colours do not show up and you can't identify the failing words, the `--no-colour` (`-z`) will turn off colour and surround the spelling mistakes with square brackets, such as `[[[mistake]]]`.
+
 
 ## `.spelling` files
 
@@ -105,7 +110,7 @@ The `.spelling` file is self documenting as it includes...
 
 ```
 # markdown-spellcheck spelling configuration file
-# Format - lines begining # are comments
+# Format - lines beginning # are comments
 # global dictionary is at the start, file overrides afterwards
 # one word per line, to define a file override use ' - filename'
 # where filename is relative to this configuration file
