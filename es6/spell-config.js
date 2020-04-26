@@ -1,5 +1,6 @@
 import fs from 'fs';
 import async from 'async';
+import path from 'path';
 
 let globalDictionary = [];
 let fileDictionary = {};
@@ -133,16 +134,18 @@ function addToGlobalDictionary(word, relative) {
   spelling.isDirty = true;
   spelling.lastLineOfGlobalSpellings++;
   for (let filename in fileDictionary) {
-    if (fileDictionary.hasOwnProperty(filename)) {
-      fileDictionary[filename].index++;
+    const normalizedPath = path.normalize(filename)
+    if (fileDictionary.hasOwnProperty(normalizedPath)) {
+      fileDictionary[normalizedPath].index++;
     }
   }
 }
 
 function addToFileDictionary(filename, word, relative) {
+  const normalizedPath = path.normalize(filename)
   const spelling = relative ? relativeSpelling : sharedSpelling;
-  if (fileDictionary.hasOwnProperty(filename)) {
-    let fileDict = fileDictionary[filename];
+  if (fileDictionary.hasOwnProperty(normalizedPath)) {
+    let fileDict = fileDictionary[normalizedPath];
     spelling.fileLines.splice(fileDict.index, 0, word);
     spelling.isDirty = true;
     for (let dictionaryFilename in fileDictionary) {
@@ -154,9 +157,9 @@ function addToFileDictionary(filename, word, relative) {
     fileDict.words.push(word);
   }
   else {
-    spelling.fileLines.splice(spelling.fileLines.length - 1, 0, " - " + filename, word);
+    spelling.fileLines.splice(spelling.fileLines.length - 1, 0, " - " + normalizedPath, word);
     spelling.isDirty = true;
-    fileDictionary[filename] = {
+    fileDictionary[normalizedPath] = {
       index: spelling.fileLines.length - 1,
       words: [word]
     };
@@ -168,8 +171,9 @@ function getGlobalWords() {
 }
 
 function getFileWords(filename) {
-  if (fileDictionary.hasOwnProperty(filename)) {
-    return fileDictionary[filename].words;
+  const normalizedPath = path.normalize(filename)
+  if (fileDictionary.hasOwnProperty(normalizedPath)) {
+    return fileDictionary[normalizedPath].words;
   }
   return [];
 }

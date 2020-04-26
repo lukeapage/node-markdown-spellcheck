@@ -51,6 +51,17 @@ describe("Spell-Config", () => {
     expect(initDone.calledOnce).to.equal(true);
   });
 
+  it("should match path regardless of dot slash", () => {
+    const FILE1 = "relative/blog.md";
+    const FILE2 = "./" + FILE1;
+    const initDone = sinon.stub();
+    const spellConfig = getSpellConfig();
+    spellConfig.initialise("./.spelling", initDone);
+    spellConfig.addToFileDictionary(FILE1, "aaaaa", false);
+    expect(spellConfig.getFileWords(FILE2).length).to.equal(1);
+    expect(initDone.calledOnce).to.equal(true);
+  });
+
   it("should add file words from relative or shared into array", () => {
     const FILE = "/relative/blog.md";
     const initDone = sinon.stub();

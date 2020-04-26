@@ -10,6 +10,10 @@ var _async = require('async');
 
 var _async2 = _interopRequireDefault(_async);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var globalDictionary = [];
@@ -134,16 +138,18 @@ function addToGlobalDictionary(word, relative) {
   spelling.isDirty = true;
   spelling.lastLineOfGlobalSpellings++;
   for (var filename in fileDictionary) {
-    if (fileDictionary.hasOwnProperty(filename)) {
-      fileDictionary[filename].index++;
+    var normalizedPath = _path2.default.normalize(filename);
+    if (fileDictionary.hasOwnProperty(normalizedPath)) {
+      fileDictionary[normalizedPath].index++;
     }
   }
 }
 
 function addToFileDictionary(filename, word, relative) {
+  var normalizedPath = _path2.default.normalize(filename);
   var spelling = relative ? relativeSpelling : sharedSpelling;
-  if (fileDictionary.hasOwnProperty(filename)) {
-    var fileDict = fileDictionary[filename];
+  if (fileDictionary.hasOwnProperty(normalizedPath)) {
+    var fileDict = fileDictionary[normalizedPath];
     spelling.fileLines.splice(fileDict.index, 0, word);
     spelling.isDirty = true;
     for (var dictionaryFilename in fileDictionary) {
@@ -153,9 +159,9 @@ function addToFileDictionary(filename, word, relative) {
     }
     fileDict.words.push(word);
   } else {
-    spelling.fileLines.splice(spelling.fileLines.length - 1, 0, " - " + filename, word);
+    spelling.fileLines.splice(spelling.fileLines.length - 1, 0, " - " + normalizedPath, word);
     spelling.isDirty = true;
-    fileDictionary[filename] = {
+    fileDictionary[normalizedPath] = {
       index: spelling.fileLines.length - 1,
       words: [word]
     };
@@ -167,8 +173,9 @@ function getGlobalWords() {
 }
 
 function getFileWords(filename) {
-  if (fileDictionary.hasOwnProperty(filename)) {
-    return fileDictionary[filename].words;
+  var normalizedPath = _path2.default.normalize(filename);
+  if (fileDictionary.hasOwnProperty(normalizedPath)) {
+    return fileDictionary[normalizedPath].words;
   }
   return [];
 }
