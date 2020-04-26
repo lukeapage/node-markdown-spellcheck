@@ -7,7 +7,7 @@ import chalk from 'chalk';
 import multiFileProcessor from './multi-file-processor';
 import relativeFileProcessor from './relative-file-processor';
 import spellcheck from './spellcheck';
-import { generateSummaryReport, generateFileReport } from './report-generator';
+import { generateSummaryReport, generateFileReport, generateReadinessReport } from './report-generator';
 
 const packageConfig = fs.readFileSync(path.join(__dirname, '../package.json'));
 const buildVersion = JSON.parse(packageConfig).version;
@@ -26,6 +26,7 @@ program
   .option('-a, --ignore-acronyms', 'Ignores acronyms.')
   .option('-x, --no-suggestions', 'Do not suggest words (can be slow)')
   .option('-t, --target-relative', 'Uses ".spelling" files relative to the target.')
+  .option('-y, --readiness [100]', 'Allows for a percentage readiness setting - default is set to 100 for no errors allowed')
   .usage("[options] source-file source-file")
   .parse(process.argv);
 
@@ -80,5 +81,8 @@ else {
     }
   }, (e, results) => {
     console.log(generateSummaryReport(results));
+    if (program.readiness) {
+      console.log(generateReadinessReport(program.readiness, results));
+    }
   });
 }

@@ -99,6 +99,23 @@ Using the `--target-relative` (`-t`) option will augment the shared `.spelling` 
 
 Using the `--report` (`-r`) option will show a report of all the spelling mistakes that have been found. This mode is useful for CI build reports. 
 
+### Report readiness
+
+Using the `--readiness` (`-y`) option will do two things:
+
+* Create a readiness report by showing how many files contain spelling errors
+
+```bash
+        59 files with 0 errors
+        5 files with at least 1 error
+        1 files with at least 10 errors
+        0 files with at least 50 errors
+        0 files with at least 100 errors
+
+        Readiness indicator: 90%
+```
+* Allow to pass a readiness threshold value which will determine if the tool throws an error or not.  For example, passing a `-y 90` would allow the current state of the files to pass the CI build without throwing an error (defaults to 100, no errors).
+
 ## `.spelling` files
 
 The `.spelling` file is self documenting as it includes...
