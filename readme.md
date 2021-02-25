@@ -6,7 +6,7 @@ Reads markdown files and spellchecks them, using [open source Hunspell dictionar
 
 There are two modes, interactive fixing, which will allow you to fix mistakes and add exceptions to a custom dictionary and a report mode which will just report the list of errors.
 
-```
+```sh
 # install
 npm i markdown-spellcheck -g
 
@@ -23,7 +23,7 @@ mdspell
 
 Multiple patterns can be used on the command line and can use `!` for negation. E.g.
 
-```
+```sh
 mdspell '**/*.md' '!**/node_modules/**/*.md'
 ```
 
@@ -101,14 +101,29 @@ Using the `--report` (`-r`) option will show a report of all the spelling mistak
 
 ## `.spelling` files
 
-The `.spelling` file is self documenting as it includes...
+The `.spelling` file format looks like this:
 
-```
-# markdown-spellcheck spelling configuration file
-# Format - lines begining # are comments
-# global dictionary is at the start, file overrides afterwards
-# one word per line, to define a file override use ' - filename'
-# where filename is relative to this configuration file
+```sh
+# This is the markdown-spellcheck spelling configuration file.
+# Lines begining with '#' are comments.
+
+# The global dictionary is at the start, file overrides follow
+# afterwards.
+
+# To ignore a word, add the word as a new line in this file. For
+# example:
+Kramdown
+v0.10.0
+v0.11.0
+cryllic
+index.js
+rereleased
+unix
+
+# To define a file override use ' - filename' where the filename
+# is a path relative to this configuration file. Mind the leading
+# space before '-':
+ - CHANGELOG.md
 ```
 
 ## Use To Stop Spelling Regressions
