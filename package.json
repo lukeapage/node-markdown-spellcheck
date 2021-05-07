@@ -37,7 +37,7 @@
     "hunspell-spellchecker": "^1.0.2",
     "inquirer": "^1.0.0",
     "js-yaml": "^3.10.0",
-    "marked": "^0.7.0",
+    "marked": "^2.0.3",
     "sinon-as-promised": "^4.0.0"
   },
   "devDependencies": {
