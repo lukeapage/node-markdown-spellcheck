@@ -1,6 +1,6 @@
 {
-  "name": "markdown-spellcheck",
-  "version": "2.0.0-beta.0",
+  "name": "@bcox280/markdown-spellcheck",
+  "version": "2.0.1",
   "description": "Spell-checks markdown files with an interactive CLI allowing automated spell checking.",
   "keywords": [
     "markdown",
