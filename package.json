@@ -1,5 +1,5 @@
 {
-  "name": "@bcox280/markdown-spellcheck",
+  "name": "markdown-spellcheck",
   "version": "2.0.1",
   "description": "Spell-checks markdown files with an interactive CLI allowing automated spell checking.",
   "keywords": [
@@ -30,6 +30,7 @@
     "url": "https://github.com/lukeapage/node-markdown-spellcheck/issues"
   },
   "dependencies": {
+    "@bcox280/markdown-spellcheck": "github:bcox280/node-markdown-spellcheck#master",
     "async": "^2.1.4",
     "chalk": "^2.0.1",
     "commander": "^2.8.1",
