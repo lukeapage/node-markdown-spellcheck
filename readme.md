@@ -65,7 +65,7 @@ The default interactive mode shows you the context of the spelling mistake and g
 
 ```
 Spelling - readme.md
- shows you the context of the speling mistake and gives you options
+ shows you the context of the spelling mistake and gives you options
 ?   (Use arrow keys)
   Ignore
   Add to file ignores
@@ -78,7 +78,7 @@ Spelling - readme.md
   peeling
 ```
 
-Where `speling` will be highlighted in red.
+Where `spelling` will be highlighted in red.
 
  * "Ignore" will ignore that word and not ask about it again in the current run. If you re-run the command again though, it will appear.
  * "Add to file ignores" will ignore the word in this file only.
